@@ -90,7 +90,7 @@ function Home() {
       </section>
 
       {/* Gallery Mosaic */}
-      <section className="px-4 md:px-12 pb-12">
+      <section className="px-4 md:px-12 pb-20 md:pb-28">
         <div className="grid grid-cols-12 gap-3 md:gap-4 h-[520px] md:h-[720px]">
           <Link to="/galerij" className="col-span-12 md:col-span-8 h-full overflow-hidden rounded-2xl group">
             <img
@@ -116,12 +116,13 @@ function Home() {
             </Link>
           </div>
         </div>
-        <div className="mt-6 text-center">
+        <div className="mt-10 md:mt-14 flex justify-center">
           <Link
             to="/galerij"
-            className="inline-block text-[11px] uppercase tracking-[0.25em] font-medium border-b border-foreground/30 pb-1 hover:border-foreground transition-colors"
+            className="inline-flex items-center gap-3 px-8 py-3.5 rounded-full bg-foreground text-background text-[11px] uppercase tracking-[0.25em] font-medium hover:bg-foreground/90 transition-colors"
           >
             Bekijk alle foto's
+            <span aria-hidden className="text-base leading-none">→</span>
           </Link>
         </div>
       </section>
