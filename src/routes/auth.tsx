@@ -12,29 +12,18 @@ export const Route = createFileRoute("/auth")({
 
 function AuthPage() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    const { error } = await supabase.auth.signInWithPassword({
+      email: "admin@horsevally.local",
+      password,
+    });
     if (error) {
-      toast.error(error.message);
-      setLoading(false);
-      return;
-    }
-    // Check admin role
-    const { data: role } = await supabase
-      .from("user_roles")
-      .select("role")
-      .eq("user_id", data.user.id)
-      .eq("role", "admin")
-      .maybeSingle();
-    if (!role) {
-      await supabase.auth.signOut();
-      toast.error("Dit account heeft geen admin-toegang.");
+      toast.error("Onjuist wachtwoord");
       setLoading(false);
       return;
     }
@@ -49,16 +38,19 @@ function AuthPage() {
           Horse Vally
         </Link>
         <div className="rounded-2xl border border-border bg-card p-8 shadow-sm">
-          <h1 className="font-display text-2xl mb-1">Admin login</h1>
-          <p className="text-sm text-muted-foreground mb-6">Alleen voor Leslie & Jason.</p>
+          <h1 className="font-display text-2xl mb-1">Admin</h1>
+          <p className="text-sm text-muted-foreground mb-6">Voer het wachtwoord in om verder te gaan.</p>
           <form onSubmit={onSubmit} className="space-y-4">
             <div>
-              <Label htmlFor="email">E-mail</Label>
-              <Input id="email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} />
-            </div>
-            <div>
               <Label htmlFor="password">Wachtwoord</Label>
-              <Input id="password" type="password" required value={password} onChange={(e) => setPassword(e.target.value)} />
+              <Input
+                id="password"
+                type="password"
+                autoFocus
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
             </div>
             <Button type="submit" disabled={loading} className="w-full">
               {loading ? "Bezig…" : "Inloggen"}
@@ -69,3 +61,4 @@ function AuthPage() {
     </div>
   );
 }
+
