@@ -14,16 +14,126 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      availability_blocks: {
+        Row: {
+          created_at: string
+          end_date: string
+          id: string
+          start_date: string
+        }
+        Insert: {
+          created_at?: string
+          end_date: string
+          id?: string
+          start_date: string
+        }
+        Update: {
+          created_at?: string
+          end_date?: string
+          id?: string
+          start_date?: string
+        }
+        Relationships: []
+      }
+      seasonal_rates: {
+        Row: {
+          created_at: string
+          end_date: string
+          id: string
+          min_nights: number | null
+          name: string
+          price_per_night: number
+          start_date: string
+        }
+        Insert: {
+          created_at?: string
+          end_date: string
+          id?: string
+          min_nights?: number | null
+          name: string
+          price_per_night: number
+          start_date: string
+        }
+        Update: {
+          created_at?: string
+          end_date?: string
+          id?: string
+          min_nights?: number | null
+          name?: string
+          price_per_night?: number
+          start_date?: string
+        }
+        Relationships: []
+      }
+      settings: {
+        Row: {
+          base_price_per_night: number
+          cleaning_fee: number
+          currency: string
+          default_min_nights: number
+          id: number
+          security_deposit: number
+          tourist_tax_per_person_per_night: number
+          updated_at: string
+        }
+        Insert: {
+          base_price_per_night?: number
+          cleaning_fee?: number
+          currency?: string
+          default_min_nights?: number
+          id?: number
+          security_deposit?: number
+          tourist_tax_per_person_per_night?: number
+          updated_at?: string
+        }
+        Update: {
+          base_price_per_night?: number
+          cleaning_fee?: number
+          currency?: string
+          default_min_nights?: number
+          id?: number
+          security_deposit?: number
+          tourist_tax_per_person_per_night?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +260,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin"],
+    },
   },
 } as const
