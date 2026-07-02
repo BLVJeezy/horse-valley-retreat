@@ -91,6 +91,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:type", content: "website" },
       { property: "og:locale", content: "nl_BE" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Horse Vally — Vakantiewoning in Tongeren-Borgloon" },
+      { name: "description", content: "Book a stylish, private holiday home in Belgium for groups and families. Enjoy direct booking for a countryside escape." },
+      { property: "og:description", content: "Book a stylish, private holiday home in Belgium for groups and families. Enjoy direct booking for a countryside escape." },
+      { name: "twitter:description", content: "Book a stylish, private holiday home in Belgium for groups and families. Enjoy direct booking for a countryside escape." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/7675c1cc-b902-49e5-900c-ca7c704c2ad5/id-preview-de7d3726--f9e1f40c-0144-4ed6-8bf6-f8b01afae71d.lovable.app-1783003384661.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/7675c1cc-b902-49e5-900c-ca7c704c2ad5/id-preview-de7d3726--f9e1f40c-0144-4ed6-8bf6-f8b01afae71d.lovable.app-1783003384661.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
