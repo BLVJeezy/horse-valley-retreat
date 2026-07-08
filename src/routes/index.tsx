@@ -128,7 +128,7 @@ function Home() {
       </section>
 
       {/* Highlights */}
-      <section className="bg-accent/5 py-20 md:py-24 mt-12">
+      <section className="bg-accent/5 py-20 md:py-24">
         <div className="max-w-6xl mx-auto px-6 grid grid-cols-2 md:grid-cols-3 gap-y-10 md:gap-y-12 gap-x-8">
           {highlights.map((h) => (
             <div key={h.label} className="space-y-2">
