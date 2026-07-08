@@ -209,17 +209,19 @@ function Home() {
               </div>
             ))}
           </div>
-          <div className="mt-16 aspect-[21/9] rounded-2xl bg-white ring-1 ring-border grid place-items-center text-center px-6">
-            <div className="space-y-2">
-              <span className="block text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
-                Locatie
-              </span>
-              <p className="font-display text-2xl md:text-3xl">Tongeren-Borgloon, Limburg</p>
-              <p className="text-xs text-muted-foreground max-w-md">
-                Het exacte adres delen we in de bevestigingsmail na je boeking.
-              </p>
-            </div>
+          <div className="mt-16 aspect-[21/9] rounded-2xl overflow-hidden ring-1 ring-border">
+            <iframe
+              title="Locatie Horse Vally — Tongeren-Borgloon"
+              src="https://www.google.com/maps?q=Tongeren-Borgloon,%20Limburg,%20Belgium&output=embed"
+              className="w-full h-full border-0"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              allowFullScreen
+            />
           </div>
+          <p className="mt-4 text-xs text-muted-foreground text-center">
+            Het exacte adres delen we in de bevestigingsmail na je boeking.
+          </p>
         </div>
       </section>
 
