@@ -85,7 +85,7 @@ function Home() {
           op de kalender staat. De kinderen op de trampoline, jullie met een glas wijn onder de pergola."
         </p>
         <span className="block mt-8 text-[11px] text-muted-foreground uppercase tracking-[0.25em]">
-          — Leslie, uw gastvrouw
+          — LESLIE, UW GASTVROUW / GASTHEER
         </span>
       </section>
 
