@@ -70,25 +70,25 @@ function Home() {
           <div className="animate-fade-up-delay">
             <BookingWidget />
           </div>
-          <div className="mt-8 inline-flex flex-wrap items-center gap-x-6 gap-y-3 text-white/90 text-[11px] uppercase tracking-[0.2em] rounded-2xl bg-black/45 backdrop-blur-xl ring-1 ring-white/15 px-5 py-3 shadow-lg shadow-black/20">
-            <span className="flex items-center gap-2">
-              <span aria-hidden className="text-accent text-base leading-none">✓</span>
-              Gratis annulering tot 24u
+          <div className="mt-6 md:mt-8 grid grid-cols-2 sm:inline-flex sm:flex-wrap items-center gap-x-4 sm:gap-x-6 gap-y-2 sm:gap-y-3 text-white/90 text-[10px] sm:text-[11px] uppercase tracking-[0.18em] sm:tracking-[0.2em] rounded-xl sm:rounded-2xl bg-black/45 backdrop-blur-xl ring-1 ring-white/15 px-4 sm:px-5 py-3 shadow-lg shadow-black/20 w-full sm:w-auto">
+            <span className="flex items-center gap-2 min-w-0">
+              <span aria-hidden className="text-accent text-base leading-none shrink-0">✓</span>
+              <span className="truncate">Gratis annulering</span>
             </span>
             <span className="hidden sm:inline-block w-px h-3 bg-white/25" aria-hidden />
-            <span className="flex items-center gap-2">
-              <span aria-hidden className="text-accent text-base leading-none">✓</span>
-              Directe boeking
+            <span className="flex items-center gap-2 min-w-0">
+              <span aria-hidden className="text-accent text-base leading-none shrink-0">✓</span>
+              <span className="truncate">Directe boeking</span>
             </span>
             <span className="hidden sm:inline-block w-px h-3 bg-white/25" aria-hidden />
-            <span className="flex items-center gap-2">
-              <span aria-hidden className="text-accent text-base leading-none">✓</span>
-              Veilige betaling
+            <span className="flex items-center gap-2 min-w-0">
+              <span aria-hidden className="text-accent text-base leading-none shrink-0">✓</span>
+              <span className="truncate">Veilige betaling</span>
             </span>
             <span className="hidden sm:inline-block w-px h-3 bg-white/25" aria-hidden />
-            <span className="flex items-center gap-2">
-              <span aria-hidden className="text-accent text-base leading-none">✓</span>
-              Persoonlijke host
+            <span className="flex items-center gap-2 min-w-0">
+              <span aria-hidden className="text-accent text-base leading-none shrink-0">✓</span>
+              <span className="truncate">Persoonlijke host</span>
             </span>
           </div>
         </div>
