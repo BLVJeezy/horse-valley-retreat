@@ -70,7 +70,7 @@ function Home() {
           <div className="animate-fade-up-delay">
             <BookingWidget />
           </div>
-          <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 text-white/85 text-[11px] uppercase tracking-[0.2em]">
+          <div className="mt-8 inline-flex flex-wrap items-center gap-x-6 gap-y-3 text-white/90 text-[11px] uppercase tracking-[0.2em] rounded-2xl bg-white/10 backdrop-blur-xl ring-1 ring-white/20 px-5 py-3 shadow-lg shadow-black/10">
             <span className="flex items-center gap-2">
               <span aria-hidden className="text-accent text-base leading-none">✓</span>
               Gratis annulering tot 24u
