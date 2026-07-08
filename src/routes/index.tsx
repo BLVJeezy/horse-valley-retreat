@@ -99,15 +99,15 @@ function Home() {
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
             />
           </Link>
-          <div className="col-span-12 md:col-span-4 grid grid-cols-2 md:grid-cols-1 gap-3 md:gap-4 h-full">
-            <Link to="/galerij" className="overflow-hidden rounded-2xl group">
+          <div className="col-span-12 md:col-span-4 grid grid-cols-2 md:grid-cols-1 md:grid-rows-2 gap-3 md:gap-4 h-full min-h-0">
+            <Link to="/galerij" className="overflow-hidden rounded-2xl group h-full min-h-0">
               <img
                 src={photos.loungeCovered.url}
                 alt={photos.loungeCovered.alt}
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
               />
             </Link>
-            <Link to="/galerij" className="overflow-hidden rounded-2xl group">
+            <Link to="/galerij" className="overflow-hidden rounded-2xl group h-full min-h-0">
               <img
                 src={photos.gardenTrampoline.url}
                 alt={photos.gardenTrampoline.alt}
