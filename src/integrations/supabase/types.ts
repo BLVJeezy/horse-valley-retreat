@@ -18,20 +18,152 @@ export type Database = {
         Row: {
           created_at: string
           end_date: string
+          guest_name: string | null
           id: string
+          source: string
           start_date: string
+          status: string
         }
         Insert: {
           created_at?: string
           end_date: string
+          guest_name?: string | null
           id?: string
+          source?: string
           start_date: string
+          status?: string
         }
         Update: {
           created_at?: string
           end_date?: string
+          guest_name?: string | null
           id?: string
+          source?: string
           start_date?: string
+          status?: string
+        }
+        Relationships: []
+      }
+      booking_requests: {
+        Row: {
+          availability_block_id: string | null
+          created_at: string
+          end_date: string
+          guest_email: string
+          guest_name: string
+          guest_phone: string | null
+          guests: number
+          id: string
+          message: string | null
+          start_date: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          availability_block_id?: string | null
+          created_at?: string
+          end_date: string
+          guest_email: string
+          guest_name: string
+          guest_phone?: string | null
+          guests: number
+          id?: string
+          message?: string | null
+          start_date: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          availability_block_id?: string | null
+          created_at?: string
+          end_date?: string
+          guest_email?: string
+          guest_name?: string
+          guest_phone?: string | null
+          guests?: number
+          id?: string
+          message?: string | null
+          start_date?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      ical_feeds: {
+        Row: {
+          created_at: string
+          ical_url: string
+          id: string
+          is_active: boolean
+          label: string
+          last_sync_error: string | null
+          last_synced_at: string | null
+          source: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          ical_url: string
+          id?: string
+          is_active?: boolean
+          label: string
+          last_sync_error?: string | null
+          last_synced_at?: string | null
+          source: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          ical_url?: string
+          id?: string
+          is_active?: boolean
+          label?: string
+          last_sync_error?: string | null
+          last_synced_at?: string | null
+          source?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      properties: {
+        Row: {
+          address: string | null
+          contact_email: string | null
+          created_at: string
+          description: string | null
+          id: string
+          is_live: boolean
+          mirror_photos: boolean
+          name: string
+          price_per_night: number | null
+          slug: string
+          updated_at: string
+        }
+        Insert: {
+          address?: string | null
+          contact_email?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_live?: boolean
+          mirror_photos?: boolean
+          name: string
+          price_per_night?: number | null
+          slug: string
+          updated_at?: string
+        }
+        Update: {
+          address?: string | null
+          contact_email?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_live?: boolean
+          mirror_photos?: boolean
+          name?: string
+          price_per_night?: number | null
+          slug?: string
+          updated_at?: string
         }
         Relationships: []
       }
