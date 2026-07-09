@@ -1,0 +1,1 @@
+ALTER TABLE public.ical_feeds ADD COLUMN IF NOT EXISTS last_sync_status text;

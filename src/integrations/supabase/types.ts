@@ -18,35 +18,29 @@ export type Database = {
         Row: {
           created_at: string
           end_date: string
-          external_uid: string | null
           guest_name: string | null
           id: string
-          source: Database["public"]["Enums"]["block_source"]
+          source: string
           start_date: string
           status: string
-          updated_at: string
         }
         Insert: {
           created_at?: string
           end_date: string
-          external_uid?: string | null
           guest_name?: string | null
           id?: string
-          source?: Database["public"]["Enums"]["block_source"]
+          source?: string
           start_date: string
           status?: string
-          updated_at?: string
         }
         Update: {
           created_at?: string
           end_date?: string
-          external_uid?: string | null
           guest_name?: string | null
           id?: string
-          source?: Database["public"]["Enums"]["block_source"]
+          source?: string
           start_date?: string
           status?: string
-          updated_at?: string
         }
         Relationships: []
       }
@@ -93,51 +87,43 @@ export type Database = {
           status?: string
           updated_at?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "booking_requests_availability_block_id_fkey"
-            columns: ["availability_block_id"]
-            isOneToOne: false
-            referencedRelation: "availability_blocks"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       ical_feeds: {
         Row: {
           created_at: string
-          id: string
           ical_url: string
+          id: string
           is_active: boolean
           label: string
           last_sync_error: string | null
           last_sync_status: string | null
           last_synced_at: string | null
-          source: Database["public"]["Enums"]["block_source"]
+          source: string
           updated_at: string
         }
         Insert: {
           created_at?: string
-          id?: string
           ical_url: string
+          id?: string
           is_active?: boolean
           label: string
           last_sync_error?: string | null
           last_sync_status?: string | null
           last_synced_at?: string | null
-          source: Database["public"]["Enums"]["block_source"]
+          source: string
           updated_at?: string
         }
         Update: {
           created_at?: string
-          id?: string
           ical_url?: string
+          id?: string
           is_active?: boolean
           label?: string
           last_sync_error?: string | null
           last_sync_status?: string | null
           last_synced_at?: string | null
-          source?: Database["public"]["Enums"]["block_source"]
+          source?: string
           updated_at?: string
         }
         Relationships: []
@@ -145,7 +131,7 @@ export type Database = {
       properties: {
         Row: {
           address: string | null
-          contact_email: string
+          contact_email: string | null
           created_at: string
           description: string | null
           id: string
@@ -158,7 +144,7 @@ export type Database = {
         }
         Insert: {
           address?: string | null
-          contact_email?: string
+          contact_email?: string | null
           created_at?: string
           description?: string | null
           id?: string
@@ -171,7 +157,7 @@ export type Database = {
         }
         Update: {
           address?: string | null
-          contact_email?: string
+          contact_email?: string | null
           created_at?: string
           description?: string | null
           id?: string
@@ -283,7 +269,6 @@ export type Database = {
     }
     Enums: {
       app_role: "admin"
-      block_source: "manual" | "website" | "airbnb" | "booking" | "launchpad" | "other"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -412,7 +397,6 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin"],
-      block_source: ["manual", "website", "airbnb", "booking", "launchpad", "other"],
     },
   },
 } as const
