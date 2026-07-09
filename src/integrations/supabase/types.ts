@@ -97,6 +97,7 @@ export type Database = {
           is_active: boolean
           label: string
           last_sync_error: string | null
+          last_sync_status: string | null
           last_synced_at: string | null
           source: string
           updated_at: string
@@ -108,6 +109,7 @@ export type Database = {
           is_active?: boolean
           label: string
           last_sync_error?: string | null
+          last_sync_status?: string | null
           last_synced_at?: string | null
           source: string
           updated_at?: string
@@ -119,6 +121,7 @@ export type Database = {
           is_active?: boolean
           label?: string
           last_sync_error?: string | null
+          last_sync_status?: string | null
           last_synced_at?: string | null
           source?: string
           updated_at?: string
