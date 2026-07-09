@@ -144,29 +144,41 @@ export type Database = {
       }
       properties: {
         Row: {
+          address: string | null
+          contact_email: string
           created_at: string
+          description: string | null
           id: string
           is_live: boolean
           mirror_photos: boolean
           name: string
+          price_per_night: number | null
           slug: string
           updated_at: string
         }
         Insert: {
+          address?: string | null
+          contact_email?: string
           created_at?: string
+          description?: string | null
           id?: string
           is_live?: boolean
           mirror_photos?: boolean
           name: string
+          price_per_night?: number | null
           slug: string
           updated_at?: string
         }
         Update: {
+          address?: string | null
+          contact_email?: string
           created_at?: string
+          description?: string | null
           id?: string
           is_live?: boolean
           mirror_photos?: boolean
           name?: string
+          price_per_night?: number | null
           slug?: string
           updated_at?: string
         }

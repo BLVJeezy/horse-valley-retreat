@@ -117,6 +117,31 @@ export const setPropertyLive = createServerFn({ method: "POST" })
     return { ok: true };
   });
 
+export const updatePropertyDetails = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d) =>
+    z
+      .object({
+        id: z.string().uuid(),
+        name: z.string().trim().min(1).max(80),
+        address: z.string().trim().max(200).nullable().optional(),
+        description: z.string().trim().max(2000).nullable().optional(),
+        contact_email: z.string().trim().email(),
+        price_per_night: z.number().nonnegative().nullable().optional(),
+      })
+      .parse(d),
+  )
+  .handler(async ({ data, context }) => {
+    await ensureAdmin(context);
+    const { id, ...rest } = data;
+    const { error } = await context.supabase
+      .from("properties")
+      .update({ ...rest, updated_at: new Date().toISOString() })
+      .eq("id", id);
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
 // ICAL FEEDS (Airbnb / Booking.com / Launchpad sync config)
 export const listIcalFeeds = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])

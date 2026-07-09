@@ -7,7 +7,7 @@ export const getPropertyBySlug = createServerFn({ method: "GET" })
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data: property, error } = await supabaseAdmin
       .from("properties")
-      .select("slug, name, is_live, mirror_photos")
+      .select("slug, name, is_live, mirror_photos, address, description, contact_email, price_per_night")
       .eq("slug", data.slug)
       .maybeSingle();
     if (error) throw new Error(error.message);

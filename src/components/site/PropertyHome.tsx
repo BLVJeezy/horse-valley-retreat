@@ -47,6 +47,12 @@ export interface PropertyHomeProps {
   galleryTo: string;
   /** Contact email shown in the footer CTA */
   contactEmail: string;
+  /** Address / area line shown under the eyebrow in the hero, e.g. "Tongeren-Borgloon, Belgisch Limburg" */
+  address?: string | null;
+  /** Host quote / intro text. Falls back to the default Horse Vally quote when not set. */
+  description?: string | null;
+  /** Price per night, shown in the highlights grid when set. */
+  pricePerNight?: number | null;
   /**
    * When true, every photo on the page renders horizontally flipped
    * (CSS-only, no separate image assets needed). Klein Lauw is the same
@@ -55,13 +61,30 @@ export interface PropertyHomeProps {
   mirror?: boolean;
 }
 
+const DEFAULT_DESCRIPTION =
+  "We bouwden dit huis met een simpel idee. Kom binnen, doe je jas uit, en vergeet even wat er " +
+  "op de kalender staat. De kinderen op de trampoline, jullie met een glas wijn onder de pergola.";
+
 /** Applies the mirror transform to an <img> when `mirror` is set. Purely presentational. */
 function mirrorClass(mirror: boolean | undefined) {
   return mirror ? "[transform:scaleX(-1)]" : "";
 }
 
-export function PropertyHome({ name, galleryTo, contactEmail, mirror }: PropertyHomeProps) {
+export function PropertyHome({
+  name,
+  galleryTo,
+  contactEmail,
+  address,
+  description,
+  pricePerNight,
+  mirror,
+}: PropertyHomeProps) {
   const flip = mirrorClass(mirror);
+  const areaLine = address ?? "Tongeren-Borgloon · Belgisch Limburg";
+  const quote = description ?? DEFAULT_DESCRIPTION;
+  const highlightList = pricePerNight
+    ? [{ label: "Prijs", value: `Vanaf €${pricePerNight}/nacht` }, ...highlights]
+    : highlights;
 
   return (
     <div className="bg-background text-foreground">
@@ -80,7 +103,7 @@ export function PropertyHome({ name, galleryTo, contactEmail, mirror }: Property
 
         <div className="relative z-10 w-full max-w-6xl mx-auto animate-fade-up">
           <span className="block text-white/80 text-[11px] uppercase tracking-[0.3em] mb-4">
-            Tongeren-Borgloon · Belgisch Limburg
+            {areaLine}
           </span>
           <h1 className="font-display text-5xl md:text-7xl lg:text-8xl text-white mb-8 text-balance leading-[0.95] max-w-4xl">
             Puur genieten in Tongeren-Borgloon
@@ -142,8 +165,7 @@ export function PropertyHome({ name, galleryTo, contactEmail, mirror }: Property
           </div>
         </div>
         <p className="font-display text-2xl md:text-4xl leading-snug text-balance italic">
-          "We bouwden dit huis met een simpel idee. Kom binnen, doe je jas uit, en vergeet even wat er
-          op de kalender staat. De kinderen op de trampoline, jullie met een glas wijn onder de pergola."
+          "{quote}"
         </p>
         <span className="block mt-8 text-[11px] text-muted-foreground uppercase tracking-[0.25em]">
           — LESLIE, UW GASTVROUW / GASTHEER
@@ -191,7 +213,7 @@ export function PropertyHome({ name, galleryTo, contactEmail, mirror }: Property
       {/* Highlights */}
       <section className="bg-accent/5 py-20 md:py-24">
         <div className="max-w-6xl mx-auto px-6 grid grid-cols-2 md:grid-cols-3 gap-y-10 md:gap-y-12 gap-x-8">
-          {highlights.map((h) => (
+          {highlightList.map((h) => (
             <div key={h.label} className="space-y-2">
               <span className="text-accent text-[10px] font-medium uppercase tracking-[0.25em]">
                 {h.label}
