@@ -142,6 +142,36 @@ export type Database = {
         }
         Relationships: []
       }
+      properties: {
+        Row: {
+          created_at: string
+          id: string
+          is_live: boolean
+          mirror_photos: boolean
+          name: string
+          slug: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_live?: boolean
+          mirror_photos?: boolean
+          name: string
+          slug: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_live?: boolean
+          mirror_photos?: boolean
+          name?: string
+          slug?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       seasonal_rates: {
         Row: {
           created_at: string

@@ -9,15 +9,23 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as KleinLauwRouteImport } from './routes/klein-lauw'
 import { Route as GalerijRouteImport } from './routes/galerij'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as KleinLauwGalerijRouteImport } from './routes/klein-lauw.galerij'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as AuthenticatedAdminTarievenRouteImport } from './routes/_authenticated/admin.tarieven'
+import { Route as AuthenticatedAdminLocatiesRouteImport } from './routes/_authenticated/admin.locaties'
 import { Route as AuthenticatedAdminKalendersyncRouteImport } from './routes/_authenticated/admin.kalendersync'
 
+const KleinLauwRoute = KleinLauwRouteImport.update({
+  id: '/klein-lauw',
+  path: '/klein-lauw',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const GalerijRoute = GalerijRouteImport.update({
   id: '/galerij',
   path: '/galerij',
@@ -37,6 +45,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const KleinLauwGalerijRoute = KleinLauwGalerijRouteImport.update({
+  id: '/galerij',
+  path: '/galerij',
+  getParentRoute: () => KleinLauwRoute,
+} as any)
 const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   id: '/admin',
   path: '/admin',
@@ -53,6 +66,12 @@ const AuthenticatedAdminTarievenRoute =
     path: '/tarieven',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminLocatiesRoute =
+  AuthenticatedAdminLocatiesRouteImport.update({
+    id: '/locaties',
+    path: '/locaties',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminKalendersyncRoute =
   AuthenticatedAdminKalendersyncRouteImport.update({
     id: '/kalendersync',
@@ -64,8 +83,11 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/galerij': typeof GalerijRoute
+  '/klein-lauw': typeof KleinLauwRouteWithChildren
   '/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/klein-lauw/galerij': typeof KleinLauwGalerijRoute
   '/admin/kalendersync': typeof AuthenticatedAdminKalendersyncRoute
+  '/admin/locaties': typeof AuthenticatedAdminLocatiesRoute
   '/admin/tarieven': typeof AuthenticatedAdminTarievenRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
 }
@@ -73,7 +95,10 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/galerij': typeof GalerijRoute
+  '/klein-lauw': typeof KleinLauwRouteWithChildren
+  '/klein-lauw/galerij': typeof KleinLauwGalerijRoute
   '/admin/kalendersync': typeof AuthenticatedAdminKalendersyncRoute
+  '/admin/locaties': typeof AuthenticatedAdminLocatiesRoute
   '/admin/tarieven': typeof AuthenticatedAdminTarievenRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
 }
@@ -83,8 +108,11 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/galerij': typeof GalerijRoute
+  '/klein-lauw': typeof KleinLauwRouteWithChildren
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/klein-lauw/galerij': typeof KleinLauwGalerijRoute
   '/_authenticated/admin/kalendersync': typeof AuthenticatedAdminKalendersyncRoute
+  '/_authenticated/admin/locaties': typeof AuthenticatedAdminLocatiesRoute
   '/_authenticated/admin/tarieven': typeof AuthenticatedAdminTarievenRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
 }
@@ -94,8 +122,11 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/galerij'
+    | '/klein-lauw'
     | '/admin'
+    | '/klein-lauw/galerij'
     | '/admin/kalendersync'
+    | '/admin/locaties'
     | '/admin/tarieven'
     | '/admin/'
   fileRoutesByTo: FileRoutesByTo
@@ -103,7 +134,10 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/galerij'
+    | '/klein-lauw'
+    | '/klein-lauw/galerij'
     | '/admin/kalendersync'
+    | '/admin/locaties'
     | '/admin/tarieven'
     | '/admin'
   id:
@@ -112,8 +146,11 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth'
     | '/galerij'
+    | '/klein-lauw'
     | '/_authenticated/admin'
+    | '/klein-lauw/galerij'
     | '/_authenticated/admin/kalendersync'
+    | '/_authenticated/admin/locaties'
     | '/_authenticated/admin/tarieven'
     | '/_authenticated/admin/'
   fileRoutesById: FileRoutesById
@@ -123,10 +160,18 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   GalerijRoute: typeof GalerijRoute
+  KleinLauwRoute: typeof KleinLauwRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/klein-lauw': {
+      id: '/klein-lauw'
+      path: '/klein-lauw'
+      fullPath: '/klein-lauw'
+      preLoaderRoute: typeof KleinLauwRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/galerij': {
       id: '/galerij'
       path: '/galerij'
@@ -155,6 +200,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/klein-lauw/galerij': {
+      id: '/klein-lauw/galerij'
+      path: '/galerij'
+      fullPath: '/klein-lauw/galerij'
+      preLoaderRoute: typeof KleinLauwGalerijRouteImport
+      parentRoute: typeof KleinLauwRoute
+    }
     '/_authenticated/admin': {
       id: '/_authenticated/admin'
       path: '/admin'
@@ -176,6 +228,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminTarievenRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/locaties': {
+      id: '/_authenticated/admin/locaties'
+      path: '/locaties'
+      fullPath: '/admin/locaties'
+      preLoaderRoute: typeof AuthenticatedAdminLocatiesRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/kalendersync': {
       id: '/_authenticated/admin/kalendersync'
       path: '/kalendersync'
@@ -188,12 +247,14 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminKalendersyncRoute: typeof AuthenticatedAdminKalendersyncRoute
+  AuthenticatedAdminLocatiesRoute: typeof AuthenticatedAdminLocatiesRoute
   AuthenticatedAdminTarievenRoute: typeof AuthenticatedAdminTarievenRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminKalendersyncRoute: AuthenticatedAdminKalendersyncRoute,
+  AuthenticatedAdminLocatiesRoute: AuthenticatedAdminLocatiesRoute,
   AuthenticatedAdminTarievenRoute: AuthenticatedAdminTarievenRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
 }
@@ -212,11 +273,24 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface KleinLauwRouteChildren {
+  KleinLauwGalerijRoute: typeof KleinLauwGalerijRoute
+}
+
+const KleinLauwRouteChildren: KleinLauwRouteChildren = {
+  KleinLauwGalerijRoute: KleinLauwGalerijRoute,
+}
+
+const KleinLauwRouteWithChildren = KleinLauwRoute._addFileChildren(
+  KleinLauwRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   GalerijRoute: GalerijRoute,
+  KleinLauwRoute: KleinLauwRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

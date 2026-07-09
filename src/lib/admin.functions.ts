@@ -91,6 +91,32 @@ export const deleteBlock = createServerFn({ method: "POST" })
     return { ok: true };
   });
 
+// PROPERTIES (locaties): live/offline toggle
+export const listProperties = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    await ensureAdmin(context);
+    const { data, error } = await context.supabase
+      .from("properties")
+      .select("*")
+      .order("created_at", { ascending: true });
+    if (error) throw new Error(error.message);
+    return data;
+  });
+
+export const setPropertyLive = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d) => z.object({ id: z.string().uuid(), is_live: z.boolean() }).parse(d))
+  .handler(async ({ data, context }) => {
+    await ensureAdmin(context);
+    const { error } = await context.supabase
+      .from("properties")
+      .update({ is_live: data.is_live, updated_at: new Date().toISOString() })
+      .eq("id", data.id);
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
 // ICAL FEEDS (Airbnb / Booking.com / Launchpad sync config)
 export const listIcalFeeds = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])

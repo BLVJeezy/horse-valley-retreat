@@ -21,6 +21,7 @@ function AdminLayout() {
     { to: "/admin", label: "Beschikbaarheid" },
     { to: "/admin/tarieven", label: "Tarieven & seizoenen" },
     { to: "/admin/kalendersync", label: "Kalendersync" },
+    { to: "/admin/locaties", label: "Locaties" },
   ];
 
   return (
