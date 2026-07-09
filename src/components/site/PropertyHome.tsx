@@ -59,6 +59,10 @@ export interface PropertyHomeProps {
    * floor plan as Horse Vally, mirrored.
    */
   mirror?: boolean;
+  /** Slug of the property currently being viewed (for highlighting in the switcher). */
+  currentSlug?: string;
+  /** All properties (slug/name/is_live), used to render the "choose your house" switcher in the hero. */
+  allProperties?: { slug: string; name: string; is_live: boolean }[];
 }
 
 const DEFAULT_DESCRIPTION =
@@ -70,6 +74,45 @@ function mirrorClass(mirror: boolean | undefined) {
   return mirror ? "[transform:scaleX(-1)]" : "";
 }
 
+function propertyPath(slug: string) {
+  return slug === "horse-vally" ? "/" : `/${slug}`;
+}
+
+function PropertySwitcher({
+  currentSlug,
+  allProperties,
+}: {
+  currentSlug?: string;
+  allProperties?: { slug: string; name: string; is_live: boolean }[];
+}) {
+  if (!allProperties || allProperties.length < 2) return null;
+
+  return (
+    <div className="mb-6 space-y-2">
+      <div className="inline-flex items-center gap-1 rounded-full bg-black/45 backdrop-blur-xl ring-1 ring-white/15 p-1">
+        {allProperties.map((p) => {
+          const active = p.slug === currentSlug;
+          return (
+            <Link
+              key={p.slug}
+              to={propertyPath(p.slug)}
+              className={`px-4 py-2 rounded-full text-[11px] uppercase tracking-[0.15em] font-medium transition-colors ${
+                active ? "bg-white text-foreground" : "text-white/80 hover:text-white"
+              }`}
+            >
+              {p.name}
+              {!p.is_live && !active ? " · binnenkort" : ""}
+            </Link>
+          );
+        })}
+      </div>
+      <p className="text-white/70 text-xs md:text-[13px]">
+        Beide woningen liggen naast elkaar en zijn ook samen te huren voor grotere groepen.
+      </p>
+    </div>
+  );
+}
+
 export function PropertyHome({
   name,
   galleryTo,
@@ -78,6 +121,8 @@ export function PropertyHome({
   description,
   pricePerNight,
   mirror,
+  currentSlug,
+  allProperties,
 }: PropertyHomeProps) {
   const flip = mirrorClass(mirror);
   const areaLine = address ?? "Tongeren-Borgloon · Belgisch Limburg";
@@ -108,6 +153,7 @@ export function PropertyHome({
           <h1 className="font-display text-5xl md:text-7xl lg:text-8xl text-white mb-8 text-balance leading-[0.95] max-w-4xl">
             Puur genieten in Tongeren-Borgloon
           </h1>
+          <PropertySwitcher currentSlug={currentSlug} allProperties={allProperties} />
           <div className="animate-fade-up-delay">
             <BookingWidget />
           </div>

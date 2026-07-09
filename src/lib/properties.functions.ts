@@ -13,3 +13,15 @@ export const getPropertyBySlug = createServerFn({ method: "GET" })
     if (error) throw new Error(error.message);
     return property;
   });
+
+// Public: minimal list of all properties, used to render the "choose your
+// house" switcher in the hero. Deliberately excludes internal-only fields.
+export const listPublicProperties = createServerFn({ method: "GET" }).handler(async () => {
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  const { data, error } = await supabaseAdmin
+    .from("properties")
+    .select("slug, name, is_live")
+    .order("created_at", { ascending: true });
+  if (error) throw new Error(error.message);
+  return data;
+});

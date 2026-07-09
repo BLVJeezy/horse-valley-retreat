@@ -1,10 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PropertyHome } from "@/components/site/PropertyHome";
 import { PropertyComingSoon } from "@/components/site/PropertyComingSoon";
-import { getPropertyBySlug } from "@/lib/properties.functions";
+import { getPropertyBySlug, listPublicProperties } from "@/lib/properties.functions";
 
 export const Route = createFileRoute("/klein-lauw")({
-  loader: () => getPropertyBySlug({ data: { slug: "klein-lauw" } }),
+  loader: async () => {
+    const [property, allProperties] = await Promise.all([
+      getPropertyBySlug({ data: { slug: "klein-lauw" } }),
+      listPublicProperties(),
+    ]);
+    return { property, allProperties };
+  },
   head: () => ({
     meta: [
       { title: "Klein Lauw — vakantiewoning in Tongeren-Borgloon" },
@@ -18,7 +24,7 @@ export const Route = createFileRoute("/klein-lauw")({
 });
 
 function KleinLauw() {
-  const property = Route.useLoaderData();
+  const { property, allProperties } = Route.useLoaderData();
 
   if (!property || !property.is_live) {
     return <PropertyComingSoon name="Klein Lauw" />;
@@ -33,6 +39,8 @@ function KleinLauw() {
       description={property.description}
       pricePerNight={property.price_per_night}
       mirror={property.mirror_photos}
+      currentSlug="klein-lauw"
+      allProperties={allProperties}
     />
   );
 }

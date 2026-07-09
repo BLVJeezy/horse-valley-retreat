@@ -1,15 +1,21 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PropertyHome } from "@/components/site/PropertyHome";
 import { PropertyComingSoon } from "@/components/site/PropertyComingSoon";
-import { getPropertyBySlug } from "@/lib/properties.functions";
+import { getPropertyBySlug, listPublicProperties } from "@/lib/properties.functions";
 
 export const Route = createFileRoute("/")({
-  loader: () => getPropertyBySlug({ data: { slug: "horse-vally" } }),
+  loader: async () => {
+    const [property, allProperties] = await Promise.all([
+      getPropertyBySlug({ data: { slug: "horse-vally" } }),
+      listPublicProperties(),
+    ]);
+    return { property, allProperties };
+  },
   component: Home,
 });
 
 function Home() {
-  const property = Route.useLoaderData();
+  const { property, allProperties } = Route.useLoaderData();
 
   // Fail open: if the properties row doesn't exist yet (e.g. migration not
   // applied), still show the site instead of a false "coming soon".
@@ -25,6 +31,8 @@ function Home() {
       address={property?.address}
       description={property?.description}
       pricePerNight={property?.price_per_night}
+      currentSlug="horse-vally"
+      allProperties={allProperties}
     />
   );
 }
