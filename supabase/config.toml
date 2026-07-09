@@ -1,1 +1,7 @@
 project_id = "hoaginjyaachoickqkno"
+
+[functions.ical-sync]
+verify_jwt = false
+
+[functions.ical-export]
+verify_jwt = false

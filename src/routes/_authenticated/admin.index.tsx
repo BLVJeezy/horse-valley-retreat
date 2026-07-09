@@ -8,7 +8,16 @@ import { Calendar } from "@/components/ui/calendar";
 import { toast } from "sonner";
 import type { DateRange } from "react-day-picker";
 
-type Block = { id: string; start_date: string; end_date: string };
+type Block = { id: string; start_date: string; end_date: string; source: string; guest_name: string | null };
+
+const SOURCE_LABELS: Record<string, string> = {
+  manual: "Manueel",
+  website: "Website",
+  airbnb: "Airbnb",
+  booking: "Booking.com",
+  launchpad: "Launchpad",
+  other: "Extern",
+};
 
 export const Route = createFileRoute("/_authenticated/admin/")({
   component: AvailabilityPage,
@@ -28,7 +37,7 @@ function AvailabilityPage() {
   async function refresh() {
     const { data, error } = await supabase
       .from("availability_blocks")
-      .select("id, start_date, end_date")
+      .select("id, start_date, end_date, source, guest_name")
       .order("start_date", { ascending: true });
     if (error) toast.error(error.message);
     else setBlocks(data ?? []);
@@ -113,17 +122,29 @@ function AvailabilityPage() {
             {blocks.map((b) => (
               <li
                 key={b.id}
-                className="flex items-center justify-between rounded-lg border border-border bg-card px-4 py-3 text-sm"
+                className="flex items-center justify-between gap-3 rounded-lg border border-border bg-card px-4 py-3 text-sm"
               >
-                <span>
-                  {formatDate(b.start_date)} → {formatDate(b.end_date)}
-                </span>
-                <button
-                  onClick={() => onUnblock(b.id)}
-                  className="text-xs text-muted-foreground hover:text-destructive"
-                >
-                  Verwijderen
-                </button>
+                <div>
+                  <span className="block">
+                    {formatDate(b.start_date)} → {formatDate(b.end_date)}
+                  </span>
+                  <span className="text-xs text-muted-foreground">
+                    {SOURCE_LABELS[b.source] ?? b.source}
+                    {b.guest_name ? ` · ${b.guest_name}` : ""}
+                  </span>
+                </div>
+                {b.source === "manual" ? (
+                  <button
+                    onClick={() => onUnblock(b.id)}
+                    className="text-xs text-muted-foreground hover:text-destructive shrink-0"
+                  >
+                    Verwijderen
+                  </button>
+                ) : (
+                  <span className="text-[10px] text-muted-foreground shrink-0" title="Wijzig dit op de bron zelf (Airbnb, Booking.com, website-aanvraag of volgende sync)">
+                    gesynced
+                  </span>
+                )}
               </li>
             ))}
           </ul>

@@ -16,6 +16,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as AuthenticatedAdminTarievenRouteImport } from './routes/_authenticated/admin.tarieven'
+import { Route as AuthenticatedAdminKalendersyncRouteImport } from './routes/_authenticated/admin.kalendersync'
 
 const GalerijRoute = GalerijRouteImport.update({
   id: '/galerij',
@@ -52,12 +53,19 @@ const AuthenticatedAdminTarievenRoute =
     path: '/tarieven',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminKalendersyncRoute =
+  AuthenticatedAdminKalendersyncRouteImport.update({
+    id: '/kalendersync',
+    path: '/kalendersync',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/galerij': typeof GalerijRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/admin/kalendersync': typeof AuthenticatedAdminKalendersyncRoute
   '/admin/tarieven': typeof AuthenticatedAdminTarievenRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
 }
@@ -65,6 +73,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/galerij': typeof GalerijRoute
+  '/admin/kalendersync': typeof AuthenticatedAdminKalendersyncRoute
   '/admin/tarieven': typeof AuthenticatedAdminTarievenRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
 }
@@ -75,6 +84,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/galerij': typeof GalerijRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/_authenticated/admin/kalendersync': typeof AuthenticatedAdminKalendersyncRoute
   '/_authenticated/admin/tarieven': typeof AuthenticatedAdminTarievenRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
 }
@@ -85,10 +95,17 @@ export interface FileRouteTypes {
     | '/auth'
     | '/galerij'
     | '/admin'
+    | '/admin/kalendersync'
     | '/admin/tarieven'
     | '/admin/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/galerij' | '/admin/tarieven' | '/admin'
+  to:
+    | '/'
+    | '/auth'
+    | '/galerij'
+    | '/admin/kalendersync'
+    | '/admin/tarieven'
+    | '/admin'
   id:
     | '__root__'
     | '/'
@@ -96,6 +113,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/galerij'
     | '/_authenticated/admin'
+    | '/_authenticated/admin/kalendersync'
     | '/_authenticated/admin/tarieven'
     | '/_authenticated/admin/'
   fileRoutesById: FileRoutesById
@@ -158,15 +176,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminTarievenRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/kalendersync': {
+      id: '/_authenticated/admin/kalendersync'
+      path: '/kalendersync'
+      fullPath: '/admin/kalendersync'
+      preLoaderRoute: typeof AuthenticatedAdminKalendersyncRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
   }
 }
 
 interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminKalendersyncRoute: typeof AuthenticatedAdminKalendersyncRoute
   AuthenticatedAdminTarievenRoute: typeof AuthenticatedAdminTarievenRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminKalendersyncRoute: AuthenticatedAdminKalendersyncRoute,
   AuthenticatedAdminTarievenRoute: AuthenticatedAdminTarievenRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
 }
@@ -194,3 +221,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
