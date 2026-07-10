@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { listProperties, setPropertyLive, updatePropertyDetails } from "@/lib/admin.functions";
+import { listProperties, setPropertyLive, updatePropertyDetails, seedKleinLauw } from "@/lib/admin.functions";
 
 export const Route = createFileRoute("/_authenticated/admin/locaties")({
   component: LocatiesPage,
@@ -25,9 +25,11 @@ function LocatiesPage() {
   const [properties, setProperties] = useState<Property[]>([]);
   const [busyId, setBusyId] = useState<string | null>(null);
   const [openId, setOpenId] = useState<string | null>(null);
+  const [seeding, setSeeding] = useState(false);
 
   const getProperties = useServerFn(listProperties);
   const toggleLive = useServerFn(setPropertyLive);
+  const runSeedKleinLauw = useServerFn(seedKleinLauw);
 
   async function refresh() {
     try {
@@ -40,6 +42,19 @@ function LocatiesPage() {
   useEffect(() => {
     refresh();
   }, []);
+
+  async function onSeedKleinLauw() {
+    setSeeding(true);
+    try {
+      await runSeedKleinLauw();
+      toast.success("Klein Lauw is toegevoegd en staat live");
+      await refresh();
+    } catch (e: any) {
+      toast.error(e.message);
+    } finally {
+      setSeeding(false);
+    }
+  }
 
   async function onToggle(p: Property) {
     setBusyId(p.id);
@@ -62,6 +77,18 @@ function LocatiesPage() {
         Offline toont bezoekers een "binnenkort"-pagina in plaats van de volledige site. Klik op een
         locatie om adres, beschrijving, contact en prijs te bewerken.
       </p>
+
+      {properties.length > 0 && !properties.some((p) => p.slug === "klein-lauw") && (
+        <div className="mb-4 rounded-lg border border-accent/40 bg-accent/5 px-4 py-4 flex flex-col md:flex-row md:items-center justify-between gap-3">
+          <p className="text-sm">
+            <span className="font-medium">Klein Lauw</span> staat nog niet in de lijst. Klik om 'm toe te
+            voegen en meteen live te zetten.
+          </p>
+          <Button onClick={onSeedKleinLauw} disabled={seeding} size="sm" className="w-full md:w-auto min-h-[44px]">
+            {seeding ? "Bezig..." : "Klein Lauw toevoegen"}
+          </Button>
+        </div>
+      )}
 
       {properties.length === 0 ? (
         <p className="text-sm text-muted-foreground">Geen locaties gevonden.</p>

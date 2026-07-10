@@ -142,6 +142,42 @@ export const updatePropertyDetails = createServerFn({ method: "POST" })
     return { ok: true };
   });
 
+// One-click fix for admins who can't run SQL themselves: creates (or
+// activates) the Klein Lauw property row with the same descriptive copy as
+// Horse Vally. Safe to click more than once.
+export const seedKleinLauw = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    await ensureAdmin(context);
+
+    const { error: upsertError } = await context.supabase
+      .from("properties")
+      .upsert(
+        {
+          slug: "klein-lauw",
+          name: "Klein Lauw",
+          is_live: true,
+          mirror_photos: true,
+          contact_email: "hallo@horsevally.be",
+        },
+        { onConflict: "slug" },
+      );
+    if (upsertError) throw new Error(upsertError.message);
+
+    const description =
+      "We bouwden dit huis met een simpel idee. Kom binnen, doe je jas uit, en vergeet even wat er " +
+      "op de kalender staat. De kinderen op de trampoline, jullie met een glas wijn onder de pergola.";
+    const address = "Tongeren-Borgloon, Belgisch Limburg";
+
+    const { error: updateError } = await context.supabase
+      .from("properties")
+      .update({ address, description, is_live: true, mirror_photos: true, updated_at: new Date().toISOString() })
+      .in("slug", ["horse-vally", "klein-lauw"]);
+    if (updateError) throw new Error(updateError.message);
+
+    return { ok: true };
+  });
+
 // ICAL FEEDS (Airbnb / Booking.com / Launchpad sync config)
 export const listIcalFeeds = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
