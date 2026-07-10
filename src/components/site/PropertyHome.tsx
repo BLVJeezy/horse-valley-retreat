@@ -89,6 +89,7 @@ function PropertySwitcher({
 
   return (
     <div className="mb-6 space-y-2">
+      <p className="text-white/60 text-[10px] uppercase tracking-[0.25em]">Kies je woning</p>
       <div className="inline-flex items-center gap-1 rounded-full bg-black/45 backdrop-blur-xl ring-1 ring-white/15 p-1">
         {allProperties.map((p) => {
           const active = p.slug === currentSlug;
