@@ -9,29 +9,14 @@ Log in op `/admin/kalendersync` en voeg elke kalender toe via het formulier:
 - **Booking.com**: Extranet → Kalender & prijzen → Kalender synchroniseren → kopieer de iCal-link
 - **Launchpad**: afhankelijk van wat dit precies is (zie eerder gesprek) — als het een PMS/channel manager is, zoek naar "iCal export" of "external calendar" in de instellingen
 
-## 2. Automatische sync inschakelen (cron)
+## 2. Automatische sync (al ingesteld)
 
-De edge function `ical-sync` moet periodiek aangeroepen worden (elke 2-4 uur is prima). Twee opties:
+De edge function `ical-sync` draait nu **automatisch elke 3 uur** via een database-migratie
+(`20260709160000_ical_sync_cron.sql`, pg_cron + pg_net). Je hoeft hier niets voor te doen —
+zodra de migratie is toegepast op Supabase, synct het vanzelf.
 
-**Optie A — Supabase pg_cron (aanbevolen, alles in de database):**
-```sql
-select cron.schedule(
-  'ical-sync-every-3h',
-  '0 */3 * * *',
-  $$
-  select net.http_post(
-    url := 'https://hoaginjyaachoickqkno.supabase.co/functions/v1/ical-sync',
-    headers := jsonb_build_object('x-sync-secret', '<ICAL_SYNC_SECRET waarde>')
-  );
-  $$
-);
-```
-Vereist de `pg_cron` en `pg_net` extensions (aan te zetten in Supabase Dashboard → Database → Extensions).
-
-**Optie B — extern (bv. cron-job.org of GitHub Actions):**
-POST naar `https://hoaginjyaachoickqkno.supabase.co/functions/v1/ical-sync` met header `x-sync-secret: <secret>`.
-
-Tot de cron is ingesteld werkt de "Nu synchroniseren"-knop in `/admin/kalendersync` als manuele fallback.
+De "Nu synchroniseren"-knop in `/admin/kalendersync` blijft ook werken, handig als je net een
+nieuwe kalenderlink hebt toegevoegd en niet tot de volgende automatische ronde wilt wachten.
 
 ## 3. Secret instellen
 

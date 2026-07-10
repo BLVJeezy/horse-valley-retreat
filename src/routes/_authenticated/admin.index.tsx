@@ -27,12 +27,25 @@ function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString("nl-BE", { day: "numeric", month: "long", year: "numeric" });
 }
 
+function useIsDesktop() {
+  const [isDesktop, setIsDesktop] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    setIsDesktop(mq.matches);
+    const listener = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
+    mq.addEventListener("change", listener);
+    return () => mq.removeEventListener("change", listener);
+  }, []);
+  return isDesktop;
+}
+
 function AvailabilityPage() {
   const [blocks, setBlocks] = useState<Block[]>([]);
   const [range, setRange] = useState<DateRange | undefined>();
   const [loading, setLoading] = useState(false);
   const addBlock = useServerFn(createBlock);
   const rmBlock = useServerFn(deleteBlock);
+  const isDesktop = useIsDesktop();
 
   async function refresh() {
     const { data, error } = await supabase
@@ -91,22 +104,22 @@ function AvailabilityPage() {
           Selecteer een periode om deze te blokkeren (bv. eigen gebruik of onderhoud). Gasten kunnen
           geblokkeerde datums niet boeken.
         </p>
-        <div className="rounded-2xl border border-border bg-card p-4">
+        <div className="rounded-2xl border border-border bg-card p-3 md:p-4">
           <Calendar
             mode="range"
             selected={range}
             onSelect={setRange}
-            numberOfMonths={2}
+            numberOfMonths={isDesktop ? 2 : 1}
             disabled={blockedRanges}
-            className="pointer-events-auto"
+            className="pointer-events-auto mx-auto"
           />
-          <div className="mt-4 flex items-center justify-between border-t border-border pt-4">
+          <div className="mt-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3 border-t border-border pt-4">
             <p className="text-sm text-muted-foreground">
               {range?.from && range?.to
                 ? `${formatDate(range.from.toISOString())} → ${formatDate(range.to.toISOString())}`
                 : "Nog geen periode geselecteerd"}
             </p>
-            <Button onClick={onBlock} disabled={loading || !range?.from || !range?.to}>
+            <Button onClick={onBlock} disabled={loading || !range?.from || !range?.to} className="w-full md:w-auto min-h-[44px]">
               Periode blokkeren
             </Button>
           </div>
@@ -136,7 +149,7 @@ function AvailabilityPage() {
                 {b.source === "manual" ? (
                   <button
                     onClick={() => onUnblock(b.id)}
-                    className="text-xs text-muted-foreground hover:text-destructive shrink-0"
+                    className="shrink-0 rounded-full px-3 py-2 min-h-[40px] text-xs text-muted-foreground hover:text-destructive hover:bg-destructive/5 transition-colors"
                   >
                     Verwijderen
                   </button>

@@ -34,7 +34,7 @@ function KleinLauw() {
     <PropertyHome
       name={property.name}
       galleryTo="/klein-lauw/galerij"
-      contactEmail={property.contact_email}
+      contactEmail={property.contact_email ?? "hallo@horsevally.be"}
       address={property.address}
       description={property.description}
       pricePerNight={property.price_per_night}

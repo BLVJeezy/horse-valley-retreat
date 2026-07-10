@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { Copy, Check } from "lucide-react";
 import {
   listIcalFeeds,
   createIcalFeed,
@@ -175,11 +176,11 @@ function KalenderSyncPage() {
           hieronder — zo vermijden we dubbele boekingen tijdens de synctijd.
         </p>
 
-        <form onSubmit={onAddFeed} className="rounded-2xl border border-border bg-card p-4 mb-6 flex flex-col md:flex-row gap-2">
+        <form onSubmit={onAddFeed} className="rounded-2xl border border-border bg-card p-4 mb-6 flex flex-col md:flex-row gap-3">
           <select
             value={newSource}
             onChange={(e) => setNewSource(e.target.value)}
-            className="rounded-md border border-border bg-background px-3 py-2 text-sm"
+            className="rounded-md border border-border bg-background px-3 min-h-[44px] text-sm"
           >
             {SOURCE_OPTIONS.map((o) => (
               <option key={o.value} value={o.value}>
@@ -191,15 +192,15 @@ function KalenderSyncPage() {
             placeholder="Label (bv. Airbnb - Horse Valley)"
             value={newLabel}
             onChange={(e) => setNewLabel(e.target.value)}
-            className="flex-1 rounded-md border border-border bg-background px-3 py-2 text-sm"
+            className="flex-1 rounded-md border border-border bg-background px-3 min-h-[44px] text-sm"
           />
           <input
             placeholder="https://www.airbnb.com/calendar/ical/....ics"
             value={newUrl}
             onChange={(e) => setNewUrl(e.target.value)}
-            className="flex-[2] rounded-md border border-border bg-background px-3 py-2 text-sm"
+            className="flex-[2] rounded-md border border-border bg-background px-3 min-h-[44px] text-sm"
           />
-          <Button type="submit" disabled={saving}>
+          <Button type="submit" disabled={saving} className="w-full md:w-auto min-h-[44px]">
             Toevoegen
           </Button>
         </form>
@@ -210,7 +211,7 @@ function KalenderSyncPage() {
           <ul className="space-y-2 mb-8">
             {feeds.map((f) => (
               <li key={f.id} className="rounded-lg border border-border bg-card px-4 py-3 text-sm">
-                <div className="flex items-center justify-between gap-3">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
                   <div className="min-w-0">
                     <span className="font-medium">{f.label}</span>{" "}
                     <span className="text-xs text-muted-foreground">
@@ -232,13 +233,13 @@ function KalenderSyncPage() {
                   <div className="flex items-center gap-2 shrink-0">
                     <button
                       onClick={() => onToggleActive(f)}
-                      className="text-xs text-muted-foreground hover:text-foreground"
+                      className="rounded-full px-3 py-2 min-h-[40px] text-xs text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
                     >
                       {f.is_active ? "Actief" : "Gepauzeerd"}
                     </button>
                     <button
                       onClick={() => onDeleteFeed(f.id)}
-                      className="text-xs text-muted-foreground hover:text-destructive"
+                      className="rounded-full px-3 py-2 min-h-[40px] text-xs text-muted-foreground hover:text-destructive hover:bg-destructive/5 transition-colors"
                     >
                       Verwijderen
                     </button>
@@ -251,13 +252,11 @@ function KalenderSyncPage() {
 
         <div className="rounded-lg border border-border bg-muted/40 px-4 py-3 text-xs text-muted-foreground">
           <p className="font-medium text-foreground mb-1">Export-link voor Airbnb / Booking.com / Launchpad</p>
-          <p>
+          <p className="mb-2">
             Voeg deze URL toe als "externe kalender" op elk platform, zodat website-boekingen ook daar
-            geblokkeerd worden: <br />
-            <code className="text-foreground">
-              {`${(typeof window !== "undefined" ? window.location.origin : "").replace("https://", "https://")}/functions/v1/ical-export`}
-            </code>
+            geblokkeerd worden:
           </p>
+          <ExportUrlCopyField />
         </div>
       </section>
 
@@ -316,5 +315,43 @@ function KalenderSyncPage() {
         )}
       </section>
     </div>
+  );
+}
+
+const EXPORT_URL = "https://hoaginjyaachoickqkno.supabase.co/functions/v1/ical-export";
+
+function ExportUrlCopyField() {
+  const [copied, setCopied] = useState(false);
+
+  async function onCopy() {
+    try {
+      await navigator.clipboard.writeText(EXPORT_URL);
+      setCopied(true);
+      toast.success("Link gekopieerd");
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      toast.error("Kopiëren lukte niet, selecteer de link handmatig");
+    }
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={onCopy}
+      className="w-full flex items-center justify-between gap-3 rounded-lg border border-border bg-background px-3 py-3 min-h-[48px] text-left hover:border-accent transition-colors"
+    >
+      <code className="text-foreground text-[11px] break-all">{EXPORT_URL}</code>
+      <span className="shrink-0 flex items-center gap-1.5 text-accent text-xs font-medium">
+        {copied ? (
+          <>
+            <Check className="size-4" /> Gekopieerd
+          </>
+        ) : (
+          <>
+            <Copy className="size-4" /> Kopieer
+          </>
+        )}
+      </span>
+    </button>
   );
 }
