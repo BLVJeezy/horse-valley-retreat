@@ -8,6 +8,7 @@ import {
   horseVallyCategories,
   type HousePhoto,
 } from "@/lib/photos-horse-valley";
+import { kleinLauwPhotos, kleinLauwCategories } from "@/lib/photos-klein-lauw";
 
 export const Route = createFileRoute("/fotos")({
   head: () => ({
@@ -31,11 +32,18 @@ export const Route = createFileRoute("/fotos")({
 });
 
 function FotosPage() {
+  const [house, setHouse] = useState<"horse-vally" | "klein-lauw">("horse-vally");
+
+  const houses = [
+    { id: "horse-vally" as const, label: "Horse Vally" },
+    { id: "klein-lauw" as const, label: "Klein Lauw" },
+  ];
+
   return (
     <div className="bg-background text-foreground min-h-screen">
       <Nav mode="light" />
 
-      <header className="pt-28 md:pt-32 pb-10 px-6 max-w-6xl mx-auto">
+      <header className="pt-28 md:pt-32 pb-8 px-6 max-w-6xl mx-auto">
         <span className="text-accent text-[10px] font-medium uppercase tracking-[0.25em]">
           Fotogalerij
         </span>
@@ -43,40 +51,45 @@ function FotosPage() {
           Twee woningen, in beeld
         </h1>
         <p className="text-muted-foreground max-w-xl text-sm md:text-base leading-relaxed">
-          Alle beelden zijn eigen foto's — geen stock. Elke woning heeft haar eigen blok, zodat
-          duidelijk is welke foto bij welk huis hoort.
+          Alle beelden zijn eigen foto's — geen stock. Kies hieronder welke woning je wil bekijken.
         </p>
+
+        <div className="mt-8 inline-flex p-1 rounded-full bg-muted/70 border border-black/10">
+          {houses.map((h) => (
+            <button
+              key={h.id}
+              type="button"
+              onClick={() => setHouse(h.id)}
+              aria-pressed={house === h.id}
+              className={`px-5 md:px-7 py-2.5 rounded-full text-[11px] uppercase tracking-[0.18em] transition-colors ${
+                house === h.id
+                  ? "bg-foreground text-background"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              {h.label}
+            </button>
+          ))}
+        </div>
       </header>
 
-      <HouseSection
-        title="Horse Vally"
-        subtitle="Vakantiewoning · Tongeren-Borgloon · 4 sterren"
-        photos={horseVallyPhotos}
-        categories={[...horseVallyCategories]}
-      />
-
-      <section className="px-6 max-w-6xl mx-auto pb-24">
-        <div className="border-t border-black/10 pt-16">
-          <span className="text-accent text-[10px] font-medium uppercase tracking-[0.25em]">
-            Woning 2
-          </span>
-          <h2 className="font-display text-3xl md:text-4xl mt-3 mb-3">Klein Lauw</h2>
-          <p className="text-muted-foreground text-sm leading-relaxed max-w-lg">
-            De foto's van Klein Lauw volgen binnenkort. Zodra ze doorgestuurd zijn, verschijnen ze
-            hier in een eigen blok met dezelfde indeling.
-          </p>
-          <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-3">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <div
-                key={i}
-                className="aspect-[4/3] rounded-2xl bg-muted/60 border border-black/5 flex items-center justify-center text-[10px] uppercase tracking-[0.2em] text-muted-foreground"
-              >
-                Binnenkort
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {house === "horse-vally" ? (
+        <HouseSection
+          key="hv"
+          title="Horse Vally"
+          subtitle="Vakantiewoning · Tongeren-Borgloon · 4 sterren"
+          photos={horseVallyPhotos}
+          categories={[...horseVallyCategories]}
+        />
+      ) : (
+        <HouseSection
+          key="kl"
+          title="Klein Lauw"
+          subtitle="Vakantiewoning · Tongeren-Borgloon · 4 sterren"
+          photos={kleinLauwPhotos}
+          categories={[...kleinLauwCategories]}
+        />
+      )}
 
       <Footer />
     </div>
@@ -105,10 +118,7 @@ function HouseSection({
   return (
     <section className="px-6 max-w-6xl mx-auto pb-20">
       <div className="border-t border-black/10 pt-16">
-        <span className="text-accent text-[10px] font-medium uppercase tracking-[0.25em]">
-          Woning 1
-        </span>
-        <div className="flex flex-wrap items-end justify-between gap-4 mt-3 mb-8">
+        <div className="flex flex-wrap items-end justify-between gap-4 mb-8">
           <div>
             <h2 className="font-display text-3xl md:text-4xl">{title}</h2>
             <p className="text-muted-foreground text-xs uppercase tracking-[0.18em] mt-2">
