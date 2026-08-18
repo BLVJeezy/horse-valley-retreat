@@ -1,0 +1,1 @@
+UPDATE public.properties SET name = 'Horsey Valley' WHERE slug = 'horse-vally';
