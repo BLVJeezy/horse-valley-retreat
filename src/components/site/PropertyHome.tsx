@@ -356,7 +356,7 @@ export function PropertyHome({
       </section>
 
       {/* Huisregels */}
-      <section className="py-24 md:py-28 max-w-6xl mx-auto px-6">
+      <section id="huisregels" className="py-24 md:py-28 max-w-6xl mx-auto px-6 scroll-mt-24">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-20">
           <div>
             <span className="text-accent text-[10px] font-medium uppercase tracking-[0.25em]">
