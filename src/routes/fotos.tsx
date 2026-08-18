@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { X } from "lucide-react";
+import { X, Plane } from "lucide-react";
+import { dronePhotos } from "@/lib/photos-drone";
 import { Nav } from "@/components/site/Nav";
 import { Footer } from "@/components/site/Footer";
 import {
@@ -33,6 +34,7 @@ export const Route = createFileRoute("/fotos")({
 
 function FotosPage() {
   const [house, setHouse] = useState<"horse-vally" | "klein-lauw">("horse-vally");
+  const [showDrone, setShowDrone] = useState(false);
 
   const houses = [
     { id: "horse-vally" as const, label: "Horsey Valley" },
