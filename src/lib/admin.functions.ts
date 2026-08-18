@@ -144,7 +144,7 @@ export const updatePropertyDetails = createServerFn({ method: "POST" })
 
 // One-click fix for admins who can't run SQL themselves: creates (or
 // activates) the Klein Lauw property row with the same descriptive copy as
-// Horse Vally. Safe to click more than once.
+// Horsey Valley. Safe to click more than once.
 export const seedKleinLauw = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {

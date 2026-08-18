@@ -76,14 +76,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Horse Vally — Vakantiewoning in Tongeren-Borgloon" },
+      { title: "Horsey Valley — Vakantiewoning in Tongeren-Borgloon" },
       {
         name: "description",
         content:
           "Stijlvolle vakantiewoning voor 8 gasten in Tongeren-Borgloon. Rustige tuin met trampoline, overdekte lounge en volledig uitgeruste keuken. Direct boeken bij de host.",
       },
-      { name: "author", content: "Horse Vally" },
-      { property: "og:title", content: "Horse Vally — Vakantiewoning in Tongeren-Borgloon" },
+      { name: "author", content: "Horsey Valley" },
+      { property: "og:title", content: "Horsey Valley — Vakantiewoning in Tongeren-Borgloon" },
       {
         property: "og:description",
         content:
@@ -92,7 +92,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:type", content: "website" },
       { property: "og:locale", content: "nl_BE" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Horse Vally — Vakantiewoning in Tongeren-Borgloon" },
+      { name: "twitter:title", content: "Horsey Valley — Vakantiewoning in Tongeren-Borgloon" },
       { name: "description", content: "Book a stylish, private holiday home in Belgium for groups and families. Enjoy direct booking for a countryside escape." },
       { property: "og:description", content: "Book a stylish, private holiday home in Belgium for groups and families. Enjoy direct booking for a countryside escape." },
       { name: "twitter:description", content: "Book a stylish, private holiday home in Belgium for groups and families. Enjoy direct booking for a countryside escape." },

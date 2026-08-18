@@ -1,4 +1,4 @@
-# LOVABLE BASISPROMPT — Horse Vally (vakantiewoning boekingssite)
+# LOVABLE BASISPROMPT — Horsey Valley (vakantiewoning boekingssite)
 
 Je bent een expert full-stack developer en conversie-copywriter voor vakantiewoning-boekingssites. Bouw een directe boekingssite (buiten Airbnb om) voor onderstaande woning.
 
@@ -14,7 +14,7 @@ Er staat al een werkend prototype in `github.com/BLVJeezy/horse-valley-retreat` 
 
 ## BUSINESS CONTEXT
 
-- **Naam:** Horse Vally
+- **Naam:** Horsey Valley
 - **Type:** Vakantiewoning, hele accommodatie (geen gedeelde ruimtes)
 - **Locatie:** Tongeren-Borgloon, Vlaanderen, België
 - **Capaciteit:** 8 gasten, 4 slaapkamers, 5 bedden, 2 badkamers

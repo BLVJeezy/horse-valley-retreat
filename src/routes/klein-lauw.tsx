@@ -16,7 +16,7 @@ export const Route = createFileRoute("/klein-lauw")({
       { title: "Klein Lauw — vakantiewoning in Tongeren-Borgloon" },
       {
         name: "description",
-        content: "Klein Lauw: dezelfde sfeer als Horse Vally, gespiegelde indeling.",
+        content: "Klein Lauw: dezelfde sfeer als Horsey Valley, gespiegelde indeling.",
       },
     ],
   }),

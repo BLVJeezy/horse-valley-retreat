@@ -16,7 +16,7 @@ export function Nav({ mode = "light" }: { mode?: "light" | "dark" }) {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md shadow-sm">
       <div className="px-6 py-4 md:px-12 md:py-5 flex justify-between items-center text-foreground">
         <Link to="/" className="font-display text-2xl italic tracking-tight" onClick={() => setOpen(false)}>
-          Horse Vally
+          Horsey Valley
         </Link>
 
         {/* Desktop links */}

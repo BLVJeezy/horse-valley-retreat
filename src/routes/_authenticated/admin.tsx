@@ -31,7 +31,7 @@ function AdminLayout() {
       <header className="border-b border-border bg-card/50 backdrop-blur sticky top-0 z-40">
         <div className="mx-auto max-w-6xl px-4 md:px-6 py-3 md:py-4 flex items-center justify-between gap-6">
           <Link to="/" className="font-display text-xl italic text-accent">
-            Horse Vally
+            Horsey Valley
           </Link>
           <nav className="hidden md:flex items-center gap-1">
             {links.map((l) => {

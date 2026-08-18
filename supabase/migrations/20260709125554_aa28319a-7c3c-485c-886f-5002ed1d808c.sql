@@ -28,7 +28,7 @@ CREATE POLICY "Admins manage properties" ON public.properties FOR ALL TO authent
   USING (public.has_role(auth.uid(), 'admin')) WITH CHECK (public.has_role(auth.uid(), 'admin'));
 
 INSERT INTO public.properties (slug, name, is_live, contact_email)
-VALUES ('horse-vally', 'Horse Vally', true, 'hallo@horsevally.be')
+VALUES ('horse-vally', 'Horsey Valley', true, 'hallo@horsevally.be')
 ON CONFLICT (slug) DO NOTHING;
 
 -- ical_feeds

@@ -1,4 +1,4 @@
--- Klein Lauw goes live, with identical descriptive copy to Horse Vally
+-- Klein Lauw goes live, with identical descriptive copy to Horsey Valley
 -- (same house, mirrored layout) as requested. Idempotent / safely re-runnable.
 
 INSERT INTO public.properties (slug, name, is_live, mirror_photos, contact_email)
