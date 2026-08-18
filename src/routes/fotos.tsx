@@ -159,9 +159,6 @@ function HouseSection({
                 loading={i < 6 ? "eager" : "lazy"}
                 className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-700"
               />
-              <span className="absolute bottom-2 left-2 px-2 py-1 rounded-full bg-black/55 text-white text-[9px] uppercase tracking-[0.16em]">
-                {title} · {p.category}
-              </span>
             </button>
           ))}
         </div>
