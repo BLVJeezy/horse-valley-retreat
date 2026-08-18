@@ -4,6 +4,7 @@ import { Footer } from "@/components/site/Footer";
 import { BookingWidget } from "@/components/site/BookingWidget";
 import { photos } from "@/lib/photos";
 import heroWoningen from "@/assets/hero-woningen.jpg.asset.json";
+import hostsPhoto from "@/assets/hosts.jpg.asset.json";
 
 const highlights = [
   { label: "Capaciteit", value: "8 gasten, 4 slaapkamers" },
@@ -208,8 +209,12 @@ export function PropertyHome({
       {/* Host Intro */}
       <section className="py-24 md:py-32 px-6 max-w-3xl mx-auto text-center">
         <div className="mb-8 flex justify-center">
-          <div className="size-16 rounded-full bg-accent/10 grid place-items-center font-display italic text-accent text-2xl">
-            L
+          <div className="size-24 md:size-28 rounded-full overflow-hidden ring-2 ring-accent/20 shadow-lg">
+            <img
+              src={hostsPhoto.url}
+              alt="Leslie en gastheer van Horse Vally voor de vakantiewoning"
+              className="w-full h-full object-cover"
+            />
           </div>
         </div>
         <p className="font-display text-2xl md:text-4xl leading-snug text-balance italic">
