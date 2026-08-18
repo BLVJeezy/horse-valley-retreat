@@ -90,7 +90,7 @@ function PropertySwitcher({
 
   return (
     <div className="mb-6 space-y-2">
-      <p className="text-white/60 text-[10px] uppercase tracking-[0.25em]">Kies je woning</p>
+      <p className="text-white/90 text-[10px] uppercase tracking-[0.25em]">Kies je woning</p>
       <div className="inline-flex items-center gap-1 rounded-full bg-black/45 backdrop-blur-xl ring-1 ring-white/15 p-1">
         {allProperties.map((p) => {
           const active = p.slug === currentSlug;
@@ -108,7 +108,7 @@ function PropertySwitcher({
           );
         })}
       </div>
-      <p className="text-white/70 text-xs md:text-[13px]">
+      <p className="text-white/90 text-xs md:text-[13px]">
         Beide woningen liggen naast elkaar en zijn ook samen te huren voor grotere groepen.
       </p>
     </div>
@@ -149,7 +149,7 @@ export function PropertyHome({
         </div>
 
         <div className="relative z-10 w-full max-w-6xl mx-auto animate-fade-up">
-          <span className="block text-white/80 text-[11px] uppercase tracking-[0.3em] mb-4">
+          <span className="block text-white/90 text-[11px] uppercase tracking-[0.3em] mb-4">
             {areaLine}
           </span>
           <h1 className="font-display text-5xl md:text-7xl lg:text-8xl text-white mb-8 text-balance leading-[0.95] max-w-4xl">
