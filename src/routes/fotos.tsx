@@ -71,7 +71,22 @@ function FotosPage() {
             </button>
           ))}
         </div>
+
+        <div className="mt-4">
+          <button
+            type="button"
+            onClick={() => setShowDrone((v) => !v)}
+            aria-expanded={showDrone}
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-black/15 text-[11px] uppercase tracking-[0.18em] text-foreground hover:bg-foreground hover:text-background transition-colors"
+          >
+            <Plane size={14} />
+            {showDrone ? "Verberg dronefoto's" : "Bekijk dronefoto's"}
+          </button>
+        </div>
       </header>
+
+      {showDrone && <DroneSection />}
+
 
       {house === "horse-vally" ? (
         <HouseSection
