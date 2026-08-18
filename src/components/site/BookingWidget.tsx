@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import type { DateRange } from "react-day-picker";
+import { nl } from "date-fns/locale";
 import { Calendar } from "@/components/ui/calendar";
 import { getAvailabilityBlocks, submitBookingRequest } from "@/lib/booking.functions";
 
@@ -355,9 +356,8 @@ export function BookingWidget({ pricePerNight }: { pricePerNight?: number | null
             excludeDisabled
             numberOfMonths={1}
             defaultMonth={range?.from ?? today}
-            weekStartsOn={1}
+            locale={nl}
             showOutsideDays={false}
-            locale={undefined}
             className="p-0 w-full md:hidden"
           />
           <Calendar
@@ -368,7 +368,7 @@ export function BookingWidget({ pricePerNight }: { pricePerNight?: number | null
             excludeDisabled
             numberOfMonths={2}
             defaultMonth={range?.from ?? today}
-            weekStartsOn={1}
+            locale={nl}
             showOutsideDays={false}
             className="p-0 hidden md:block"
           />
