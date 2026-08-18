@@ -78,6 +78,7 @@ export function BookingWidget() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [message, setMessage] = useState("");
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const today = new Date().toISOString().slice(0, 10);
@@ -108,6 +109,10 @@ export function BookingWidget() {
 
   const handleSubmitRequest = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!acceptedTerms) {
+      setError("Je moet de huisregels en algemene voorwaarden accepteren.");
+      return;
+    }
     setSubmitting(true);
     setError(null);
     try {
@@ -187,10 +192,29 @@ export function BookingWidget() {
           rows={2}
           className="w-full border border-black/10 rounded-lg px-3 py-2 text-sm outline-none focus:border-accent resize-none"
         />
+        <label className="flex items-start gap-2.5 text-[11px] leading-snug text-muted-foreground cursor-pointer">
+          <input
+            type="checkbox"
+            required
+            checked={acceptedTerms}
+            onChange={(e) => {
+              setAcceptedTerms(e.target.checked);
+              if (e.target.checked) setError(null);
+            }}
+            className="mt-0.5 h-4 w-4 shrink-0 accent-accent cursor-pointer"
+          />
+          <span>
+            Ik heb de{" "}
+            <a href="/#huisregels" target="_blank" rel="noopener noreferrer" className="underline text-foreground">
+              huisregels en algemene voorwaarden
+            </a>{" "}
+            gelezen en accepteer deze.
+          </span>
+        </label>
         {error && <p className="text-xs text-red-600">{error}</p>}
         <button
           type="submit"
-          disabled={submitting}
+          disabled={submitting || !acceptedTerms}
           className="w-full bg-accent text-white px-6 py-3 rounded-lg text-sm font-medium hover:brightness-95 transition-all disabled:opacity-60"
         >
           {submitting ? "Versturen..." : "Aanvraag versturen"}
