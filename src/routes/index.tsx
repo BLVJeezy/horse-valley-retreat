@@ -25,7 +25,7 @@ function Home() {
 
   return (
     <PropertyHome
-      name={property?.name ?? "Horse Vally"}
+      name={property?.name ?? "Horsey Valley"}
       galleryTo="/fotos"
       contactEmail={property?.contact_email ?? "hallo@horsevally.be"}
       address={property?.address}

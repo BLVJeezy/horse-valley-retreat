@@ -13,16 +13,16 @@ import { kleinLauwPhotos, kleinLauwCategories } from "@/lib/photos-klein-lauw";
 export const Route = createFileRoute("/fotos")({
   head: () => ({
     meta: [
-      { title: "Fotogalerij — Horse Vally & Klein Lauw" },
+      { title: "Fotogalerij — Horsey Valley & Klein Lauw" },
       {
         name: "description",
         content:
-          "Alle foto's van onze vakantiewoningen in Tongeren-Borgloon, per woning gesorteerd: Horse Vally (binnen, buiten, slaapkamers, badkamers) en Klein Lauw.",
+          "Alle foto's van onze vakantiewoningen in Tongeren-Borgloon, per woning gesorteerd: Horsey Valley (binnen, buiten, slaapkamers, badkamers) en Klein Lauw.",
       },
-      { property: "og:title", content: "Fotogalerij — Horse Vally & Klein Lauw" },
+      { property: "og:title", content: "Fotogalerij — Horsey Valley & Klein Lauw" },
       {
         property: "og:description",
-        content: "Bekijk per woning alle foto's: Horse Vally en Klein Lauw in Tongeren-Borgloon.",
+        content: "Bekijk per woning alle foto's: Horsey Valley en Klein Lauw in Tongeren-Borgloon.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -35,7 +35,7 @@ function FotosPage() {
   const [house, setHouse] = useState<"horse-vally" | "klein-lauw">("horse-vally");
 
   const houses = [
-    { id: "horse-vally" as const, label: "Horse Vally" },
+    { id: "horse-vally" as const, label: "Horsey Valley" },
     { id: "klein-lauw" as const, label: "Klein Lauw" },
   ];
 
@@ -76,7 +76,7 @@ function FotosPage() {
       {house === "horse-vally" ? (
         <HouseSection
           key="hv"
-          title="Horse Vally"
+          title="Horsey Valley"
           subtitle="Vakantiewoning · Tongeren-Borgloon · 4 sterren"
           photos={horseVallyPhotos}
           categories={[...horseVallyCategories]}

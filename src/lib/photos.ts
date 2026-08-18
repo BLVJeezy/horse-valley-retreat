@@ -12,7 +12,7 @@ import laundry from "@/assets/photos/image-10.png.asset.json";
 export type Photo = { url: string; alt: string; category: string };
 
 export const photos = {
-  exterior: { url: exterior.url, alt: "Bakstenen nieuwbouwwoning Horse Vally met zonnepanelen", category: "Buiten" },
+  exterior: { url: exterior.url, alt: "Bakstenen nieuwbouwwoning Horsey Valley met zonnepanelen", category: "Buiten" },
   loungeCovered: { url: loungeCovered.url, alt: "Overdekte buitenlounge met houten pergola en crème zetels", category: "Tuin" },
   gardenTrampoline: { url: gardenTrampoline.url, alt: "Groen gazon met trampoline en houten omheining", category: "Tuin" },
   dining: { url: dining.url, alt: "Eetkamer met houten tafel voor acht personen", category: "Binnen" },

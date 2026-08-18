@@ -19,7 +19,7 @@ UPDATE public.properties SET
   description = 'We bouwden dit huis met een simpel idee. Kom binnen, doe je jas uit, en vergeet even wat er op de kalender staat. De kinderen op de trampoline, jullie met een glas wijn onder de pergola.'
 WHERE slug = 'horse-vally' AND address IS NULL AND description IS NULL;
 
--- Klein Lauw uses identical descriptive copy to Horse Vally (same house,
+-- Klein Lauw uses identical descriptive copy to Horsey Valley (same house,
 -- mirrored layout) — kept in sync here rather than left with its own text.
 UPDATE public.properties SET
   address = 'Tongeren-Borgloon, Belgisch Limburg',

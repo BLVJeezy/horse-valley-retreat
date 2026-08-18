@@ -35,7 +35,7 @@ function AuthPage() {
     <div className="min-h-screen flex items-center justify-center bg-background px-4">
       <div className="w-full max-w-md">
         <Link to="/" className="mb-8 block text-center font-display text-2xl italic text-accent">
-          Horse Vally
+          Horsey Valley
         </Link>
         <div className="rounded-2xl border border-border bg-card p-8 shadow-sm">
           <h1 className="font-display text-2xl mb-1">Admin</h1>

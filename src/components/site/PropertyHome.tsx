@@ -43,22 +43,22 @@ const nearby = [
 ];
 
 export interface PropertyHomeProps {
-  /** Display name shown in hero + host quote badge, e.g. "Horse Vally" or "Klein Lauw" */
+  /** Display name shown in hero + host quote badge, e.g. "Horsey Valley" or "Klein Lauw" */
   name: string;
-  /** Route to the gallery page for this property (e.g. "/" for Horse Vally's /galerij, "/klein-lauw/galerij") */
+  /** Route to the gallery page for this property (e.g. "/" for Horsey Valley's /galerij, "/klein-lauw/galerij") */
   galleryTo: string;
   /** Contact email shown in the footer CTA */
   contactEmail: string;
   /** Address / area line shown under the eyebrow in the hero, e.g. "Tongeren-Borgloon, Belgisch Limburg" */
   address?: string | null;
-  /** Host quote / intro text. Falls back to the default Horse Vally quote when not set. */
+  /** Host quote / intro text. Falls back to the default Horsey Valley quote when not set. */
   description?: string | null;
   /** Price per night, shown in the highlights grid when set. */
   pricePerNight?: number | null;
   /**
    * When true, every photo on the page renders horizontally flipped
    * (CSS-only, no separate image assets needed). Klein Lauw is the same
-   * floor plan as Horse Vally, mirrored.
+   * floor plan as Horsey Valley, mirrored.
    */
   mirror?: boolean;
   /** Slug of the property currently being viewed (for highlighting in the switcher). */
@@ -143,7 +143,7 @@ export function PropertyHome({
         <div className="absolute inset-0 z-0">
           <img
             src={heroWoningen.url}
-            alt="Horse Vally en Klein Lauw: twee nieuwbouwvakantiewoningen in baksteen met zonnepanelen"
+            alt="Horsey Valley en Klein Lauw: twee nieuwbouwvakantiewoningen in baksteen met zonnepanelen"
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-black/25" />
@@ -212,7 +212,7 @@ export function PropertyHome({
           <div className="size-24 md:size-28 rounded-full overflow-hidden ring-2 ring-accent/20 shadow-lg">
             <img
               src={hostsPhoto.url}
-              alt="Leslie en gastheer van Horse Vally voor de vakantiewoning"
+              alt="Leslie en gastheer van Horsey Valley voor de vakantiewoning"
               className="w-full h-full object-cover"
             />
           </div>
