@@ -371,6 +371,14 @@ export function PropertyHome({
               <li><span className="text-foreground font-medium">Roken & huisdieren.</span> Niet roken in de gehele accommodatie; geen huisdieren toegestaan.</li>
               <li><span className="text-foreground font-medium">Schoonmaak.</span> Bij vertrek alle prullenbakken legen en vuilnis achterlaten op de daarvoor bestemde plek.</li>
             </ul>
+            <a
+              href="/huisregels-horse-vally.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block mt-8 border border-foreground/15 px-6 py-3 rounded-full text-xs font-medium uppercase tracking-[0.18em] hover:bg-foreground hover:text-background transition-colors"
+            >
+              Download huisregels (PDF)
+            </a>
           </div>
           <div className="space-y-10">
             <div>

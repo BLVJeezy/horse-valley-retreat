@@ -205,8 +205,13 @@ export function BookingWidget() {
           />
           <span>
             Ik heb de{" "}
-            <a href="/#huisregels" target="_blank" rel="noopener noreferrer" className="underline text-foreground">
-              huisregels en algemene voorwaarden
+            <a
+              href="/huisregels-horse-vally.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline text-foreground"
+            >
+              huisregels en algemene voorwaarden (PDF)
             </a>{" "}
             gelezen en accepteer deze.
           </span>
