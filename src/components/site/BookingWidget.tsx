@@ -1,5 +1,7 @@
-import { useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import type { DateRange } from "react-day-picker";
+import { Calendar } from "@/components/ui/calendar";
 import { getAvailabilityBlocks, submitBookingRequest } from "@/lib/booking.functions";
 
 /** True if [aStart, aEnd) overlaps [bStart, bEnd), using YYYY-MM-DD string comparison. */
@@ -7,71 +9,34 @@ function rangesOverlap(aStart: string, aEnd: string, bStart: string, bEnd: strin
   return aStart < bEnd && aEnd > bStart;
 }
 
-function formatNL(iso: string) {
-  if (!iso) return "";
-  const [y, m, d] = iso.split("-");
-  return `${d}-${m}-${y}`;
+function toISO(d: Date) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
 }
 
-function DateField({
-  label,
-  value,
-  min,
-  onChange,
-  className,
-}: {
-  label: string;
-  value: string;
-  min?: string;
-  onChange: (v: string) => void;
-  className?: string;
-}) {
-  const ref = useRef<HTMLInputElement>(null);
-  const open = () => {
-    const el = ref.current;
-    if (!el) return;
-    // showPicker is supported on modern mobile browsers
-    if (typeof (el as HTMLInputElement & { showPicker?: () => void }).showPicker === "function") {
-      (el as HTMLInputElement & { showPicker: () => void }).showPicker();
-    } else {
-      el.focus();
-      el.click();
-    }
-  };
+function fromISO(iso: string) {
+  const [y, m, d] = iso.split("-").map(Number);
+  return new Date(y, m - 1, d);
+}
 
-  return (
-    <label
-      className={`relative flex-1 px-4 py-3 cursor-pointer ${className ?? ""}`}
-      onClick={(e) => {
-        e.preventDefault();
-        open();
-      }}
-    >
-      <span className="block text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-1">
-        {label}
-      </span>
-      <span className={`block text-sm font-medium ${value ? "text-foreground" : "text-muted-foreground/70"}`}>
-        {value ? formatNL(value) : "dd-mm-jjjj"}
-      </span>
-      <input
-        ref={ref}
-        type="date"
-        min={min}
-        required
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-        aria-label={label}
-      />
-    </label>
-  );
+function formatNL(d?: Date) {
+  if (!d) return "";
+  return d.toLocaleDateString("nl-BE", { day: "2-digit", month: "short", year: "numeric" });
+}
+
+function nightsBetween(from?: Date, to?: Date) {
+  if (!from || !to) return 0;
+  return Math.max(0, Math.round((to.getTime() - from.getTime()) / 86400000));
 }
 
 type Step = "dates" | "details" | "sent";
 
-export function BookingWidget() {
-  const [checkin, setCheckin] = useState("");
-  const [checkout, setCheckout] = useState("");
+export function BookingWidget({ pricePerNight }: { pricePerNight?: number | null }) {
+  const [range, setRange] = useState<DateRange | undefined>();
+  const [calendarOpen, setCalendarOpen] = useState(false);
+  const [focus, setFocus] = useState<"from" | "to">("from");
   const [guests, setGuests] = useState(4);
   const [step, setStep] = useState<Step>("dates");
   const [name, setName] = useState("");
@@ -81,7 +46,13 @@ export function BookingWidget() {
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const today = new Date().toISOString().slice(0, 10);
+  const wrapRef = useRef<HTMLDivElement>(null);
+
+  const today = useMemo(() => {
+    const d = new Date();
+    d.setHours(0, 0, 0, 0);
+    return d;
+  }, []);
 
   const { data: blocks } = useQuery({
     queryKey: ["availability-blocks"],
@@ -89,16 +60,63 @@ export function BookingWidget() {
     staleTime: 5 * 60 * 1000,
   });
 
-  const isRangeAvailable = (start: string, end: string) => {
-    if (!start || !end) return true;
-    return !(blocks ?? []).some((b) => rangesOverlap(start, end, b.start_date, b.end_date));
+  // Airbnb-style: unavailable nights are simply not clickable.
+  const disabled = useMemo(() => {
+    const ranges = (blocks ?? []).map((b) => ({
+      from: fromISO(b.start_date),
+      to: new Date(fromISO(b.end_date).getTime() - 86400000),
+    }));
+    return [{ before: today }, ...ranges];
+  }, [blocks, today]);
+
+  const checkin = range?.from ? toISO(range.from) : "";
+  const checkout = range?.to ? toISO(range.to) : "";
+  const nights = nightsBetween(range?.from, range?.to);
+
+  const available =
+    !checkin ||
+    !checkout ||
+    !(blocks ?? []).some((b) => rangesOverlap(checkin, checkout, b.start_date, b.end_date));
+
+  // Close the calendar panel on outside click / Escape, like Airbnb's picker.
+  useEffect(() => {
+    if (!calendarOpen) return;
+    const onDown = (e: MouseEvent) => {
+      if (wrapRef.current && !wrapRef.current.contains(e.target as Node)) setCalendarOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setCalendarOpen(false);
+    document.addEventListener("mousedown", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [calendarOpen]);
+
+  const openCalendar = (which: "from" | "to") => {
+    setFocus(which);
+    setCalendarOpen(true);
+    setError(null);
   };
 
-  const available = isRangeAvailable(checkin, checkout);
+  const handleSelect = (next: DateRange | undefined) => {
+    setRange(next);
+    setError(null);
+    if (next?.from && !next.to) setFocus("to");
+    if (next?.from && next.to) {
+      setFocus("from");
+      // Small delay so the selection is visible before the panel closes.
+      window.setTimeout(() => setCalendarOpen(false), 220);
+    }
+  };
 
   const handleCheckAvailability = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!checkin || !checkout) return;
+    if (!range?.from || !range?.to) {
+      openCalendar(range?.from ? "to" : "from");
+      setError("Kies een aankomst- en vertrekdatum.");
+      return;
+    }
     if (!available) {
       setError("Deze data zijn helaas niet beschikbaar. Probeer een andere periode.");
       return;
@@ -137,10 +155,11 @@ export function BookingWidget() {
 
   if (step === "sent") {
     return (
-      <div className="bg-white/95 backdrop-blur-md p-6 rounded-xl shadow-2xl max-w-4xl text-foreground">
+      <div className="bg-white/95 backdrop-blur-md p-6 rounded-2xl shadow-2xl max-w-4xl text-foreground">
         <p className="font-medium mb-1">Aanvraag verstuurd, bedankt {name.split(" ")[0]}!</p>
         <p className="text-sm text-muted-foreground">
-          We bevestigen jouw aanvraag voor {formatNL(checkin)} t/m {formatNL(checkout)} zo snel mogelijk per e-mail.
+          We bevestigen jouw aanvraag voor {formatNL(range?.from)} — {formatNL(range?.to)} zo snel
+          mogelijk per e-mail.
         </p>
       </div>
     );
@@ -150,11 +169,12 @@ export function BookingWidget() {
     return (
       <form
         onSubmit={handleSubmitRequest}
-        className="bg-white/95 backdrop-blur-md p-4 md:p-5 rounded-xl shadow-2xl max-w-md text-foreground space-y-3"
+        className="bg-white/95 backdrop-blur-md p-4 md:p-5 rounded-2xl shadow-2xl max-w-md text-foreground space-y-3"
       >
         <div className="flex items-center justify-between">
           <p className="text-sm font-medium">
-            {formatNL(checkin)} → {formatNL(checkout)} · {guests} {guests === 1 ? "gast" : "gasten"}
+            {formatNL(range?.from)} → {formatNL(range?.to)} · {nights}{" "}
+            {nights === 1 ? "nacht" : "nachten"} · {guests} {guests === 1 ? "gast" : "gasten"}
           </p>
           <button
             type="button"
@@ -231,52 +251,146 @@ export function BookingWidget() {
     );
   }
 
+  const total = pricePerNight && nights ? pricePerNight * nights : null;
+
   return (
-    <form
-      onSubmit={handleCheckAvailability}
-      className="bg-white/95 backdrop-blur-md p-2 md:p-3 rounded-xl shadow-2xl flex flex-col md:flex-row gap-2 max-w-4xl text-foreground"
-    >
-      <DateField
-        label="Aankomst"
-        value={checkin}
-        min={today}
-        onChange={(v) => {
-          setCheckin(v);
-          setError(null);
-        }}
-        className="md:border-r border-black/5"
-      />
-      <DateField
-        label="Vertrek"
-        value={checkout}
-        min={checkin || today}
-        onChange={(v) => {
-          setCheckout(v);
-          setError(null);
-        }}
-        className="md:border-r border-black/5"
-      />
-      <label className="flex-1 px-4 py-3 cursor-pointer">
-        <span className="block text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-1">Gasten</span>
-        <select
-          value={guests}
-          onChange={(e) => setGuests(Number(e.target.value))}
-          className="w-full bg-transparent text-sm font-medium outline-none"
-        >
-          {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
-            <option key={n} value={n}>
-              {n} {n === 1 ? "gast" : "gasten"}
-            </option>
-          ))}
-        </select>
-      </label>
-      <button
-        type="submit"
-        className="bg-accent text-white px-8 py-4 rounded-lg text-sm font-medium hover:brightness-95 transition-all"
+    <div ref={wrapRef} className="relative max-w-4xl">
+      <form
+        onSubmit={handleCheckAvailability}
+        className="bg-white/95 backdrop-blur-md p-2 md:p-3 rounded-2xl shadow-2xl flex flex-col md:flex-row md:items-stretch gap-2 text-foreground"
       >
-        Bekijk beschikbaarheid
-      </button>
-      {error && <p className="text-xs text-red-600 px-2 md:px-0 md:absolute md:-bottom-6">{error}</p>}
-    </form>
+        <button
+          type="button"
+          onClick={() => openCalendar("from")}
+          className={`flex-1 text-left px-4 py-3 rounded-xl transition-colors md:border-r border-black/5 ${
+            calendarOpen && focus === "from" ? "bg-black/[0.04]" : "hover:bg-black/[0.03]"
+          }`}
+        >
+          <span className="block text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-1">
+            Aankomst
+          </span>
+          <span
+            className={`block text-sm font-medium ${range?.from ? "text-foreground" : "text-muted-foreground/70"}`}
+          >
+            {range?.from ? formatNL(range.from) : "Kies datum"}
+          </span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => openCalendar("to")}
+          className={`flex-1 text-left px-4 py-3 rounded-xl transition-colors md:border-r border-black/5 ${
+            calendarOpen && focus === "to" ? "bg-black/[0.04]" : "hover:bg-black/[0.03]"
+          }`}
+        >
+          <span className="block text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-1">
+            Vertrek
+          </span>
+          <span
+            className={`block text-sm font-medium ${range?.to ? "text-foreground" : "text-muted-foreground/70"}`}
+          >
+            {range?.to ? formatNL(range.to) : "Kies datum"}
+          </span>
+        </button>
+
+        <label className="flex-1 px-4 py-3 cursor-pointer rounded-xl hover:bg-black/[0.03] transition-colors">
+          <span className="block text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-1">
+            Gasten
+          </span>
+          <select
+            value={guests}
+            onChange={(e) => setGuests(Number(e.target.value))}
+            className="w-full bg-transparent text-sm font-medium outline-none"
+          >
+            {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
+              <option key={n} value={n}>
+                {n} {n === 1 ? "gast" : "gasten"}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <button
+          type="submit"
+          className="bg-accent text-white px-8 py-4 rounded-xl text-sm font-medium hover:brightness-95 transition-all"
+        >
+          Bekijk beschikbaarheid
+        </button>
+      </form>
+
+      {calendarOpen && (
+        <div className="absolute left-0 right-0 md:right-auto z-30 mt-2 rounded-2xl bg-white shadow-2xl ring-1 ring-black/5 p-3 md:p-4">
+          <div className="flex items-center justify-between px-1 pb-2">
+            <div>
+              <p className="text-sm font-medium text-foreground">
+                {nights > 0
+                  ? `${nights} ${nights === 1 ? "nacht" : "nachten"}`
+                  : "Selecteer je data"}
+              </p>
+              <p className="text-xs text-muted-foreground">
+                {range?.from
+                  ? `${formatNL(range.from)}${range.to ? ` — ${formatNL(range.to)}` : ""}`
+                  : "Aankomst — vertrek"}
+              </p>
+            </div>
+            {range?.from && (
+              <button
+                type="button"
+                onClick={() => {
+                  setRange(undefined);
+                  setFocus("from");
+                }}
+                className="text-xs text-muted-foreground underline"
+              >
+                wissen
+              </button>
+            )}
+          </div>
+
+          <Calendar
+            mode="range"
+            selected={range}
+            onSelect={handleSelect}
+            disabled={disabled}
+            excludeDisabled
+            numberOfMonths={1}
+            defaultMonth={range?.from ?? today}
+            weekStartsOn={1}
+            showOutsideDays={false}
+            locale={undefined}
+            className="p-0 w-full md:hidden"
+          />
+          <Calendar
+            mode="range"
+            selected={range}
+            onSelect={handleSelect}
+            disabled={disabled}
+            excludeDisabled
+            numberOfMonths={2}
+            defaultMonth={range?.from ?? today}
+            weekStartsOn={1}
+            showOutsideDays={false}
+            className="p-0 hidden md:block"
+          />
+
+          <div className="flex items-center justify-between gap-3 pt-2 px-1">
+            <p className="text-xs text-muted-foreground">
+              {total
+                ? `€${total} totaal · €${pricePerNight}/nacht`
+                : "Bezette data zijn niet selecteerbaar."}
+            </p>
+            <button
+              type="button"
+              onClick={() => setCalendarOpen(false)}
+              className="text-xs font-medium underline text-foreground"
+            >
+              Sluiten
+            </button>
+          </div>
+        </div>
+      )}
+
+      {error && <p className="mt-2 text-xs text-red-600 md:text-white">{error}</p>}
+    </div>
   );
 }
