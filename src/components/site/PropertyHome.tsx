@@ -357,28 +357,44 @@ export function PropertyHome({
 
       {/* Huisregels */}
       <section className="py-24 md:py-28 max-w-6xl mx-auto px-6">
-        <div className="grid md:grid-cols-2 gap-16">
+        <div className="grid lg:grid-cols-2 gap-16 lg:gap-20">
           <div>
             <span className="text-accent text-[10px] font-medium uppercase tracking-[0.25em]">
               Praktisch
             </span>
             <h2 className="font-display text-3xl md:text-4xl mt-3 mb-8">Huisregels</h2>
-            <ul className="space-y-3 text-sm text-muted-foreground leading-relaxed">
-              <li>· Check-in vanaf 15:00</li>
-              <li>· Maximum 8 gasten</li>
-              <li>· Geen feesten of luide muziek na 22:00</li>
-              <li>· Roken alleen buiten</li>
+            <ul className="space-y-4 text-sm text-muted-foreground leading-relaxed">
+              <li><span className="text-foreground font-medium">In- en uitchecken.</span> Check-in tussen 17:00 en 19:00 (aankomsttijd vooraf doorgeven), uitchecken tussen 08:00 en 10:00.</li>
+              <li><span className="text-foreground font-medium">Leeftijd.</span> Inchecken is uitsluitend mogelijk voor gasten van 25 tot 99 jaar. Groepen of gezelschappen onder de 25 jaar zijn niet toegestaan.</li>
+              <li><span className="text-foreground font-medium">Nachtrust.</span> Geen geluidsoverlast; tussen 22:00 en 07:00 moet het stil zijn.</li>
+              <li><span className="text-foreground font-medium">Feesten.</span> Studentenfeesten, vrijgezellenfeesten en andere drinkpartijen zijn strikt verboden.</li>
+              <li><span className="text-foreground font-medium">Roken & huisdieren.</span> Niet roken in de gehele accommodatie; geen huisdieren toegestaan.</li>
+              <li><span className="text-foreground font-medium">Schoonmaak.</span> Bij vertrek alle prullenbakken legen en vuilnis achterlaten op de daarvoor bestemde plek.</li>
             </ul>
           </div>
-          <div>
-            <span className="text-accent text-[10px] font-medium uppercase tracking-[0.25em]">
-              Annuleren
-            </span>
-            <h2 className="font-display text-3xl md:text-4xl mt-3 mb-8">Rustig geregeld</h2>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              Gratis annuleren tot 24 uur voor je aankomst — je krijgt dan het volledige bedrag terug.
-              Annuleer je later, dan is terugbetaling niet meer mogelijk.
-            </p>
+          <div className="space-y-10">
+            <div>
+              <span className="text-accent text-[10px] font-medium uppercase tracking-[0.25em]">
+                De kleine lettertjes
+              </span>
+              <h3 className="font-display text-2xl md:text-3xl mt-3 mb-4">Betaling, auto & doel verblijf</h3>
+              <ul className="space-y-4 text-sm text-muted-foreground leading-relaxed">
+                <li><span className="text-foreground font-medium">Vooruitbetaling.</span> Vooruitbetaling is verplicht binnen de aangegeven termijn via bankpas. Na boeking ontvang je een bevestiging met betalingsinstructies.</li>
+                <li><span className="text-foreground font-medium">Elektrische auto’s.</span> Opladen bij de accommodatie is niet toegestaan. Bij illegaal opladen kan de eigenaar aansprakelijkheid en vergoeding in rekening brengen.</li>
+                <li><span className="text-foreground font-medium">Recreatief gebruik.</span> De woning is uitsluitend voor toeristische doeleinden. Boekingen namens of voor bedrijven kunnen worden geweigerd zonder terugbetaling.</li>
+              </ul>
+            </div>
+            <div>
+              <span className="text-accent text-[10px] font-medium uppercase tracking-[0.25em]">
+                Algemene voorwaarden
+              </span>
+              <h3 className="font-display text-2xl md:text-3xl mt-3 mb-4">Annuleren, kinderen & juridisch</h3>
+              <ul className="space-y-4 text-sm text-muted-foreground leading-relaxed">
+                <li><span className="text-foreground font-medium">Annuleren & vooruitbetalen.</span> De voorwaarden verschillen per gekozen optie en datum.</li>
+                <li><span className="text-foreground font-medium">Kinderen & extra bedden.</span> Kinderen vanaf 3 jaar worden aangerekend als volwassenen. Kinderbedjes (0-2 jaar) zijn op verzoek gratis; extra bedden zijn niet mogelijk.</li>
+                <li><span className="text-foreground font-medium">Juridisch.</span> De accommodatie wordt professioneel beheerd onder het van toepassing zijnde consumentenrecht.</li>
+              </ul>
+            </div>
           </div>
         </div>
       </section>
