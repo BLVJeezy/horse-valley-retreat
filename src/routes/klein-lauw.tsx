@@ -33,7 +33,7 @@ function KleinLauw() {
   return (
     <PropertyHome
       name={property.name}
-      galleryTo="/klein-lauw/galerij"
+      galleryTo="/fotos"
       contactEmail={property.contact_email ?? "hallo@horsevally.be"}
       address={property.address}
       description={property.description}

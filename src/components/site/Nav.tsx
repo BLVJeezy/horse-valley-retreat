@@ -8,7 +8,6 @@ export function Nav({ mode = "light" }: { mode?: "light" | "dark" }) {
   const links = [
     { href: "/#woning", label: "De woning" },
     { href: "/#omgeving", label: "Omgeving" },
-    { href: "/galerij", label: "Galerij", isRoute: true },
     { href: "/fotos", label: "Foto's", isRoute: true },
     { href: "/#contact", label: "Contact" },
   ];

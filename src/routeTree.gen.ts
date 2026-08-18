@@ -10,12 +10,10 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as KleinLauwRouteImport } from './routes/klein-lauw'
-import { Route as GalerijRouteImport } from './routes/galerij'
 import { Route as FotosRouteImport } from './routes/fotos'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as KleinLauwGalerijRouteImport } from './routes/klein-lauw.galerij'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as AuthenticatedAdminTarievenRouteImport } from './routes/_authenticated/admin.tarieven'
@@ -25,11 +23,6 @@ import { Route as AuthenticatedAdminKalendersyncRouteImport } from './routes/_au
 const KleinLauwRoute = KleinLauwRouteImport.update({
   id: '/klein-lauw',
   path: '/klein-lauw',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const GalerijRoute = GalerijRouteImport.update({
-  id: '/galerij',
-  path: '/galerij',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FotosRoute = FotosRouteImport.update({
@@ -50,11 +43,6 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
-} as any)
-const KleinLauwGalerijRoute = KleinLauwGalerijRouteImport.update({
-  id: '/galerij',
-  path: '/galerij',
-  getParentRoute: () => KleinLauwRoute,
 } as any)
 const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   id: '/admin',
@@ -89,10 +77,8 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/fotos': typeof FotosRoute
-  '/galerij': typeof GalerijRoute
-  '/klein-lauw': typeof KleinLauwRouteWithChildren
+  '/klein-lauw': typeof KleinLauwRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
-  '/klein-lauw/galerij': typeof KleinLauwGalerijRoute
   '/admin/kalendersync': typeof AuthenticatedAdminKalendersyncRoute
   '/admin/locaties': typeof AuthenticatedAdminLocatiesRoute
   '/admin/tarieven': typeof AuthenticatedAdminTarievenRoute
@@ -102,9 +88,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/fotos': typeof FotosRoute
-  '/galerij': typeof GalerijRoute
-  '/klein-lauw': typeof KleinLauwRouteWithChildren
-  '/klein-lauw/galerij': typeof KleinLauwGalerijRoute
+  '/klein-lauw': typeof KleinLauwRoute
   '/admin/kalendersync': typeof AuthenticatedAdminKalendersyncRoute
   '/admin/locaties': typeof AuthenticatedAdminLocatiesRoute
   '/admin/tarieven': typeof AuthenticatedAdminTarievenRoute
@@ -116,10 +100,8 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/fotos': typeof FotosRoute
-  '/galerij': typeof GalerijRoute
-  '/klein-lauw': typeof KleinLauwRouteWithChildren
+  '/klein-lauw': typeof KleinLauwRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
-  '/klein-lauw/galerij': typeof KleinLauwGalerijRoute
   '/_authenticated/admin/kalendersync': typeof AuthenticatedAdminKalendersyncRoute
   '/_authenticated/admin/locaties': typeof AuthenticatedAdminLocatiesRoute
   '/_authenticated/admin/tarieven': typeof AuthenticatedAdminTarievenRoute
@@ -131,10 +113,8 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/fotos'
-    | '/galerij'
     | '/klein-lauw'
     | '/admin'
-    | '/klein-lauw/galerij'
     | '/admin/kalendersync'
     | '/admin/locaties'
     | '/admin/tarieven'
@@ -144,9 +124,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/fotos'
-    | '/galerij'
     | '/klein-lauw'
-    | '/klein-lauw/galerij'
     | '/admin/kalendersync'
     | '/admin/locaties'
     | '/admin/tarieven'
@@ -157,10 +135,8 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth'
     | '/fotos'
-    | '/galerij'
     | '/klein-lauw'
     | '/_authenticated/admin'
-    | '/klein-lauw/galerij'
     | '/_authenticated/admin/kalendersync'
     | '/_authenticated/admin/locaties'
     | '/_authenticated/admin/tarieven'
@@ -172,8 +148,7 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   FotosRoute: typeof FotosRoute
-  GalerijRoute: typeof GalerijRoute
-  KleinLauwRoute: typeof KleinLauwRouteWithChildren
+  KleinLauwRoute: typeof KleinLauwRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -183,13 +158,6 @@ declare module '@tanstack/react-router' {
       path: '/klein-lauw'
       fullPath: '/klein-lauw'
       preLoaderRoute: typeof KleinLauwRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/galerij': {
-      id: '/galerij'
-      path: '/galerij'
-      fullPath: '/galerij'
-      preLoaderRoute: typeof GalerijRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/fotos': {
@@ -219,13 +187,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
-    }
-    '/klein-lauw/galerij': {
-      id: '/klein-lauw/galerij'
-      path: '/galerij'
-      fullPath: '/klein-lauw/galerij'
-      preLoaderRoute: typeof KleinLauwGalerijRouteImport
-      parentRoute: typeof KleinLauwRoute
     }
     '/_authenticated/admin': {
       id: '/_authenticated/admin'
@@ -293,25 +254,12 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
-interface KleinLauwRouteChildren {
-  KleinLauwGalerijRoute: typeof KleinLauwGalerijRoute
-}
-
-const KleinLauwRouteChildren: KleinLauwRouteChildren = {
-  KleinLauwGalerijRoute: KleinLauwGalerijRoute,
-}
-
-const KleinLauwRouteWithChildren = KleinLauwRoute._addFileChildren(
-  KleinLauwRouteChildren,
-)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   FotosRoute: FotosRoute,
-  GalerijRoute: GalerijRoute,
-  KleinLauwRoute: KleinLauwRouteWithChildren,
+  KleinLauwRoute: KleinLauwRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
