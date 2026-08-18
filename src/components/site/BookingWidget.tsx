@@ -319,7 +319,7 @@ export function BookingWidget({ pricePerNight }: { pricePerNight?: number | null
       </form>
 
       {calendarOpen && (
-        <div className="absolute left-0 right-0 md:right-auto z-30 mt-2 rounded-2xl bg-white shadow-2xl ring-1 ring-black/5 p-3 md:p-4">
+        <div className="absolute left-0 bottom-full mb-2 z-50 w-full md:w-auto rounded-2xl bg-white shadow-2xl ring-1 ring-black/5 p-3 md:p-4">
           <div className="flex items-center justify-between px-1 pb-2">
             <div>
               <p className="text-sm font-medium text-foreground">
