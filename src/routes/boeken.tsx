@@ -126,8 +126,6 @@ function BookPage() {
   const [digitalConfirmation, setDigitalConfirmation] = useState(true);
   const [bookingFor, setBookingFor] = useState<"self" | "other">("self");
   const [businessTrip, setBusinessTrip] = useState<boolean | null>(null);
-  const [carRental, setCarRental] = useState(false);
-  const [transfer, setTransfer] = useState(false);
   const [specialRequests, setSpecialRequests] = useState("");
   const [arrivalTime, setArrivalTime] = useState("");
 
@@ -190,8 +188,6 @@ function BookPage() {
           insurance_amount: insurance ? insuranceAmount : undefined,
           payment_method: payment,
           total_amount: grandTotal || undefined,
-          wants_car_rental: carRental,
-          wants_transfer: transfer,
         },
       });
       setDone(true);
@@ -468,38 +464,6 @@ function BookPage() {
                         </div>
                       </div>
                     </div>
-                  </section>
-
-                  <section className="border border-foreground/12 rounded-2xl p-6">
-                    <h2 className="font-serif text-xl mb-4">Voeg toe aan je verblijf</h2>
-                    <label className="flex items-start gap-3 text-sm cursor-pointer mb-4">
-                      <input
-                        type="checkbox"
-                        className="mt-1 h-4 w-4 accent-accent"
-                        checked={carRental}
-                        onChange={(e) => setCarRental(e.target.checked)}
-                      />
-                      <span>
-                        Ik heb interesse in het huren van een auto
-                        <span className="block text-xs text-muted-foreground">
-                          We zetten de opties voor autoverhuur in je boekingsbevestiging.
-                        </span>
-                      </span>
-                    </label>
-                    <label className="flex items-start gap-3 text-sm cursor-pointer">
-                      <input
-                        type="checkbox"
-                        className="mt-1 h-4 w-4 accent-accent"
-                        checked={transfer}
-                        onChange={(e) => setTransfer(e.target.checked)}
-                      />
-                      <span>
-                        Ik wil alvast een taxi of pendelbus reserveren
-                        <span className="block text-xs text-muted-foreground">
-                          Reis zonder verrassingen van de luchthaven naar de woning.
-                        </span>
-                      </span>
-                    </label>
                   </section>
 
                   <section className="border border-foreground/12 rounded-2xl p-6">
