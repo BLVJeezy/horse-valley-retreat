@@ -188,8 +188,6 @@ function BookPage() {
           insurance_amount: insurance ? insuranceAmount : undefined,
           payment_method: payment,
           total_amount: grandTotal || undefined,
-          wants_car_rental: carRental,
-          wants_transfer: transfer,
         },
       });
       setDone(true);
