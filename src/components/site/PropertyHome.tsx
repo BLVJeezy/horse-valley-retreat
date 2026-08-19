@@ -418,22 +418,22 @@ export function PropertyHome({
         </div>
       </section>
 
-      {/* Boek direct — live beschikbaarheid via Beds24 */}
-      {currentSlug === "horse-vally" && (
-        <section id="boeken-live" className="py-24 md:py-28 max-w-3xl mx-auto px-6 scroll-mt-24">
-          <div className="text-center mb-10">
-            <span className="text-accent text-[10px] font-medium uppercase tracking-[0.25em]">
-              Rechtstreeks boeken
-            </span>
-            <h2 className="font-display text-3xl md:text-4xl mt-3 mb-4">Check live beschikbaarheid</h2>
-            <p className="text-sm text-muted-foreground max-w-xl mx-auto">
-              Kies je data hieronder — de beschikbaarheid en prijzen komen rechtstreeks uit ons
-              boekingssysteem, dezelfde data als op Airbnb en Booking.com.
-            </p>
-          </div>
-          <Beds24Widget propId={348364} />
-        </section>
-      )}
+      {/* Boek direct — live beschikbaarheid + volledige boeking via Beds24 */}
+      <section id="boeken-live" className="py-24 md:py-28 max-w-3xl mx-auto px-6 scroll-mt-24">
+        <div className="text-center mb-10">
+          <span className="text-accent text-[10px] font-medium uppercase tracking-[0.25em]">
+            Rechtstreeks boeken
+          </span>
+          <h2 className="font-display text-3xl md:text-4xl mt-3 mb-4">Check live beschikbaarheid</h2>
+          <p className="text-sm text-muted-foreground max-w-xl mx-auto">
+            Kies je woning en data hieronder — beschikbaarheid, prijzen en betaling lopen
+            rechtstreeks via ons boekingssysteem, dezelfde data als op Airbnb en Booking.com.
+          </p>
+        </div>
+        <Beds24Widget
+          defaultProperty={currentSlug === "klein-lauw" ? "klein-lauw" : "horse-vally"}
+        />
+      </section>
 
       {/* Contact */}
       <section id="contact" className="py-24 md:py-28 bg-foreground text-background">
