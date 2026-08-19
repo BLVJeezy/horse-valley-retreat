@@ -1,0 +1,17 @@
+ALTER TABLE public.booking_requests
+  ADD COLUMN IF NOT EXISTS property_slug text,
+  ADD COLUMN IF NOT EXISTS first_name text,
+  ADD COLUMN IF NOT EXISTS last_name text,
+  ADD COLUMN IF NOT EXISTS country text,
+  ADD COLUMN IF NOT EXISTS phone_country_code text,
+  ADD COLUMN IF NOT EXISTS booking_for text,
+  ADD COLUMN IF NOT EXISTS business_trip boolean,
+  ADD COLUMN IF NOT EXISTS special_requests text,
+  ADD COLUMN IF NOT EXISTS arrival_time text,
+  ADD COLUMN IF NOT EXISTS house_rules_accepted boolean NOT NULL DEFAULT false,
+  ADD COLUMN IF NOT EXISTS insurance_added boolean NOT NULL DEFAULT false,
+  ADD COLUMN IF NOT EXISTS insurance_amount numeric,
+  ADD COLUMN IF NOT EXISTS payment_method text,
+  ADD COLUMN IF NOT EXISTS total_amount numeric,
+  ADD COLUMN IF NOT EXISTS wants_car_rental boolean NOT NULL DEFAULT false,
+  ADD COLUMN IF NOT EXISTS wants_transfer boolean NOT NULL DEFAULT false;

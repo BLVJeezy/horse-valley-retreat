@@ -46,46 +46,94 @@ export type Database = {
       }
       booking_requests: {
         Row: {
+          arrival_time: string | null
           availability_block_id: string | null
+          booking_for: string | null
+          business_trip: boolean | null
+          country: string | null
           created_at: string
           end_date: string
+          first_name: string | null
           guest_email: string
           guest_name: string
           guest_phone: string | null
           guests: number
+          house_rules_accepted: boolean
           id: string
+          insurance_added: boolean
+          insurance_amount: number | null
+          last_name: string | null
           message: string | null
+          payment_method: string | null
+          phone_country_code: string | null
+          property_slug: string | null
+          special_requests: string | null
           start_date: string
           status: string
+          total_amount: number | null
           updated_at: string
+          wants_car_rental: boolean
+          wants_transfer: boolean
         }
         Insert: {
+          arrival_time?: string | null
           availability_block_id?: string | null
+          booking_for?: string | null
+          business_trip?: boolean | null
+          country?: string | null
           created_at?: string
           end_date: string
+          first_name?: string | null
           guest_email: string
           guest_name: string
           guest_phone?: string | null
           guests: number
+          house_rules_accepted?: boolean
           id?: string
+          insurance_added?: boolean
+          insurance_amount?: number | null
+          last_name?: string | null
           message?: string | null
+          payment_method?: string | null
+          phone_country_code?: string | null
+          property_slug?: string | null
+          special_requests?: string | null
           start_date: string
           status?: string
+          total_amount?: number | null
           updated_at?: string
+          wants_car_rental?: boolean
+          wants_transfer?: boolean
         }
         Update: {
+          arrival_time?: string | null
           availability_block_id?: string | null
+          booking_for?: string | null
+          business_trip?: boolean | null
+          country?: string | null
           created_at?: string
           end_date?: string
+          first_name?: string | null
           guest_email?: string
           guest_name?: string
           guest_phone?: string | null
           guests?: number
+          house_rules_accepted?: boolean
           id?: string
+          insurance_added?: boolean
+          insurance_amount?: number | null
+          last_name?: string | null
           message?: string | null
+          payment_method?: string | null
+          phone_country_code?: string | null
+          property_slug?: string | null
+          special_requests?: string | null
           start_date?: string
           status?: string
+          total_amount?: number | null
           updated_at?: string
+          wants_car_rental?: boolean
+          wants_transfer?: boolean
         }
         Relationships: []
       }
