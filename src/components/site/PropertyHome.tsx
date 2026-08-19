@@ -107,6 +107,9 @@ export function PropertyHome({
     : highlights;
 
   const [selected, setSelected] = useState<string>(currentSlug ?? "horse-vally");
+  const [galleryTab, setGalleryTab] = useState<"klein-lauw" | "horse-vally" | "drone">(
+    currentSlug === "klein-lauw" ? "klein-lauw" : "horse-vally"
+  );
   const selectedName =
     selected === "beide"
       ? "beide woningen"
