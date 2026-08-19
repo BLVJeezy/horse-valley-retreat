@@ -48,6 +48,7 @@ export const createSeasonalRate = createServerFn({ method: "POST" })
         end_date: z.string(),
         price_per_night: z.number().nonnegative(),
         min_nights: z.number().int().min(1).max(30).nullable().optional(),
+        property_slug: z.string().trim().max(60).nullable().optional(),
       })
       .parse(d),
   )

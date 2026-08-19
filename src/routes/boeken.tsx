@@ -712,6 +712,12 @@ function BookPage() {
                   <dt className="text-muted-foreground">Nachten</dt>
                   <dd>{nights || "—"}</dd>
                 </div>
+                {pricePerNight ? (
+                  <div className="flex justify-between gap-4">
+                    <dt className="text-muted-foreground">Prijs per nacht</dt>
+                    <dd>{euro(Number(pricePerNight))}</dd>
+                  </div>
+                ) : null}
                 <div className="flex justify-between gap-4">
                   <dt className="text-muted-foreground">Gasten</dt>
                   <dd>{guests}</dd>

@@ -30,6 +30,7 @@ type Season = {
   end_date: string;
   price_per_night: number;
   min_nights: number | null;
+  property_slug: string | null;
 };
 
 function fmtDate(d: Date) {
@@ -37,6 +38,12 @@ function fmtDate(d: Date) {
 }
 function fmt(iso: string) {
   return new Date(iso).toLocaleDateString("nl-BE", { day: "numeric", month: "short", year: "numeric" });
+}
+
+function propLabel(slug: string | null) {
+  if (slug === "horse-vally") return "Horsey Valley";
+  if (slug === "klein-lauw") return "Klein Lauw";
+  return "Beide woningen";
 }
 
 function useIsDesktop() {
@@ -65,6 +72,7 @@ function TarievenPage() {
   const [sRange, setSRange] = useState<DateRange | undefined>();
   const [sPrice, setSPrice] = useState("");
   const [sMin, setSMin] = useState("");
+  const [sProp, setSProp] = useState("");
 
   async function refresh() {
     const [{ data: s }, { data: sr }] = await Promise.all([
@@ -114,6 +122,7 @@ function TarievenPage() {
           end_date: fmtDate(sRange.to),
           price_per_night: Number(sPrice),
           min_nights: sMin ? Number(sMin) : null,
+          property_slug: sProp || null,
         },
       });
       toast.success("Seizoen toegevoegd");
@@ -121,6 +130,7 @@ function TarievenPage() {
       setSRange(undefined);
       setSPrice("");
       setSMin("");
+      setSProp("");
       await refresh();
     } catch (e: any) {
       toast.error(e.message);
@@ -188,7 +198,7 @@ function TarievenPage() {
           het basistarief.
         </p>
 
-        <form onSubmit={onAddSeason} className="grid gap-4 rounded-2xl border border-border bg-card p-6 md:grid-cols-5 md:items-end">
+        <form onSubmit={onAddSeason} className="grid gap-4 rounded-2xl border border-border bg-card p-6 md:grid-cols-6 md:items-end">
           <div className="md:col-span-2">
             <Label>Naam</Label>
             <Input placeholder="Zomer 2026" value={sName} onChange={(e) => setSName(e.target.value)} />
@@ -219,10 +229,22 @@ function TarievenPage() {
             <Input type="number" step="0.01" min="0" value={sPrice} onChange={(e) => setSPrice(e.target.value)} />
           </div>
           <div>
+            <Label>Woning</Label>
+            <select
+              className="w-full h-10 rounded-md border border-input bg-background px-3 text-sm"
+              value={sProp}
+              onChange={(e) => setSProp(e.target.value)}
+            >
+              <option value="">Beide woningen</option>
+              <option value="horse-vally">Horsey Valley</option>
+              <option value="klein-lauw">Klein Lauw</option>
+            </select>
+          </div>
+          <div>
             <Label>Min. nachten</Label>
             <Input type="number" step="1" min="1" max="30" placeholder="optioneel" value={sMin} onChange={(e) => setSMin(e.target.value)} />
           </div>
-          <div className="md:col-span-5 flex justify-end">
+          <div className="md:col-span-6 flex justify-end">
             <Button type="submit" className="w-full md:w-auto min-h-[44px]">Seizoen toevoegen</Button>
           </div>
         </form>
@@ -243,6 +265,9 @@ function TarievenPage() {
                         <p className="font-medium">{s.name}</p>
                         <p className="text-sm text-muted-foreground mt-0.5">
                           {fmt(s.start_date)} → {fmt(s.end_date)}
+                        </p>
+                        <p className="text-xs text-muted-foreground mt-0.5">
+                          {propLabel(s.property_slug)}
                         </p>
                       </div>
                       <button
@@ -268,6 +293,7 @@ function TarievenPage() {
                   <tr>
                     <th className="px-4 py-3">Naam</th>
                     <th className="px-4 py-3">Periode</th>
+                    <th className="px-4 py-3">Woning</th>
                     <th className="px-4 py-3">Prijs / nacht</th>
                     <th className="px-4 py-3">Min. nachten</th>
                     <th className="px-4 py-3"></th>
@@ -280,6 +306,7 @@ function TarievenPage() {
                       <td className="px-4 py-3">
                         {fmt(s.start_date)} → {fmt(s.end_date)}
                       </td>
+                      <td className="px-4 py-3">{propLabel(s.property_slug)}</td>
                       <td className="px-4 py-3">€ {s.price_per_night.toFixed(2)}</td>
                       <td className="px-4 py-3">{s.min_nights ?? "—"}</td>
                       <td className="px-4 py-3 text-right">
