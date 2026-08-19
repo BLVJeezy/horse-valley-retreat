@@ -317,7 +317,7 @@ export function BookingWidget({
             onChange={(e) => setGuests(Number(e.target.value))}
             className="w-full bg-transparent text-sm font-medium outline-none"
           >
-            {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
+            {Array.from({ length: slug === "beide" ? 16 : 8 }, (_, i) => i + 1).map((n) => (
               <option key={n} value={n}>
                 {n} {n === 1 ? "gast" : "gasten"}
               </option>
