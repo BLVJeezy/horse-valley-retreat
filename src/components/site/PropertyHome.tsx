@@ -3,10 +3,11 @@ import { Link } from "@tanstack/react-router";
 import { Nav } from "@/components/site/Nav";
 import { Footer } from "@/components/site/Footer";
 import { BookingWidget } from "@/components/site/BookingWidget";
-import { Beds24Widget } from "@/components/site/Beds24Widget";
+import { SingleBeds24Widget, BEDS24_PROPERTY_IDS } from "@/components/site/Beds24Widget";
 import { photos } from "@/lib/photos";
 import heroWoningen from "@/assets/hero-woningen.jpg.asset.json";
 import hostsPhoto from "@/assets/hosts.jpg.asset.json";
+
 
 const highlights = [
   { label: "Capaciteit", value: "8 gasten, 4 slaapkamers" },
@@ -197,7 +198,24 @@ export function PropertyHome({
         </div>
       </section>
 
+      {/* Beds24 widget — net onder de hero */}
+      <section className="bg-background px-4 md:px-12 py-8 md:py-12">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-6 md:mb-8">
+            <span className="text-accent text-[10px] font-medium uppercase tracking-[0.25em]">
+              Rechtstreeks boeken
+            </span>
+            <h2 className="font-display text-2xl md:text-3xl mt-2">Check live beschikbaarheid</h2>
+            <p className="text-sm text-muted-foreground max-w-xl mx-auto mt-2">
+              Kies hieronder je woning en data — prijzen en betaling lopen rechtstreeks via ons boekingssysteem.
+            </p>
+          </div>
+          <SingleBeds24Widget propId={BEDS24_PROPERTY_IDS[selected as keyof typeof BEDS24_PROPERTY_IDS] ?? BEDS24_PROPERTY_IDS["horse-vally"]} />
+        </div>
+      </section>
+
       {/* Host Intro */}
+
       <section className="py-24 md:py-32 px-6 max-w-3xl mx-auto text-center">
         <div className="mb-8 flex justify-center">
           <div className="size-24 md:size-28 rounded-full overflow-hidden ring-2 ring-accent/20 shadow-lg">
@@ -404,22 +422,6 @@ export function PropertyHome({
         </div>
       </section>
 
-      {/* Boek direct — live beschikbaarheid + volledige boeking via Beds24 */}
-      <section id="boeken-live" className="py-24 md:py-28 max-w-3xl mx-auto px-6 scroll-mt-24">
-        <div className="text-center mb-10">
-          <span className="text-accent text-[10px] font-medium uppercase tracking-[0.25em]">
-            Rechtstreeks boeken
-          </span>
-          <h2 className="font-display text-3xl md:text-4xl mt-3 mb-4">Check live beschikbaarheid</h2>
-          <p className="text-sm text-muted-foreground max-w-xl mx-auto">
-            Kies je woning en data hieronder — beschikbaarheid, prijzen en betaling lopen
-            rechtstreeks via ons boekingssysteem, dezelfde data als op Airbnb en Booking.com.
-          </p>
-        </div>
-        <Beds24Widget
-          defaultProperty={currentSlug === "klein-lauw" ? "klein-lauw" : "horse-vally"}
-        />
-      </section>
 
       {/* Contact */}
       <section id="contact" className="py-24 md:py-28 bg-foreground text-background">

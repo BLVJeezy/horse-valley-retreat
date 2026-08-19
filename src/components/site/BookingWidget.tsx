@@ -1,9 +1,5 @@
 import { useMemo } from "react";
-import {
-  BEDS24_PROPERTY_IDS,
-  SingleBeds24Widget,
-  type Beds24PropertyKey,
-} from "@/components/site/Beds24Widget";
+import type { Beds24PropertyKey } from "@/components/site/Beds24Widget";
 
 export function BookingWidget({
   slug = "horse-vally",
@@ -28,13 +24,10 @@ export function BookingWidget({
     ];
   }, [allProperties]);
 
-  const chosen = (selected ?? slug) as Beds24PropertyKey;
-  const propId = BEDS24_PROPERTY_IDS[chosen] ?? BEDS24_PROPERTY_IDS["horse-vally"];
-
   return (
     <div className="relative max-w-4xl">
       <div className="bg-white/95 backdrop-blur-md p-3 md:p-4 rounded-2xl shadow-2xl text-foreground">
-        <div className="grid grid-cols-3 gap-1 mb-3">
+        <div className="grid grid-cols-3 gap-1">
           {options.map((p) => {
             const active = p.slug === selected;
             return (
@@ -55,15 +48,11 @@ export function BookingWidget({
         </div>
 
         {selectionLabel && (
-          <p className="px-1 pb-2 text-xs text-foreground/60">
+          <p className="px-1 pt-2 text-xs text-foreground/60">
             Live beschikbaarheid en prijzen voor {selectionLabel}
           </p>
         )}
-
-        {/* Beds24 boekingswidget: volledige boeking + betaling via Beds24 */}
-        <SingleBeds24Widget key={propId} propId={propId} />
       </div>
     </div>
   );
 }
-
