@@ -81,31 +81,38 @@ function propertyPath(slug: string) {
 }
 
 function PropertySwitcher({
-  currentSlug,
+  selected,
+  onSelect,
   allProperties,
 }: {
-  currentSlug?: string;
+  selected: string;
+  onSelect: (slug: string) => void;
   allProperties?: { slug: string; name: string; is_live: boolean }[];
 }) {
   if (!allProperties || allProperties.length < 2) return null;
+
+  const options = [...allProperties.map((p) => ({ slug: p.slug, name: p.name })), {
+    slug: "beide",
+    name: "Beide",
+  }];
 
   return (
     <div className="mb-6 space-y-2">
       <p className="text-white/90 text-[10px] uppercase tracking-[0.25em]">Kies je woning</p>
       <div className="inline-flex items-center gap-1 rounded-full bg-black/45 backdrop-blur-xl ring-1 ring-white/15 p-1">
-        {allProperties.map((p) => {
-          const active = p.slug === currentSlug;
+        {options.map((p) => {
+          const active = p.slug === selected;
           return (
-            <Link
+            <button
               key={p.slug}
-              to={propertyPath(p.slug)}
+              type="button"
+              onClick={() => onSelect(p.slug)}
               className={`px-4 py-2 rounded-full text-[11px] uppercase tracking-[0.15em] font-medium transition-colors ${
                 active ? "bg-white text-foreground" : "text-white/80 hover:text-white"
               }`}
             >
               {p.name}
-              {!p.is_live && !active ? " · binnenkort" : ""}
-            </Link>
+            </button>
           );
         })}
       </div>
@@ -115,6 +122,7 @@ function PropertySwitcher({
     </div>
   );
 }
+
 
 export function PropertyHome({
   name,
