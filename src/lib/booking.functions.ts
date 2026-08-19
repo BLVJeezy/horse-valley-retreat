@@ -52,3 +52,61 @@ export const submitBookingRequest = createServerFn({ method: "POST" })
     if (error) throw new Error(error.message);
     return { ok: true };
   });
+
+// Public: full 3-step booking submission from /boeken. Same manual-confirmation
+// model as submitBookingRequest — the owner confirms before the calendar blocks.
+export const createBooking = createServerFn({ method: "POST" })
+  .inputValidator((d) =>
+    z
+      .object({
+        property_slug: z.string().trim().min(1).max(60),
+        start_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+        end_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+        guests: z.number().int().min(1).max(20),
+        first_name: z.string().trim().min(1).max(80),
+        last_name: z.string().trim().min(1).max(80),
+        guest_email: z.string().trim().email().max(255),
+        country: z.string().trim().min(1).max(80),
+        phone_country_code: z.string().trim().min(1).max(6),
+        guest_phone: z.string().trim().min(5).max(40),
+        booking_for: z.enum(["self", "other"]),
+        business_trip: z.boolean().optional(),
+        special_requests: z.string().trim().max(1000).optional(),
+        arrival_time: z.string().trim().max(60).optional(),
+        house_rules_accepted: z.literal(true),
+        insurance_added: z.boolean(),
+        insurance_amount: z.number().nonnegative().optional(),
+        payment_method: z.enum(["card", "bancontact", "transfer"]),
+        total_amount: z.number().nonnegative().optional(),
+        wants_car_rental: z.boolean().optional(),
+        wants_transfer: z.boolean().optional(),
+      })
+      .parse(d),
+  )
+  .handler(async ({ data }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
+    const { data: overlapping, error: overlapError } = await supabaseAdmin
+      .from("availability_blocks")
+      .select("id")
+      .eq("status", "confirmed")
+      .lt("start_date", data.end_date)
+      .gt("end_date", data.start_date)
+      .limit(1);
+    if (overlapError) throw new Error(overlapError.message);
+    if (overlapping && overlapping.length > 0) {
+      throw new Error("Deze data zijn helaas niet meer beschikbaar.");
+    }
+
+    const { data: inserted, error } = await supabaseAdmin
+      .from("booking_requests")
+      .insert({
+        ...data,
+        guest_name: `${data.first_name} ${data.last_name}`,
+        message: data.special_requests ?? null,
+      })
+      .select("id")
+      .single();
+    if (error) throw new Error(error.message);
+    return { ok: true, id: inserted.id };
+  });
