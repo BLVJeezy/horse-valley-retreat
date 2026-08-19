@@ -179,10 +179,6 @@ export function PropertyHome({
         <div className="max-w-6xl mx-auto grid grid-cols-2 gap-x-4 gap-y-3 text-[10px] uppercase tracking-[0.18em]">
           <span className="flex items-center gap-2 min-w-0">
             <span aria-hidden className="text-accent text-base leading-none shrink-0">✓</span>
-            <span className="truncate">Gratis annulering</span>
-          </span>
-          <span className="flex items-center gap-2 min-w-0">
-            <span aria-hidden className="text-accent text-base leading-none shrink-0">✓</span>
             <span className="truncate">Directe boeking</span>
           </span>
           <span className="flex items-center gap-2 min-w-0">
