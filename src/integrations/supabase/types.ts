@@ -226,6 +226,7 @@ export type Database = {
           min_nights: number | null
           name: string
           price_per_night: number
+          property_slug: string | null
           start_date: string
         }
         Insert: {
@@ -235,6 +236,7 @@ export type Database = {
           min_nights?: number | null
           name: string
           price_per_night: number
+          property_slug?: string | null
           start_date: string
         }
         Update: {
@@ -244,6 +246,7 @@ export type Database = {
           min_nights?: number | null
           name?: string
           price_per_night?: number
+          property_slug?: string | null
           start_date?: string
         }
         Relationships: []
