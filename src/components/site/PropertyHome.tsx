@@ -142,6 +142,14 @@ export function PropertyHome({
     ? [{ label: "Prijs", value: `Vanaf €${pricePerNight}/nacht` }, ...highlights]
     : highlights;
 
+  const [selected, setSelected] = useState<string>(currentSlug ?? "horse-vally");
+  const selectedName =
+    selected === "beide"
+      ? "beide woningen"
+      : (allProperties?.find((p) => p.slug === selected)?.name ?? name);
+  const selectedPrice =
+    selected === "beide" && pricePerNight ? pricePerNight * 2 : pricePerNight;
+
   return (
     <div className="bg-background text-foreground">
       <Nav mode="dark" />
@@ -164,10 +172,19 @@ export function PropertyHome({
           <h1 className="font-display text-5xl md:text-7xl lg:text-8xl text-white mb-8 text-balance leading-[0.95] max-w-4xl">
             Puur genieten in Tongeren-Borgloon
           </h1>
-          <PropertySwitcher currentSlug={currentSlug} allProperties={allProperties} />
+          <PropertySwitcher
+            selected={selected}
+            onSelect={setSelected}
+            allProperties={allProperties}
+          />
           <div className="animate-fade-up-delay">
-            <BookingWidget pricePerNight={pricePerNight} slug={currentSlug} />
+            <BookingWidget
+              pricePerNight={selectedPrice}
+              slug={selected}
+              selectionLabel={selectedName}
+            />
           </div>
+
           <div className="hidden lg:inline-flex mt-8 flex-wrap items-center gap-x-6 gap-y-3 text-white/90 text-[11px] uppercase tracking-[0.2em] rounded-2xl bg-black/45 backdrop-blur-xl ring-1 ring-white/15 px-5 py-3 shadow-lg shadow-black/20">
             <span className="flex items-center gap-2 min-w-0">
               <span aria-hidden className="text-accent text-base leading-none shrink-0">✓</span>
