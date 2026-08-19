@@ -34,6 +34,15 @@ export function BookingWidget({
       setError("Kies eerst een woning.");
       return;
     }
+
+    // Als er op deze pagina een live Beds24-widget staat, scroll daar rechtstreeks
+    // naartoe in plaats van naar de losse /boeken-flow.
+    const liveWidget = document.getElementById("boeken-live");
+    if (liveWidget) {
+      liveWidget.scrollIntoView({ behavior: "smooth", block: "start" });
+      return;
+    }
+
     navigate({
       to: "/boeken",
       search: { woning: chosen, gasten: 4 },
