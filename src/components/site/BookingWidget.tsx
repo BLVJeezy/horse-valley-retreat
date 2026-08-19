@@ -49,13 +49,13 @@ export function BookingWidget({
     });
   };
 
+  const chosen = (selected ?? slug) as Beds24PropertyKey;
+  const propId = BEDS24_PROPERTY_IDS[chosen] ?? BEDS24_PROPERTY_IDS["horse-vally"];
+
   return (
     <div className="relative max-w-4xl">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white/95 backdrop-blur-md p-2 md:p-3 rounded-2xl shadow-2xl flex flex-col md:flex-row md:items-stretch gap-2 text-foreground"
-      >
-        <div className="flex-1 grid grid-cols-3 gap-1 p-1">
+      <div className="bg-white/95 backdrop-blur-md p-3 md:p-4 rounded-2xl shadow-2xl text-foreground">
+        <div className="grid grid-cols-3 gap-1 mb-3">
           {options.map((p) => {
             const active = p.slug === selected;
             return (
@@ -75,15 +75,16 @@ export function BookingWidget({
           })}
         </div>
 
-        <button
-          type="submit"
-          className="bg-accent text-white px-6 py-4 rounded-xl text-sm font-medium hover:brightness-95 transition-all"
-        >
-          {selectionLabel ? `Ga verder naar boeking voor ${selectionLabel}` : "Ga verder naar boeking"}
-        </button>
-      </form>
+        {selectionLabel && (
+          <p className="px-1 pb-2 text-xs text-foreground/60">
+            Live beschikbaarheid en prijzen voor {selectionLabel}
+          </p>
+        )}
 
-      {error && <p className="mt-2 text-xs text-red-600 md:text-white">{error}</p>}
+        {/* Beds24 boekingswidget: volledige boeking + betaling via Beds24 */}
+        <SingleBeds24Widget key={propId} propId={propId} />
+      </div>
     </div>
   );
 }
+
