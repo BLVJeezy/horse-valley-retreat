@@ -20,8 +20,19 @@ export const Route = createFileRoute("/boeken")({
     vertrek: typeof search.vertrek === "string" ? search.vertrek : undefined,
     gasten: Number(search.gasten) > 0 ? Number(search.gasten) : undefined,
   }),
-  loaderDeps: ({ search }) => ({ woning: search.woning }),
+  loaderDeps: ({ search }) => ({
+    woning: search.woning,
+    aankomst: search.aankomst,
+    vertrek: search.vertrek,
+  }),
   loader: async ({ deps }) => {
+    const quote =
+      deps.aankomst && deps.vertrek
+        ? await getQuote({
+            data: { slug: deps.woning, start: deps.aankomst, end: deps.vertrek },
+          })
+        : null;
+
     if (deps.woning === "beide") {
       const [a, b] = await Promise.all([
         getPropertyBySlug({ data: { slug: "horse-vally" } }),
@@ -29,6 +40,7 @@ export const Route = createFileRoute("/boeken")({
       ]);
       const sum = Number(a?.price_per_night ?? 0) + Number(b?.price_per_night ?? 0);
       return {
+        quote,
         property: {
           slug: "beide",
           name: `${a?.name ?? "Horsey Valley"} + ${b?.name ?? "Klein Lauw"}`,
@@ -37,8 +49,9 @@ export const Route = createFileRoute("/boeken")({
       };
     }
     const property = await getPropertyBySlug({ data: { slug: deps.woning } });
-    return { property };
+    return { property, quote };
   },
+
 
   head: () => ({
     meta: [
