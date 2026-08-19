@@ -145,16 +145,22 @@ export function PropertyHome({
           <h1 className="font-display text-5xl md:text-7xl lg:text-8xl text-white mb-8 text-balance leading-[0.95] max-w-4xl">
             Puur genieten in Tongeren-Borgloon
           </h1>
-          <PropertySwitcher
-            selected={selected}
-            onSelect={setSelected}
-            allProperties={allProperties}
-          />
+          {allProperties && allProperties.length >= 2 && (
+            <div className="mb-6 space-y-2">
+              <p className="text-white/90 text-[10px] uppercase tracking-[0.25em]">Kies je woning</p>
+              <p className="text-white/90 text-xs md:text-[13px]">
+                Beide woningen liggen naast elkaar en zijn ook samen te huren voor grotere groepen.
+              </p>
+            </div>
+          )}
           <div className="animate-fade-up-delay">
             <BookingWidget
               pricePerNight={selectedPrice}
               slug={selected}
               selectionLabel={selectedName}
+              selected={selected}
+              onSelect={setSelected}
+              allProperties={allProperties}
             />
           </div>
 
