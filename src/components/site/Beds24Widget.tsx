@@ -51,7 +51,7 @@ function loadScriptOnce(src: string): Promise<void> {
  * rechtstreeks naar Beds24, dat op zijn beurt Airbnb/Booking.com blokkeert en de
  * betaling via de gekoppelde Stripe-gateway afhandelt.
  */
-function SingleBeds24Widget({ propId }: { propId: number }) {
+export function SingleBeds24Widget({ propId }: { propId: number }) {
   const reactId = useId().replace(/[:]/g, "");
   const containerId = `bookWidget-${propId}-${reactId}`;
   const containerRef = useRef<HTMLDivElement>(null);
