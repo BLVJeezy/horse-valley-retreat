@@ -203,14 +203,14 @@ function BookPage() {
     <div className="bg-background text-foreground min-h-screen">
       <Nav />
 
-      <main className="pt-28 md:pt-32 pb-24 px-6 max-w-6xl mx-auto">
+      <main className="pt-24 md:pt-32 pb-20 md:pb-24 px-4 sm:px-6 max-w-6xl mx-auto">
         <p className="text-xs uppercase tracking-[0.28em] text-muted-foreground mb-3">
           {property?.name ?? "Horsey Valley"} · Tongeren
         </p>
-        <h1 className="font-serif text-4xl md:text-5xl mb-8">Je boeking afronden</h1>
+        <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl mb-6 md:mb-8">Je boeking afronden</h1>
 
         {done ? (
-          <div className="border border-accent/40 bg-accent/5 rounded-2xl p-8 max-w-2xl">
+          <div className="border border-accent/40 bg-accent/5 rounded-2xl p-6 sm:p-8 max-w-2xl">
             <h2 className="font-serif text-2xl mb-2">Bedankt {firstName}, je boeking is binnen!</h2>
             <p className="text-sm text-muted-foreground mb-4">
               We sturen je een bevestiging naar {email} met de betaalinstructies en het exacte
@@ -223,16 +223,16 @@ function BookPage() {
             </Link>
           </div>
         ) : (
-          <div className="grid lg:grid-cols-[1fr_360px] gap-10 items-start">
+          <div className="grid lg:grid-cols-[1fr_360px] gap-8 lg:gap-10 items-start">
             <div>
               {/* Stepper */}
-              <ol className="flex items-center gap-3 mb-8 text-xs">
+              <ol className="flex items-center gap-2 sm:gap-3 mb-6 md:mb-8 text-[11px] sm:text-xs overflow-x-auto no-scrollbar">
                 {[
                   { n: 1, label: "Je gegevens" },
                   { n: 2, label: "Verzekering" },
                   { n: 3, label: "Betalen" },
                 ].map((s) => (
-                  <li key={s.n} className="flex items-center gap-2">
+                  <li key={s.n} className="flex items-center gap-2 shrink-0">
                     <span
                       className={`h-6 w-6 rounded-full grid place-items-center text-[11px] ${
                         step >= s.n
@@ -250,67 +250,68 @@ function BookPage() {
                 ))}
               </ol>
 
-              {datesMissing && (
-                <div className="mb-8 rounded-xl border border-foreground/15 p-5">
-                  <p className="text-sm mb-3">
-                    Je hebt nog geen data gekozen. Selecteer eerst je aankomst en vertrek.
-                  </p>
-                  <div className="grid sm:grid-cols-3 gap-3">
-                    <label className="text-sm">
-                      <span className={labelClass}>Aankomst</span>
-                      <input
-                        type="date"
-                        className={inputClass}
-                        value={search.aankomst ?? ""}
-                        onChange={(e) =>
-                          navigate({
-                            to: "/boeken",
-                            search: { ...search, aankomst: e.target.value },
-                          })
-                        }
-                      />
-                    </label>
-                    <label className="text-sm">
-                      <span className={labelClass}>Vertrek</span>
-                      <input
-                        type="date"
-                        className={inputClass}
-                        value={search.vertrek ?? ""}
-                        onChange={(e) =>
-                          navigate({
-                            to: "/boeken",
-                            search: { ...search, vertrek: e.target.value },
-                          })
-                        }
-                      />
-                    </label>
-                    <label className="text-sm">
-                      <span className={labelClass}>Gasten</span>
-                      <select
-                        className={inputClass}
-                        value={guests}
-                        onChange={(e) =>
-                          navigate({
-                            to: "/boeken",
-                            search: { ...search, gasten: Number(e.target.value) },
-                          })
-                        }
-                      >
-                        {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
-                          <option key={n} value={n}>
-                            {n} {n === 1 ? "gast" : "gasten"}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-                  </div>
+              <div className="mb-8 rounded-xl border border-foreground/15 p-4 sm:p-5">
+                <p className="text-sm mb-3">
+                  {datesMissing
+                    ? "Je hebt nog geen data gekozen. Selecteer eerst je aankomst en vertrek."
+                    : `${formatNL(search.aankomst)} → ${formatNL(search.vertrek)} · ${nights} ${nights === 1 ? "nacht" : "nachten"} · ${guests} ${guests === 1 ? "gast" : "gasten"}. Je kan dit hieronder nog aanpassen.`}
+                </p>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  <label className="text-sm min-w-0">
+                    <span className={labelClass}>Aankomst</span>
+                    <input
+                      type="date"
+                      className={inputClass}
+                      value={search.aankomst ?? ""}
+                      onChange={(e) =>
+                        navigate({
+                          to: "/boeken",
+                          search: { ...search, aankomst: e.target.value },
+                        })
+                      }
+                    />
+                  </label>
+                  <label className="text-sm min-w-0">
+                    <span className={labelClass}>Vertrek</span>
+                    <input
+                      type="date"
+                      className={inputClass}
+                      value={search.vertrek ?? ""}
+                      onChange={(e) =>
+                        navigate({
+                          to: "/boeken",
+                          search: { ...search, vertrek: e.target.value },
+                        })
+                      }
+                    />
+                  </label>
+                  <label className="text-sm min-w-0 col-span-2 sm:col-span-1">
+                    <span className={labelClass}>Gasten</span>
+                    <select
+                      className={inputClass}
+                      value={guests}
+                      onChange={(e) =>
+                        navigate({
+                          to: "/boeken",
+                          search: { ...search, gasten: Number(e.target.value) },
+                        })
+                      }
+                    >
+                      {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
+                        <option key={n} value={n}>
+                          {n} {n === 1 ? "gast" : "gasten"}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
                 </div>
-              )}
+              </div>
+
 
               {/* ---------- Stap 1 ---------- */}
               {step === 1 && (
                 <form onSubmit={handleStep1} className="space-y-8">
-                  <section className="border border-foreground/12 rounded-2xl p-6">
+                  <section className="border border-foreground/12 rounded-2xl p-4 sm:p-6">
                     <h2 className="font-serif text-2xl mb-1">Vul je gegevens in</h2>
                     <p className="text-sm text-muted-foreground mb-6">
                       Bijna klaar! Vul alleen nog de vereiste gegevens bij * in.
@@ -466,7 +467,7 @@ function BookPage() {
                     </div>
                   </section>
 
-                  <section className="border border-foreground/12 rounded-2xl p-6">
+                  <section className="border border-foreground/12 rounded-2xl p-4 sm:p-6">
                     <h2 className="font-serif text-xl mb-2">Speciale verzoeken</h2>
                     <p className="text-xs text-muted-foreground mb-3">
                       Speciale verzoeken kunnen we niet garanderen, maar we doen ons best. Je kan
@@ -499,7 +500,7 @@ function BookPage() {
                     </select>
                   </section>
 
-                  <section className="border border-foreground/12 rounded-2xl p-6">
+                  <section className="border border-foreground/12 rounded-2xl p-4 sm:p-6">
                     <h2 className="font-serif text-xl mb-2">Lees de huisregels</h2>
                     <p className="text-sm text-muted-foreground mb-3">
                       We vragen je akkoord te gaan met de volgende huisregels:
@@ -540,7 +541,7 @@ function BookPage() {
 
               {/* ---------- Stap 2 ---------- */}
               {step === 2 && (
-                <section className="border border-foreground/12 rounded-2xl p-6 space-y-4">
+                <section className="border border-foreground/12 rounded-2xl p-4 sm:p-6 space-y-4">
                   <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
                     Stap 2 — Annuleringskostenverzekering
                   </p>
@@ -583,7 +584,7 @@ function BookPage() {
                     <button
                       type="button"
                       onClick={() => setStep(1)}
-                      className="px-6 py-3 rounded-lg text-sm border border-foreground/20"
+                      className="w-full sm:w-auto px-6 py-3 rounded-lg text-sm border border-foreground/20"
                     >
                       Terug
                     </button>
@@ -603,7 +604,7 @@ function BookPage() {
 
               {/* ---------- Stap 3 ---------- */}
               {step === 3 && (
-                <section className="border border-foreground/12 rounded-2xl p-6 space-y-5">
+                <section className="border border-foreground/12 rounded-2xl p-4 sm:p-6 space-y-5">
                   <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
                     Stap 3 — Betalen
                   </p>
@@ -636,11 +637,11 @@ function BookPage() {
                     consumentenwetgeving is niet van toepassing bij het boeken van een accommodatie.
                   </p>
                   {error && <p className="text-sm text-red-600">{error}</p>}
-                  <div className="flex gap-3">
+                  <div className="flex flex-col sm:flex-row gap-3">
                     <button
                       type="button"
                       onClick={() => setStep(2)}
-                      className="px-6 py-3 rounded-lg text-sm border border-foreground/20"
+                      className="w-full sm:w-auto px-6 py-3 rounded-lg text-sm border border-foreground/20"
                     >
                       Terug
                     </button>
@@ -648,7 +649,7 @@ function BookPage() {
                       type="button"
                       disabled={submitting}
                       onClick={handleSubmit}
-                      className="bg-accent text-background px-8 py-3 rounded-lg text-sm font-medium hover:brightness-95 transition-all disabled:opacity-60"
+                      className="w-full sm:w-auto bg-accent text-background px-8 py-3 rounded-lg text-sm font-medium hover:brightness-95 transition-all disabled:opacity-60"
                     >
                       {submitting ? "Bezig..." : "Boeken en betalen"}
                     </button>
@@ -658,7 +659,7 @@ function BookPage() {
             </div>
 
             {/* Samenvatting */}
-            <aside className="border border-foreground/12 rounded-2xl p-6 lg:sticky lg:top-28 space-y-4">
+            <aside className="border border-foreground/12 rounded-2xl p-4 sm:p-6 lg:sticky lg:top-28 space-y-4">
               <h2 className="font-serif text-xl">{property?.name ?? "Horsey Valley"}</h2>
               <p className="text-xs text-muted-foreground">
                 Vakantiehuis met 4 slaapkamers · je hebt de hele woning voor jezelf
