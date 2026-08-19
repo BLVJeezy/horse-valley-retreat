@@ -158,11 +158,6 @@ export function PropertyHome({
           <div className="hidden lg:inline-flex mt-8 flex-wrap items-center gap-x-6 gap-y-3 text-white/90 text-[11px] uppercase tracking-[0.2em] rounded-2xl bg-black/45 backdrop-blur-xl ring-1 ring-white/15 px-5 py-3 shadow-lg shadow-black/20">
             <span className="flex items-center gap-2 min-w-0">
               <span aria-hidden className="text-accent text-base leading-none shrink-0">✓</span>
-              <span className="truncate">Gratis annulering</span>
-            </span>
-            <span className="inline-block w-px h-3 bg-white/25" aria-hidden />
-            <span className="flex items-center gap-2 min-w-0">
-              <span aria-hidden className="text-accent text-base leading-none shrink-0">✓</span>
               <span className="truncate">Directe boeking</span>
             </span>
             <span className="inline-block w-px h-3 bg-white/25" aria-hidden />
@@ -182,10 +177,6 @@ export function PropertyHome({
       {/* Trust badges — mobile & tablet, onder hero */}
       <section className="lg:hidden bg-foreground text-background px-4 py-5">
         <div className="max-w-6xl mx-auto grid grid-cols-2 gap-x-4 gap-y-3 text-[10px] uppercase tracking-[0.18em]">
-          <span className="flex items-center gap-2 min-w-0">
-            <span aria-hidden className="text-accent text-base leading-none shrink-0">✓</span>
-            <span className="truncate">Gratis annulering</span>
-          </span>
           <span className="flex items-center gap-2 min-w-0">
             <span aria-hidden className="text-accent text-base leading-none shrink-0">✓</span>
             <span className="truncate">Directe boeking</span>
