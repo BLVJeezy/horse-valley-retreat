@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as KleinLauwRouteImport } from './routes/klein-lauw'
 import { Route as FotosRouteImport } from './routes/fotos'
+import { Route as BoekenRouteImport } from './routes/boeken'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
@@ -28,6 +29,11 @@ const KleinLauwRoute = KleinLauwRouteImport.update({
 const FotosRoute = FotosRouteImport.update({
   id: '/fotos',
   path: '/fotos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BoekenRoute = BoekenRouteImport.update({
+  id: '/boeken',
+  path: '/boeken',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -76,6 +82,7 @@ const AuthenticatedAdminKalendersyncRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/boeken': typeof BoekenRoute
   '/fotos': typeof FotosRoute
   '/klein-lauw': typeof KleinLauwRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
@@ -87,6 +94,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/boeken': typeof BoekenRoute
   '/fotos': typeof FotosRoute
   '/klein-lauw': typeof KleinLauwRoute
   '/admin/kalendersync': typeof AuthenticatedAdminKalendersyncRoute
@@ -99,6 +107,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/boeken': typeof BoekenRoute
   '/fotos': typeof FotosRoute
   '/klein-lauw': typeof KleinLauwRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
@@ -112,6 +121,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
+    | '/boeken'
     | '/fotos'
     | '/klein-lauw'
     | '/admin'
@@ -123,6 +133,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/boeken'
     | '/fotos'
     | '/klein-lauw'
     | '/admin/kalendersync'
@@ -134,6 +145,7 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/auth'
+    | '/boeken'
     | '/fotos'
     | '/klein-lauw'
     | '/_authenticated/admin'
@@ -147,6 +159,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
+  BoekenRoute: typeof BoekenRoute
   FotosRoute: typeof FotosRoute
   KleinLauwRoute: typeof KleinLauwRoute
 }
@@ -165,6 +178,13 @@ declare module '@tanstack/react-router' {
       path: '/fotos'
       fullPath: '/fotos'
       preLoaderRoute: typeof FotosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/boeken': {
+      id: '/boeken'
+      path: '/boeken'
+      fullPath: '/boeken'
+      preLoaderRoute: typeof BoekenRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -258,6 +278,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
+  BoekenRoute: BoekenRoute,
   FotosRoute: FotosRoute,
   KleinLauwRoute: KleinLauwRoute,
 }
