@@ -140,13 +140,13 @@ function StickyBookBar() {
           <p className="font-display text-lg md:text-xl">Klaar om te boeken?</p>
           <p className="text-xs text-muted-foreground">Bekijk live beschikbaarheid en prijzen.</p>
         </div>
-        <Link
-          to="/#boeken"
+        <a
+          href="/#boeken"
           className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 bg-foreground text-background px-6 py-3 rounded-full text-sm font-medium hover:bg-foreground/90 transition-colors"
         >
           <CalendarCheck className="w-4 h-4" />
           Boek nu
-        </Link>
+        </a>
       </div>
     </div>
   );
