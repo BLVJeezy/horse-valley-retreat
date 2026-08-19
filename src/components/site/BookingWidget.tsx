@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "@tanstack/react-router";
 import type { DateRange } from "react-day-picker";
 import { nl } from "date-fns/locale";
 import { Calendar } from "@/components/ui/calendar";
@@ -34,7 +35,14 @@ function nightsBetween(from?: Date, to?: Date) {
 
 type Step = "dates" | "details" | "sent";
 
-export function BookingWidget({ pricePerNight }: { pricePerNight?: number | null }) {
+export function BookingWidget({
+  pricePerNight,
+  slug = "horse-vally",
+}: {
+  pricePerNight?: number | null;
+  slug?: string;
+}) {
+  const navigate = useNavigate();
   const [range, setRange] = useState<DateRange | undefined>();
   const [calendarOpen, setCalendarOpen] = useState(false);
   const [focus, setFocus] = useState<"from" | "to">("from");
@@ -123,7 +131,10 @@ export function BookingWidget({ pricePerNight }: { pricePerNight?: number | null
       return;
     }
     setError(null);
-    setStep("details");
+    navigate({
+      to: "/boeken",
+      search: { woning: slug, aankomst: checkin, vertrek: checkout, gasten: guests },
+    });
   };
 
   const handleSubmitRequest = async (e: React.FormEvent) => {

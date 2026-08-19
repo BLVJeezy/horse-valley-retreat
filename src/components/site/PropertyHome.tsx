@@ -158,7 +158,7 @@ export function PropertyHome({
           </h1>
           <PropertySwitcher currentSlug={currentSlug} allProperties={allProperties} />
           <div className="animate-fade-up-delay">
-            <BookingWidget pricePerNight={pricePerNight} />
+            <BookingWidget pricePerNight={pricePerNight} slug={currentSlug} />
           </div>
           <div className="hidden lg:inline-flex mt-8 flex-wrap items-center gap-x-6 gap-y-3 text-white/90 text-[11px] uppercase tracking-[0.2em] rounded-2xl bg-black/45 backdrop-blur-xl ring-1 ring-white/15 px-5 py-3 shadow-lg shadow-black/20">
             <span className="flex items-center gap-2 min-w-0">
