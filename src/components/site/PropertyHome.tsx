@@ -5,6 +5,7 @@ import { Footer } from "@/components/site/Footer";
 import { BookingWidget } from "@/components/site/BookingWidget";
 import { photos } from "@/lib/photos";
 import heroWoningen from "@/assets/hero-woningen.jpg.asset.json";
+import horseyValleyHero from "@/assets/horsey-valley-vooraanzicht.jpg.asset.json";
 import kleinLauwHero from "@/assets/klein-lauw-vooraanzicht.jpg.asset.json";
 import hostsPhoto from "@/assets/hosts.jpg.asset.json";
 
