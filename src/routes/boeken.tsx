@@ -471,38 +471,6 @@ function BookPage() {
                   </section>
 
                   <section className="border border-foreground/12 rounded-2xl p-6">
-                    <h2 className="font-serif text-xl mb-4">Voeg toe aan je verblijf</h2>
-                    <label className="flex items-start gap-3 text-sm cursor-pointer mb-4">
-                      <input
-                        type="checkbox"
-                        className="mt-1 h-4 w-4 accent-accent"
-                        checked={carRental}
-                        onChange={(e) => setCarRental(e.target.checked)}
-                      />
-                      <span>
-                        Ik heb interesse in het huren van een auto
-                        <span className="block text-xs text-muted-foreground">
-                          We zetten de opties voor autoverhuur in je boekingsbevestiging.
-                        </span>
-                      </span>
-                    </label>
-                    <label className="flex items-start gap-3 text-sm cursor-pointer">
-                      <input
-                        type="checkbox"
-                        className="mt-1 h-4 w-4 accent-accent"
-                        checked={transfer}
-                        onChange={(e) => setTransfer(e.target.checked)}
-                      />
-                      <span>
-                        Ik wil alvast een taxi of pendelbus reserveren
-                        <span className="block text-xs text-muted-foreground">
-                          Reis zonder verrassingen van de luchthaven naar de woning.
-                        </span>
-                      </span>
-                    </label>
-                  </section>
-
-                  <section className="border border-foreground/12 rounded-2xl p-6">
                     <h2 className="font-serif text-xl mb-2">Speciale verzoeken</h2>
                     <p className="text-xs text-muted-foreground mb-3">
                       Speciale verzoeken kunnen we niet garanderen, maar we doen ons best. Je kan
