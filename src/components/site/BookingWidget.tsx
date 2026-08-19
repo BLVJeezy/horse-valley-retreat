@@ -38,9 +38,12 @@ type Step = "dates" | "details" | "sent";
 export function BookingWidget({
   pricePerNight,
   slug = "horse-vally",
+  selectionLabel,
 }: {
   pricePerNight?: number | null;
   slug?: string;
+  /** Naam van de gekozen woning, gebruikt in het label van de CTA. */
+  selectionLabel?: string;
 }) {
   const navigate = useNavigate();
   const [range, setRange] = useState<DateRange | undefined>();
@@ -326,7 +329,7 @@ export function BookingWidget({
           type="submit"
           className="bg-accent text-white px-8 py-4 rounded-xl text-sm font-medium hover:brightness-95 transition-all"
         >
-          Bekijk beschikbaarheid
+          {selectionLabel ? `Ga verder naar boeking voor ${selectionLabel}` : "Bekijk beschikbaarheid"}
         </button>
       </form>
 
