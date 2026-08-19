@@ -250,62 +250,63 @@ function BookPage() {
                 ))}
               </ol>
 
-              {datesMissing && (
-                <div className="mb-8 rounded-xl border border-foreground/15 p-5">
-                  <p className="text-sm mb-3">
-                    Je hebt nog geen data gekozen. Selecteer eerst je aankomst en vertrek.
-                  </p>
-                  <div className="grid sm:grid-cols-3 gap-3">
-                    <label className="text-sm">
-                      <span className={labelClass}>Aankomst</span>
-                      <input
-                        type="date"
-                        className={inputClass}
-                        value={search.aankomst ?? ""}
-                        onChange={(e) =>
-                          navigate({
-                            to: "/boeken",
-                            search: { ...search, aankomst: e.target.value },
-                          })
-                        }
-                      />
-                    </label>
-                    <label className="text-sm">
-                      <span className={labelClass}>Vertrek</span>
-                      <input
-                        type="date"
-                        className={inputClass}
-                        value={search.vertrek ?? ""}
-                        onChange={(e) =>
-                          navigate({
-                            to: "/boeken",
-                            search: { ...search, vertrek: e.target.value },
-                          })
-                        }
-                      />
-                    </label>
-                    <label className="text-sm">
-                      <span className={labelClass}>Gasten</span>
-                      <select
-                        className={inputClass}
-                        value={guests}
-                        onChange={(e) =>
-                          navigate({
-                            to: "/boeken",
-                            search: { ...search, gasten: Number(e.target.value) },
-                          })
-                        }
-                      >
-                        {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
-                          <option key={n} value={n}>
-                            {n} {n === 1 ? "gast" : "gasten"}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-                  </div>
+              <div className="mb-8 rounded-xl border border-foreground/15 p-4 sm:p-5">
+                <p className="text-sm mb-3">
+                  {datesMissing
+                    ? "Je hebt nog geen data gekozen. Selecteer eerst je aankomst en vertrek."
+                    : `${formatNL(search.aankomst)} → ${formatNL(search.vertrek)} · ${nights} ${nights === 1 ? "nacht" : "nachten"} · ${guests} ${guests === 1 ? "gast" : "gasten"}. Je kan dit hieronder nog aanpassen.`}
+                </p>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  <label className="text-sm min-w-0">
+                    <span className={labelClass}>Aankomst</span>
+                    <input
+                      type="date"
+                      className={inputClass}
+                      value={search.aankomst ?? ""}
+                      onChange={(e) =>
+                        navigate({
+                          to: "/boeken",
+                          search: { ...search, aankomst: e.target.value },
+                        })
+                      }
+                    />
+                  </label>
+                  <label className="text-sm min-w-0">
+                    <span className={labelClass}>Vertrek</span>
+                    <input
+                      type="date"
+                      className={inputClass}
+                      value={search.vertrek ?? ""}
+                      onChange={(e) =>
+                        navigate({
+                          to: "/boeken",
+                          search: { ...search, vertrek: e.target.value },
+                        })
+                      }
+                    />
+                  </label>
+                  <label className="text-sm min-w-0 col-span-2 sm:col-span-1">
+                    <span className={labelClass}>Gasten</span>
+                    <select
+                      className={inputClass}
+                      value={guests}
+                      onChange={(e) =>
+                        navigate({
+                          to: "/boeken",
+                          search: { ...search, gasten: Number(e.target.value) },
+                        })
+                      }
+                    >
+                      {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
+                        <option key={n} value={n}>
+                          {n} {n === 1 ? "gast" : "gasten"}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
                 </div>
-              )}
+              </div>
+
 
               {/* ---------- Stap 1 ---------- */}
               {step === 1 && (
