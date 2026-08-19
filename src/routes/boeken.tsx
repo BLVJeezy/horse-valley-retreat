@@ -5,6 +5,7 @@ import { Footer } from "@/components/site/Footer";
 import { countriesForSelect, arrivalTimeSlots } from "@/lib/countries";
 import { createBooking } from "@/lib/booking.functions";
 import { getPropertyBySlug } from "@/lib/properties.functions";
+import { getQuote } from "@/lib/pricing.functions";
 
 interface BookingSearch {
   woning: string;
@@ -20,8 +21,19 @@ export const Route = createFileRoute("/boeken")({
     vertrek: typeof search.vertrek === "string" ? search.vertrek : undefined,
     gasten: Number(search.gasten) > 0 ? Number(search.gasten) : undefined,
   }),
-  loaderDeps: ({ search }) => ({ woning: search.woning }),
+  loaderDeps: ({ search }) => ({
+    woning: search.woning,
+    aankomst: search.aankomst,
+    vertrek: search.vertrek,
+  }),
   loader: async ({ deps }) => {
+    const quote =
+      deps.aankomst && deps.vertrek
+        ? await getQuote({
+            data: { slug: deps.woning, start: deps.aankomst, end: deps.vertrek },
+          })
+        : null;
+
     if (deps.woning === "beide") {
       const [a, b] = await Promise.all([
         getPropertyBySlug({ data: { slug: "horse-vally" } }),
@@ -29,6 +41,7 @@ export const Route = createFileRoute("/boeken")({
       ]);
       const sum = Number(a?.price_per_night ?? 0) + Number(b?.price_per_night ?? 0);
       return {
+        quote,
         property: {
           slug: "beide",
           name: `${a?.name ?? "Horsey Valley"} + ${b?.name ?? "Klein Lauw"}`,
@@ -37,8 +50,9 @@ export const Route = createFileRoute("/boeken")({
       };
     }
     const property = await getPropertyBySlug({ data: { slug: deps.woning } });
-    return { property };
+    return { property, quote };
   },
+
 
   head: () => ({
     meta: [
@@ -93,7 +107,7 @@ const inputClass =
 const labelClass = "block text-xs uppercase tracking-[0.18em] text-muted-foreground mb-1.5";
 
 function BookPage() {
-  const { property } = Route.useLoaderData();
+  const { property, quote } = Route.useLoaderData();
   const search = Route.useSearch();
   const navigate = useNavigate();
 
@@ -125,10 +139,12 @@ function BookPage() {
 
   const nights = nightsBetween(search.aankomst, search.vertrek);
   const guests = search.gasten ?? 2;
-  const pricePerNight = property?.price_per_night ?? null;
+  const pricePerNight = quote?.avgPerNight ?? property?.price_per_night ?? null;
   const stayTotal = useMemo(
-    () => (pricePerNight && nights ? Number(pricePerNight) * nights : 0),
-    [pricePerNight, nights],
+    () =>
+      quote?.stayTotal ??
+      (property?.price_per_night && nights ? Number(property.price_per_night) * nights : 0),
+    [quote, property, nights],
   );
   const insuranceAmount = useMemo(
     () => Math.round(stayTotal * INSURANCE_RATE * 100) / 100,
@@ -696,6 +712,12 @@ function BookPage() {
                   <dt className="text-muted-foreground">Nachten</dt>
                   <dd>{nights || "—"}</dd>
                 </div>
+                {pricePerNight ? (
+                  <div className="flex justify-between gap-4">
+                    <dt className="text-muted-foreground">Prijs per nacht</dt>
+                    <dd>{euro(Number(pricePerNight))}</dd>
+                  </div>
+                ) : null}
                 <div className="flex justify-between gap-4">
                   <dt className="text-muted-foreground">Gasten</dt>
                   <dd>{guests}</dd>
@@ -706,12 +728,22 @@ function BookPage() {
                 </div>
               </dl>
               <div className="border-t border-foreground/10 pt-4 text-sm space-y-2">
-                {stayTotal > 0 && (
-                  <div className="flex justify-between gap-4">
-                    <span className="text-muted-foreground">Verblijfskosten</span>
-                    <span>{euro(stayTotal)}</span>
-                  </div>
-                )}
+                {quote && quote.segments.length > 0
+                  ? quote.segments.map((s, i) => (
+                      <div key={i} className="flex justify-between gap-4">
+                        <span className="text-muted-foreground">
+                          {s.label} · {euro(s.price_per_night)} × {s.nights}{" "}
+                          {s.nights === 1 ? "nacht" : "nachten"}
+                        </span>
+                        <span>{euro(s.subtotal)}</span>
+                      </div>
+                    ))
+                  : stayTotal > 0 && (
+                      <div className="flex justify-between gap-4">
+                        <span className="text-muted-foreground">Verblijfskosten</span>
+                        <span>{euro(stayTotal)}</span>
+                      </div>
+                    )}
                 {insurance && (
                   <div className="flex justify-between gap-4">
                     <span className="text-muted-foreground">Annuleringsverzekering</span>
