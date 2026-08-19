@@ -252,26 +252,55 @@ export function PropertyHome({
 
       {/* Gallery Mosaic */}
       <section className="px-4 md:px-12 pb-20 md:pb-28">
+        <div className="flex justify-center mb-8">
+          <div className="inline-flex bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl p-1.5 ring-1 ring-black/5">
+            {[
+              { key: "klein-lauw", label: "Klein Lauw" },
+              { key: "horse-vally", label: "Horsey Valley" },
+              { key: "drone", label: "Drone" },
+            ].map((tab) => {
+              const active = galleryTab === tab.key;
+              return (
+                <button
+                  key={tab.key}
+                  type="button"
+                  onClick={() => setGalleryTab(tab.key as typeof galleryTab)}
+                  className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-colors ${
+                    active
+                      ? "bg-foreground text-background"
+                      : "text-foreground hover:bg-black/[0.03]"
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
         <div className="grid grid-cols-12 gap-3 md:gap-4 h-[520px] md:h-[720px]">
-          <Link to={galleryTo} className="col-span-12 md:col-span-8 h-full overflow-hidden rounded-2xl group">
+          <Link
+            to={galleryTo}
+            className="col-span-12 md:col-span-8 h-full overflow-hidden rounded-2xl group"
+          >
             <img
-              src={photos.dining.url}
-              alt={photos.dining.alt}
+              src={galleryImages[0].url}
+              alt={galleryImages[0].alt}
               className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03] ${flip}`}
             />
           </Link>
           <div className="col-span-12 md:col-span-4 grid grid-cols-2 md:grid-cols-1 md:grid-rows-2 gap-3 md:gap-4 h-full min-h-0">
             <Link to={galleryTo} className="overflow-hidden rounded-2xl group h-full min-h-0">
               <img
-                src={photos.loungeCovered.url}
-                alt={photos.loungeCovered.alt}
+                src={galleryImages[1].url}
+                alt={galleryImages[1].alt}
                 className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03] ${flip}`}
               />
             </Link>
             <Link to={galleryTo} className="overflow-hidden rounded-2xl group h-full min-h-0">
               <img
-                src={photos.gardenTrampoline.url}
-                alt={photos.gardenTrampoline.alt}
+                src={galleryImages[2].url}
+                alt={galleryImages[2].alt}
                 className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03] ${flip}`}
               />
             </Link>
