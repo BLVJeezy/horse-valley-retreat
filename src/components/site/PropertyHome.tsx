@@ -3,10 +3,11 @@ import { Link } from "@tanstack/react-router";
 import { Nav } from "@/components/site/Nav";
 import { Footer } from "@/components/site/Footer";
 import { BookingWidget } from "@/components/site/BookingWidget";
-import { Beds24Widget } from "@/components/site/Beds24Widget";
+import { SingleBeds24Widget, BEDS24_PROPERTY_IDS } from "@/components/site/Beds24Widget";
 import { photos } from "@/lib/photos";
 import heroWoningen from "@/assets/hero-woningen.jpg.asset.json";
 import hostsPhoto from "@/assets/hosts.jpg.asset.json";
+
 
 const highlights = [
   { label: "Capaciteit", value: "8 gasten, 4 slaapkamers" },
