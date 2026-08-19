@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Nav } from "@/components/site/Nav";
 import { Footer } from "@/components/site/Footer";
@@ -81,31 +82,38 @@ function propertyPath(slug: string) {
 }
 
 function PropertySwitcher({
-  currentSlug,
+  selected,
+  onSelect,
   allProperties,
 }: {
-  currentSlug?: string;
+  selected: string;
+  onSelect: (slug: string) => void;
   allProperties?: { slug: string; name: string; is_live: boolean }[];
 }) {
   if (!allProperties || allProperties.length < 2) return null;
+
+  const options = [...allProperties.map((p) => ({ slug: p.slug, name: p.name })), {
+    slug: "beide",
+    name: "Beide",
+  }];
 
   return (
     <div className="mb-6 space-y-2">
       <p className="text-white/90 text-[10px] uppercase tracking-[0.25em]">Kies je woning</p>
       <div className="inline-flex items-center gap-1 rounded-full bg-black/45 backdrop-blur-xl ring-1 ring-white/15 p-1">
-        {allProperties.map((p) => {
-          const active = p.slug === currentSlug;
+        {options.map((p) => {
+          const active = p.slug === selected;
           return (
-            <Link
+            <button
               key={p.slug}
-              to={propertyPath(p.slug)}
+              type="button"
+              onClick={() => onSelect(p.slug)}
               className={`px-4 py-2 rounded-full text-[11px] uppercase tracking-[0.15em] font-medium transition-colors ${
                 active ? "bg-white text-foreground" : "text-white/80 hover:text-white"
               }`}
             >
               {p.name}
-              {!p.is_live && !active ? " · binnenkort" : ""}
-            </Link>
+            </button>
           );
         })}
       </div>
@@ -115,6 +123,7 @@ function PropertySwitcher({
     </div>
   );
 }
+
 
 export function PropertyHome({
   name,
@@ -133,6 +142,14 @@ export function PropertyHome({
   const highlightList = pricePerNight
     ? [{ label: "Prijs", value: `Vanaf €${pricePerNight}/nacht` }, ...highlights]
     : highlights;
+
+  const [selected, setSelected] = useState<string>(currentSlug ?? "horse-vally");
+  const selectedName =
+    selected === "beide"
+      ? "beide woningen"
+      : (allProperties?.find((p) => p.slug === selected)?.name ?? name);
+  const selectedPrice =
+    selected === "beide" && pricePerNight ? pricePerNight * 2 : pricePerNight;
 
   return (
     <div className="bg-background text-foreground">
@@ -156,10 +173,19 @@ export function PropertyHome({
           <h1 className="font-display text-5xl md:text-7xl lg:text-8xl text-white mb-8 text-balance leading-[0.95] max-w-4xl">
             Puur genieten in Tongeren-Borgloon
           </h1>
-          <PropertySwitcher currentSlug={currentSlug} allProperties={allProperties} />
+          <PropertySwitcher
+            selected={selected}
+            onSelect={setSelected}
+            allProperties={allProperties}
+          />
           <div className="animate-fade-up-delay">
-            <BookingWidget pricePerNight={pricePerNight} slug={currentSlug} />
+            <BookingWidget
+              pricePerNight={selectedPrice}
+              slug={selected}
+              selectionLabel={selectedName}
+            />
           </div>
+
           <div className="hidden lg:inline-flex mt-8 flex-wrap items-center gap-x-6 gap-y-3 text-white/90 text-[11px] uppercase tracking-[0.2em] rounded-2xl bg-black/45 backdrop-blur-xl ring-1 ring-white/15 px-5 py-3 shadow-lg shadow-black/20">
             <span className="flex items-center gap-2 min-w-0">
               <span aria-hidden className="text-accent text-base leading-none shrink-0">✓</span>

@@ -22,9 +22,24 @@ export const Route = createFileRoute("/boeken")({
   }),
   loaderDeps: ({ search }) => ({ woning: search.woning }),
   loader: async ({ deps }) => {
+    if (deps.woning === "beide") {
+      const [a, b] = await Promise.all([
+        getPropertyBySlug({ data: { slug: "horse-vally" } }),
+        getPropertyBySlug({ data: { slug: "klein-lauw" } }),
+      ]);
+      const sum = Number(a?.price_per_night ?? 0) + Number(b?.price_per_night ?? 0);
+      return {
+        property: {
+          slug: "beide",
+          name: `${a?.name ?? "Horsey Valley"} + ${b?.name ?? "Klein Lauw"}`,
+          price_per_night: sum > 0 ? sum : null,
+        },
+      };
+    }
     const property = await getPropertyBySlug({ data: { slug: deps.woning } });
     return { property };
   },
+
   head: () => ({
     meta: [
       { title: "Boeken — Horsey Valley & Klein Lauw in Tongeren" },
