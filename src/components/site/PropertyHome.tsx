@@ -210,6 +210,16 @@ export function PropertyHome({
               Kies hieronder je woning en data — prijzen en betaling lopen rechtstreeks via ons boekingssysteem.
             </p>
           </div>
+          <div className="flex justify-center mb-6">
+            <BookingWidget
+              pricePerNight={selectedPrice}
+              slug={selected}
+              selectionLabel={selectedName}
+              selected={selected}
+              onSelect={setSelected}
+              allProperties={allProperties}
+            />
+          </div>
           <SingleBeds24Widget propId={BEDS24_PROPERTY_IDS[selected as keyof typeof BEDS24_PROPERTY_IDS] ?? BEDS24_PROPERTY_IDS["horse-vally"]} />
         </div>
       </section>
