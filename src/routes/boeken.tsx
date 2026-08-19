@@ -126,8 +126,6 @@ function BookPage() {
   const [digitalConfirmation, setDigitalConfirmation] = useState(true);
   const [bookingFor, setBookingFor] = useState<"self" | "other">("self");
   const [businessTrip, setBusinessTrip] = useState<boolean | null>(null);
-  const [carRental, setCarRental] = useState(false);
-  const [transfer, setTransfer] = useState(false);
   const [specialRequests, setSpecialRequests] = useState("");
   const [arrivalTime, setArrivalTime] = useState("");
 
