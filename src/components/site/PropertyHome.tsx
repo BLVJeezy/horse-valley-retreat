@@ -5,6 +5,7 @@ import { Footer } from "@/components/site/Footer";
 import { BookingWidget } from "@/components/site/BookingWidget";
 import { photos } from "@/lib/photos";
 import heroWoningen from "@/assets/hero-woningen.jpg.asset.json";
+import kleinLauwHero from "@/assets/klein-lauw-vooraanzicht.jpg.asset.json";
 import hostsPhoto from "@/assets/hosts.jpg.asset.json";
 
 const highlights = [
@@ -159,8 +160,12 @@ export function PropertyHome({
       <section id="woning" className="relative h-[100svh] w-full flex items-end pb-12 md:pb-16 px-4 md:px-12 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img
-            src={heroWoningen.url}
-            alt="Horsey Valley en Klein Lauw: twee nieuwbouwvakantiewoningen in baksteen met zonnepanelen"
+            src={selected === "klein-lauw" ? kleinLauwHero.url : heroWoningen.url}
+            alt={
+              selected === "klein-lauw"
+                ? "Klein Lauw: moderne bakstenen vakantiewoning met zonnepanelen"
+                : "Horsey Valley en Klein Lauw: twee nieuwbouwvakantiewoningen in baksteen met zonnepanelen"
+            }
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-black/25" />
