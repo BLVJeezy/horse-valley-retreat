@@ -5,6 +5,9 @@ import { Footer } from "@/components/site/Footer";
 import { BookingWidget } from "@/components/site/BookingWidget";
 import { SingleBeds24Widget, BEDS24_PROPERTY_IDS } from "@/components/site/Beds24Widget";
 import { photos } from "@/lib/photos";
+import { horseVallyPhotos } from "@/lib/photos-horse-valley";
+import { kleinLauwPhotos } from "@/lib/photos-klein-lauw";
+import { dronePhotos } from "@/lib/photos-drone";
 import heroWoningen from "@/assets/hero-woningen.jpg.asset.json";
 import hostsPhoto from "@/assets/hosts.jpg.asset.json";
 
