@@ -83,48 +83,6 @@ function propertyPath(slug: string) {
   return slug === "horse-vally" ? "/" : `/${slug}`;
 }
 
-function PropertySwitcher({
-  selected,
-  onSelect,
-  allProperties,
-}: {
-  selected: string;
-  onSelect: (slug: string) => void;
-  allProperties?: { slug: string; name: string; is_live: boolean }[];
-}) {
-  if (!allProperties || allProperties.length < 2) return null;
-
-  const options = [...allProperties.map((p) => ({ slug: p.slug, name: p.name })), {
-    slug: "beide",
-    name: "Beide",
-  }];
-
-  return (
-    <div className="mb-6 space-y-2">
-      <p className="text-white/90 text-[10px] uppercase tracking-[0.25em]">Kies je woning</p>
-      <div className="inline-flex items-center gap-1 rounded-full bg-black/45 backdrop-blur-xl ring-1 ring-white/15 p-1">
-        {options.map((p) => {
-          const active = p.slug === selected;
-          return (
-            <button
-              key={p.slug}
-              type="button"
-              onClick={() => onSelect(p.slug)}
-              className={`px-4 py-2 rounded-full text-[11px] uppercase tracking-[0.15em] font-medium transition-colors ${
-                active ? "bg-white text-foreground" : "text-white/80 hover:text-white"
-              }`}
-            >
-              {p.name}
-            </button>
-          );
-        })}
-      </div>
-      <p className="text-white/90 text-xs md:text-[13px]">
-        Beide woningen liggen naast elkaar en zijn ook samen te huren voor grotere groepen.
-      </p>
-    </div>
-  );
-}
 
 
 export function PropertyHome({
