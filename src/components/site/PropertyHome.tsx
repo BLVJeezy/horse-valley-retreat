@@ -110,6 +110,12 @@ export function PropertyHome({
   const [galleryTab, setGalleryTab] = useState<"klein-lauw" | "horse-vally" | "drone">(
     currentSlug === "klein-lauw" ? "klein-lauw" : "horse-vally"
   );
+
+  const galleryImages = {
+    "horse-vally": [horseVallyPhotos[0], horseVallyPhotos[1], horseVallyPhotos[2]],
+    "klein-lauw": [kleinLauwPhotos[0], kleinLauwPhotos[1], kleinLauwPhotos[2]],
+    drone: [dronePhotos[0], dronePhotos[1], dronePhotos[2]],
+  }[galleryTab];
   const selectedName =
     selected === "beide"
       ? "beide woningen"
