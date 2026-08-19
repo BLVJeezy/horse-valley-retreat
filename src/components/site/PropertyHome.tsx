@@ -193,7 +193,7 @@ export function PropertyHome({
       </section>
 
       {/* Beds24 widget — net onder de hero */}
-      <section className="bg-background px-4 md:px-12 py-8 md:py-12">
+      <section id="boeken" className="bg-background px-4 md:px-12 py-8 md:py-12 scroll-mt-24">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-6 md:mb-8">
             <span className="text-accent text-[10px] font-medium uppercase tracking-[0.25em]">

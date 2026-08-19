@@ -8,10 +8,12 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
+import { CalendarCheck } from "lucide-react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Toaster } from "@/components/ui/sonner";
+
 
 function NotFoundComponent() {
   return (
@@ -122,11 +124,31 @@ function RootShell({ children }: { children: ReactNode }) {
       <head>
         <HeadContent />
       </head>
-      <body>
+      <body className="pb-20 md:pb-24">
         {children}
         <Scripts />
       </body>
     </html>
+  );
+}
+
+function StickyBookBar() {
+  return (
+    <div className="fixed bottom-0 inset-x-0 z-50 bg-background/95 backdrop-blur-xl border-t border-border px-4 py-3 md:py-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
+      <div className="max-w-4xl mx-auto flex items-center justify-between gap-4">
+        <div className="hidden sm:block">
+          <p className="font-display text-lg md:text-xl">Klaar om te boeken?</p>
+          <p className="text-xs text-muted-foreground">Bekijk live beschikbaarheid en prijzen.</p>
+        </div>
+        <a
+          href="/#boeken"
+          className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 bg-foreground text-background px-6 py-3 rounded-full text-sm font-medium hover:bg-foreground/90 transition-colors"
+        >
+          <CalendarCheck className="w-4 h-4" />
+          Boek nu
+        </a>
+      </div>
+    </div>
   );
 }
 
@@ -136,6 +158,7 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <Outlet />
+      <StickyBookBar />
       <Toaster richColors position="top-right" />
     </QueryClientProvider>
   );
