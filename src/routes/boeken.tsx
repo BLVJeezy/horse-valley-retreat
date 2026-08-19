@@ -719,7 +719,7 @@ function BookPage() {
         )}
       </main>
 
-      <Footer contactEmail={property?.contact_email ?? "hallo@horsevally.be"} />
+      <Footer />
     </div>
   );
 }
