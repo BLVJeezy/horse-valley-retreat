@@ -120,20 +120,8 @@ export function PropertyHome({
       <section id="woning" className="relative h-[100svh] w-full flex items-end pb-12 md:pb-16 px-4 md:px-12 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img
-            src={
-              selected === "klein-lauw"
-                ? kleinLauwHero.url
-                : selected === "horse-vally"
-                  ? horseyValleyHero.url
-                  : heroWoningen.url
-            }
-            alt={
-              selected === "klein-lauw"
-                ? "Klein Lauw: moderne bakstenen vakantiewoning met zonnepanelen"
-                : selected === "horse-vally"
-                  ? "Horsey Valley: moderne bakstenen vakantiewoning met zonnepanelen"
-                  : "Horsey Valley en Klein Lauw: twee nieuwbouwvakantiewoningen in baksteen met zonnepanelen"
-            }
+            src={heroWoningen.url}
+            alt="Horsey Valley en Klein Lauw: twee nieuwbouwvakantiewoningen in baksteen met zonnepanelen"
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-black/25" />
