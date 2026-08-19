@@ -3,6 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { Nav } from "@/components/site/Nav";
 import { Footer } from "@/components/site/Footer";
 import { BookingWidget } from "@/components/site/BookingWidget";
+import { Beds24Widget } from "@/components/site/Beds24Widget";
 import { photos } from "@/lib/photos";
 import heroWoningen from "@/assets/hero-woningen.jpg.asset.json";
 import horseyValleyHero from "@/assets/horsey-valley-vooraanzicht.jpg.asset.json";
@@ -416,6 +417,23 @@ export function PropertyHome({
           </div>
         </div>
       </section>
+
+      {/* Boek direct — live beschikbaarheid via Beds24 */}
+      {currentSlug === "horse-vally" && (
+        <section id="boeken-live" className="py-24 md:py-28 max-w-3xl mx-auto px-6 scroll-mt-24">
+          <div className="text-center mb-10">
+            <span className="text-accent text-[10px] font-medium uppercase tracking-[0.25em]">
+              Rechtstreeks boeken
+            </span>
+            <h2 className="font-display text-3xl md:text-4xl mt-3 mb-4">Check live beschikbaarheid</h2>
+            <p className="text-sm text-muted-foreground max-w-xl mx-auto">
+              Kies je data hieronder — de beschikbaarheid en prijzen komen rechtstreeks uit ons
+              boekingssysteem, dezelfde data als op Airbnb en Booking.com.
+            </p>
+          </div>
+          <Beds24Widget propId={348364} />
+        </section>
+      )}
 
       {/* Contact */}
       <section id="contact" className="py-24 md:py-28 bg-foreground text-background">
