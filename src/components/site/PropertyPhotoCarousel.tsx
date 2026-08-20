@@ -104,7 +104,7 @@ function SingleCarousel({ photos, label }: { photos: { url: string; alt: string 
       <Carousel className="w-full" opts={{ align: "start" }}>
         <CarouselContent className="-ml-3">
           {photos.slice(0, 15).map((photo, i) => (
-            <CarouselItem key={i} className="pl-3 basis-1/3 sm:basis-1/3 lg:basis-1/3">
+            <CarouselItem key={i} className="pl-3 basis-1/2 sm:basis-1/3 lg:basis-1/3">
               <button
                 type="button"
                 onClick={() => setLightbox(photo)}
