@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/carousel";
 import { horseVallyPhotos, horseVallyCategories } from "@/lib/photos-horse-valley";
 import { kleinLauwPhotos, kleinLauwCategories } from "@/lib/photos-klein-lauw";
+import { dronePhotos } from "@/lib/photos-drone";
 import { openBookingModal } from "@/lib/bookingModal";
 import type { Beds24PropertyKey } from "@/components/site/Beds24Widget";
 import type { Photo } from "@/lib/photos";
