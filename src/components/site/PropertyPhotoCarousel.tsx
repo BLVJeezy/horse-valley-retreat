@@ -108,27 +108,11 @@ export function PropertyPhotoCarousel({
   return (
     <div className="w-full">
       {isBoth ? (
-        <div className="space-y-10 mb-8">
-          <div className="grid gap-6 md:grid-cols-2">
-            <div>
-              <p className="text-xs uppercase tracking-widest text-muted-foreground mb-3 text-center">
-                Horsey Vally
-              </p>
-              <PropertyCarouselWithFilter slug="horse-vally" label="Horsey Vally" />
-            </div>
-            <div>
-              <p className="text-xs uppercase tracking-widest text-muted-foreground mb-3 text-center">
-                Klein Lauw
-              </p>
-              <PropertyCarouselWithFilter slug="klein-lauw" label="Klein Lauw" />
-            </div>
-          </div>
-          <div>
-            <p className="text-xs uppercase tracking-widest text-muted-foreground mb-3 text-center">
-              Dronefoto's
-            </p>
-            <SingleCarousel photos={dronePhotos} label="Drone" />
-          </div>
+        <div className="mb-8">
+          <p className="text-xs uppercase tracking-widest text-muted-foreground mb-3 text-center">
+            Dronefoto's
+          </p>
+          <SingleCarousel photos={dronePhotos} label="Drone" />
         </div>
       ) : (
         <div className="mb-8">
