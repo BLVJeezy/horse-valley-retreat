@@ -46,6 +46,64 @@ function loadScriptOnce(src: string): Promise<void> {
 }
 
 /**
+ * Beds24 "Availability Calendar" widget: toont een maandkalender met de prijs
+ * per nacht in elke cel, en geeft geblokkeerde/beschikbare dagen visueel aan.
+ * Puur ter oriëntatie — de daadwerkelijke boeking gebeurt in de Booking Box eronder.
+ */
+export function Beds24PriceCalendar({ propId }: { propId: number }) {
+  const reactId = useId().replace(/[:]/g, "");
+  const containerId = `bookWidgetCal-${propId}-${reactId}`;
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function init() {
+      try {
+        await loadScriptOnce(JQUERY_SRC);
+        await loadScriptOnce(JQUERY_UI_SRC);
+        await loadScriptOnce(BEDS24_WIDGET_SRC);
+      } catch (err) {
+        console.error(err);
+        return;
+      }
+      if (cancelled || !containerRef.current) return;
+
+      // @ts-expect-error -- jQuery wordt globaal geladen door de scripts hierboven
+      const jq = window.jQuery;
+      if (!jq) return;
+
+      containerRef.current.innerHTML = "";
+
+      jq(containerRef.current).bookWidget({
+        propid: propId,
+        formAction: "https://beds24.com/booking.php",
+        maxAdult: 8,
+        widgetLang: "nl",
+        widgetType: "AvailabilityCalendar",
+        // Zelfde huisstijl-kleuren als de Booking Box hieronder
+        availableColor: "#fdfcfb",
+        availableBackgroundColor: "#7a8d80",
+        backgroundColor: "#fdfcfb",
+        borderColor: "#2c2c2c",
+        color: "#2c2c2c",
+        unavailableColor: "#f0efed",
+        unavailableBackgroundColor: "#f0efed",
+        weekFirstDay: 1,
+        width: "100%",
+      });
+    }
+
+    init();
+    return () => {
+      cancelled = true;
+    };
+  }, [propId, containerId]);
+
+  return <div ref={containerRef} id={containerId} className="beds24-price-calendar mb-8" />;
+}
+
+/**
  * Eén Beds24 "Booking Box" widget voor één specifiek propId. Toont live
  * beschikbaarheid + prijzen en stuurt de volledige boeking (gegevens + betaling)
  * rechtstreeks naar Beds24, dat op zijn beurt Airbnb/Booking.com blokkeert en de
@@ -145,6 +203,27 @@ export function Beds24Widget({
           );
         })}
       </div>
+
+      {/* Prijzenkalender(s) — bij 'Beide' tonen we beide woningen apart naast elkaar,
+          want de virtuele combinatie-property (348658) heeft geen eigen fysieke kalender */}
+      {active === "beide" ? (
+        <div className="grid gap-8 md:grid-cols-2 mb-2">
+          <div>
+            <p className="text-xs uppercase tracking-widest text-muted-foreground mb-3 text-center">
+              Horsey Vally
+            </p>
+            <Beds24PriceCalendar key={`cal-${BEDS24_PROPERTY_IDS["horse-vally"]}`} propId={BEDS24_PROPERTY_IDS["horse-vally"]} />
+          </div>
+          <div>
+            <p className="text-xs uppercase tracking-widest text-muted-foreground mb-3 text-center">
+              Klein Lauw
+            </p>
+            <Beds24PriceCalendar key={`cal-${BEDS24_PROPERTY_IDS["klein-lauw"]}`} propId={BEDS24_PROPERTY_IDS["klein-lauw"]} />
+          </div>
+        </div>
+      ) : (
+        <Beds24PriceCalendar key={`cal-${propId}`} propId={propId} />
+      )}
 
       {/* key forceert een schone remount bij het wisselen van woning */}
       <SingleBeds24Widget key={propId} propId={propId} />
