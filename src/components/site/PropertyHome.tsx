@@ -10,6 +10,7 @@ import { kleinLauwPhotos } from "@/lib/photos-klein-lauw";
 import { dronePhotos } from "@/lib/photos-drone";
 import heroWoningen from "@/assets/hero-woningen.jpg.asset.json";
 import hostsPhoto from "@/assets/hosts.jpg.asset.json";
+import { MessageCircle } from "lucide-react";
 
 
 const highlights = [
@@ -26,12 +27,13 @@ const included = [
   "Wifi",
   "Televisie",
   "Wasmachine",
+  "Koelingsysteem",
   "Buiteneethoek met barbecue",
   "Gratis parkeren op eigen terrein",
   "Rookmelder, brandblusser en EHBO-doos",
 ];
 
-const notIncluded = ["Airconditioning", "Droogkast", "Geen beveiligingscamera's buiten"];
+const notIncluded = ["Droogkast", "Geen beveiligingscamera's buiten"];
 
 const nearby = [
   {
@@ -46,6 +48,10 @@ const nearby = [
     title: "Wandelen in Borgloon",
     body: "De doorkijkkerk 'Reading between the Lines' en het glooiende landschap eromheen. Rustig, weids, mooi.",
   },
+  {
+    title: "Opladen onderweg",
+    body: "De dichtstbijzijnde laadpalen voor elektrische wagens vind je op enkele minuten rijden, o.a. richting Tongeren-centrum.",
+  },
 ];
 
 export interface PropertyHomeProps {
@@ -55,6 +61,8 @@ export interface PropertyHomeProps {
   galleryTo: string;
   /** Contact email shown in the footer CTA */
   contactEmail: string;
+  /** WhatsApp number (international format, no + or spaces, e.g. "32485123456") for the contact CTA */
+  whatsappNumber?: string;
   /** Address / area line shown under the eyebrow in the hero, e.g. "Tongeren-Borgloon, Belgisch Limburg" */
   address?: string | null;
   /** Host quote / intro text. Falls back to the default Horsey Valley quote when not set. */
@@ -92,6 +100,7 @@ export function PropertyHome({
   name,
   galleryTo,
   contactEmail,
+  whatsappNumber = "32493476263", // Patricia
   address,
   description,
   pricePerNight,
@@ -447,7 +456,7 @@ export function PropertyHome({
               <h3 className="font-display text-2xl md:text-3xl mt-3 mb-4">Annuleren, kinderen & juridisch</h3>
               <ul className="space-y-4 text-sm text-muted-foreground leading-relaxed">
                 <li><span className="text-foreground font-medium">Annuleren & vooruitbetalen.</span> De voorwaarden verschillen per gekozen optie en datum.</li>
-                <li><span className="text-foreground font-medium">Kinderen & extra bedden.</span> Kinderen vanaf 3 jaar worden aangerekend als volwassenen. Kinderbedjes (0-2 jaar) zijn op verzoek gratis; extra bedden zijn niet mogelijk.</li>
+                <li><span className="text-foreground font-medium">Kinderen & extra bedden.</span> Kinderbedjes (0-2 jaar) zijn op verzoek gratis; extra bedden zijn niet mogelijk.</li>
                 <li><span className="text-foreground font-medium">Juridisch.</span> De accommodatie wordt professioneel beheerd onder het van toepassing zijnde consumentenrecht.</li>
               </ul>
             </div>
@@ -466,14 +475,18 @@ export function PropertyHome({
             Iets specifieks weten voor je boekt?
           </h2>
           <p className="text-white/70 text-sm md:text-base leading-relaxed max-w-xl mx-auto">
-            Stuur Leslie een berichtje. Meestal antwoord binnen een paar uur — zeker als het over de
+            Stuur Patricia een berichtje. Meestal antwoord binnen een paar uur — zeker als het over de
             beschikbaarheid van een specifieke datum gaat.
           </p>
+          <p className="mt-8 text-[10px] uppercase tracking-[0.25em] text-white/50">Patricia</p>
           <a
-            href={`mailto:${contactEmail}`}
-            className="inline-block mt-10 bg-background text-foreground px-8 py-4 rounded-lg text-sm font-medium hover:bg-white transition-colors"
+            href={`https://wa.me/${whatsappNumber}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 mt-4 bg-background text-foreground px-8 py-4 rounded-lg text-sm font-medium hover:bg-white transition-colors"
           >
-            {contactEmail}
+            <MessageCircle className="w-4 h-4" />
+            Stuur Patricia een berichtje
           </a>
         </div>
       </section>
