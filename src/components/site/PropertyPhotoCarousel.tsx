@@ -56,7 +56,7 @@ function CategoryFilter({
   );
 }
 
-function SingleCarousel({ photos, label }: { photos: Photo[]; label: string }) {
+function SingleCarousel({ photos, label }: { photos: { url: string; alt: string }[]; label: string }) {
   return (
     <Carousel className="w-full" opts={{ align: "start" }}>
       <CarouselContent className="-ml-3">
