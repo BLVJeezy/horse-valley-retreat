@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { X, Expand } from "lucide-react";
 import {
   Carousel,
   CarouselContent,
@@ -12,6 +13,45 @@ import { dronePhotos } from "@/lib/photos-drone";
 import { openBookingModal } from "@/lib/bookingModal";
 import type { Beds24PropertyKey } from "@/components/site/Beds24Widget";
 import type { Photo } from "@/lib/photos";
+
+function Lightbox({
+  photo,
+  label,
+  onClose,
+}: {
+  photo: { url: string; alt: string };
+  label: string;
+  onClose: () => void;
+}) {
+  return (
+    <div
+      className="fixed inset-0 z-[60] bg-black/90 flex items-center justify-center p-4"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+    >
+      <button
+        type="button"
+        aria-label="Sluiten"
+        className="absolute top-5 right-5 text-white/80 hover:text-white"
+        onClick={onClose}
+      >
+        <X size={26} />
+      </button>
+      <figure className="max-w-5xl w-full" onClick={(e) => e.stopPropagation()}>
+        <img
+          src={photo.url}
+          alt={photo.alt}
+          className="w-full max-h-[80vh] object-contain rounded-xl"
+        />
+        <figcaption className="text-white/70 text-[10px] uppercase tracking-[0.2em] mt-4 text-center">
+          {label}
+        </figcaption>
+      </figure>
+    </div>
+  );
+}
+
 
 function photosFor(slug: string): Photo[] {
   if (slug === "klein-lauw") return kleinLauwPhotos;
