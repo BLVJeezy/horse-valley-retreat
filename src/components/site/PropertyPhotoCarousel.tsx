@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/carousel";
 import { horseVallyPhotos, horseVallyCategories } from "@/lib/photos-horse-valley";
 import { kleinLauwPhotos, kleinLauwCategories } from "@/lib/photos-klein-lauw";
+import { dronePhotos } from "@/lib/photos-drone";
 import { openBookingModal } from "@/lib/bookingModal";
 import type { Beds24PropertyKey } from "@/components/site/Beds24Widget";
 import type { Photo } from "@/lib/photos";
@@ -55,7 +56,7 @@ function CategoryFilter({
   );
 }
 
-function SingleCarousel({ photos, label }: { photos: Photo[]; label: string }) {
+function SingleCarousel({ photos, label }: { photos: { url: string; alt: string }[]; label: string }) {
   return (
     <Carousel className="w-full" opts={{ align: "start" }}>
       <CarouselContent className="-ml-3">
@@ -107,18 +108,26 @@ export function PropertyPhotoCarousel({
   return (
     <div className="w-full">
       {isBoth ? (
-        <div className="grid gap-6 md:grid-cols-2 mb-8">
-          <div>
-            <p className="text-xs uppercase tracking-widest text-muted-foreground mb-3 text-center">
-              Horsey Vally
-            </p>
-            <PropertyCarouselWithFilter slug="horse-vally" label="Horsey Vally" />
+        <div className="space-y-10 mb-8">
+          <div className="grid gap-6 md:grid-cols-2">
+            <div>
+              <p className="text-xs uppercase tracking-widest text-muted-foreground mb-3 text-center">
+                Horsey Vally
+              </p>
+              <PropertyCarouselWithFilter slug="horse-vally" label="Horsey Vally" />
+            </div>
+            <div>
+              <p className="text-xs uppercase tracking-widest text-muted-foreground mb-3 text-center">
+                Klein Lauw
+              </p>
+              <PropertyCarouselWithFilter slug="klein-lauw" label="Klein Lauw" />
+            </div>
           </div>
           <div>
             <p className="text-xs uppercase tracking-widest text-muted-foreground mb-3 text-center">
-              Klein Lauw
+              Dronefoto's
             </p>
-            <PropertyCarouselWithFilter slug="klein-lauw" label="Klein Lauw" />
+            <SingleCarousel photos={dronePhotos} label="Drone" />
           </div>
         </div>
       ) : (
