@@ -36,7 +36,12 @@ function getSnapshot() {
   return state;
 }
 
+function getServerSnapshot() {
+  // Op de server is de modal nooit open — voorkomt SSR-crash bij TanStack Start.
+  return { isOpen: false, property: "horse-vally" as Beds24PropertyKey };
+}
+
 /** React-hook: geeft de actuele modal-state en houdt componenten in sync. */
 export function useBookingModalState() {
-  return useSyncExternalStore(subscribe, getSnapshot);
+  return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 }
