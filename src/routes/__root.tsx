@@ -13,6 +13,8 @@ import { CalendarCheck } from "lucide-react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Toaster } from "@/components/ui/sonner";
+import { BookingModal } from "@/components/site/BookingModal";
+import { openBookingModal } from "@/lib/bookingModal";
 
 
 function NotFoundComponent() {
@@ -140,13 +142,14 @@ function StickyBookBar() {
           <p className="font-display text-lg md:text-xl">Klaar om te boeken?</p>
           <p className="text-xs text-muted-foreground">Bekijk live beschikbaarheid en prijzen.</p>
         </div>
-        <a
-          href="/#boeken"
+        <button
+          type="button"
+          onClick={() => openBookingModal()}
           className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 bg-foreground text-background px-6 py-3 rounded-full text-sm font-medium hover:bg-foreground/90 transition-colors"
         >
           <CalendarCheck className="w-4 h-4" />
           Boek nu
-        </a>
+        </button>
       </div>
     </div>
   );
@@ -159,6 +162,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <Outlet />
       <StickyBookBar />
+      <BookingModal />
       <Toaster richColors position="top-right" />
     </QueryClientProvider>
   );

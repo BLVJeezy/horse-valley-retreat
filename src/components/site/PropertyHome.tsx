@@ -3,7 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { Nav } from "@/components/site/Nav";
 import { Footer } from "@/components/site/Footer";
 import { BookingWidget } from "@/components/site/BookingWidget";
-import { SingleBeds24Widget, BEDS24_PROPERTY_IDS } from "@/components/site/Beds24Widget";
+import { PropertyPhotoCarousel } from "@/components/site/PropertyPhotoCarousel";
 import { photos } from "@/lib/photos";
 import { horseVallyPhotos } from "@/lib/photos-horse-valley";
 import { kleinLauwPhotos } from "@/lib/photos-klein-lauw";
@@ -214,7 +214,7 @@ export function PropertyHome({
               allProperties={allProperties}
             />
           </div>
-          <SingleBeds24Widget propId={BEDS24_PROPERTY_IDS[selected as keyof typeof BEDS24_PROPERTY_IDS] ?? BEDS24_PROPERTY_IDS["horse-vally"]} />
+          <PropertyPhotoCarousel slug={selected} label={selectedName} />
         </div>
       </section>
 
