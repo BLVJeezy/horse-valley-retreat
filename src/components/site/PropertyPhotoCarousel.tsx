@@ -97,23 +97,43 @@ function CategoryFilter({
 }
 
 function SingleCarousel({ photos, label }: { photos: { url: string; alt: string }[]; label: string }) {
+  const [lightbox, setLightbox] = useState<{ url: string; alt: string } | null>(null);
+
   return (
-    <Carousel className="w-full" opts={{ align: "start" }}>
-      <CarouselContent className="-ml-3">
-        {photos.slice(0, 15).map((photo, i) => (
-          <CarouselItem key={i} className="pl-3 basis-full sm:basis-1/2 lg:basis-1/3">
-            <img
-              src={photo.url}
-              alt={photo.alt}
-              className="w-full aspect-[4/3] object-cover rounded-2xl"
-              loading="lazy"
-            />
-          </CarouselItem>
-        ))}
-      </CarouselContent>
-      <CarouselPrevious aria-label={`Vorige foto's — ${label}`} className="left-1 sm:-left-4" />
-      <CarouselNext aria-label={`Volgende foto's — ${label}`} className="right-1 sm:-right-4" />
-    </Carousel>
+    <>
+      <Carousel className="w-full" opts={{ align: "start" }}>
+        <CarouselContent className="-ml-3">
+          {photos.slice(0, 15).map((photo, i) => (
+            <CarouselItem key={i} className="pl-3 basis-full sm:basis-1/2 lg:basis-1/3">
+              <button
+                type="button"
+                onClick={() => setLightbox(photo)}
+                className="group relative block w-full overflow-hidden rounded-2xl bg-muted focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                aria-label={`Open ${photo.alt}`}
+              >
+                <img
+                  src={photo.url}
+                  alt={photo.alt}
+                  className="w-full aspect-[4/3] object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                  loading="lazy"
+                />
+                <span className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/0 transition-colors duration-300 group-hover:bg-black/20">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-foreground opacity-0 shadow-sm transition-all duration-300 group-hover:opacity-100 scale-90 group-hover:scale-100">
+                    <Expand size={16} strokeWidth={2.5} />
+                  </span>
+                </span>
+              </button>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+        <CarouselPrevious aria-label={`Vorige foto's — ${label}`} className="left-1 sm:-left-4" />
+        <CarouselNext aria-label={`Volgende foto's — ${label}`} className="right-1 sm:-right-4" />
+      </Carousel>
+
+      {lightbox && (
+        <Lightbox photo={lightbox} label={label} onClose={() => setLightbox(null)} />
+      )}
+    </>
   );
 }
 
